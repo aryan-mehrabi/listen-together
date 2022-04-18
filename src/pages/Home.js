@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div
       style={{ backgroundImage: `url('${heroImage}')` }}
-      className="bg-[#141414] bg-cover bg-blend-overlay bg-center text-[#E6ECEF] 
+      className="bg-primary bg-cover bg-blend-overlay bg-center text-secondary 
       flex flex-col justify-center items-center h-screen"
     >
       <h1 className="text-6xl m-3">LET'S LISTEN TOGETHER</h1>
