@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import heroImage from "../assets/hero-section.jpg";
+import styles from "./home.module.css";
+import useAuth from "../context/AuthContext";
 
 const Home = () => {
+  const { logIn } = useAuth();
+
   return (
     <div
       style={{ backgroundImage: `url('${heroImage}')` }}
-      className="bg-primary bg-cover bg-blend-overlay bg-center text-secondary 
-      flex flex-col justify-center items-center h-screen"
+      className={styles.container}
     >
       <h1 className="text-6xl m-3">LET'S LISTEN TOGETHER</h1>
       <p className="text-lg">
         listen to your favorite music synchornously with your friends and talk
         about it.
       </p>
-      <button className="bg-secondary text-primary text-lg font-semibold rounded-sm p-3 m-10">
-        <i className="fa-brands fa-google pr-3"></i>Sign in with Google
+      <button onClick={logIn} className={styles.button}>
+        <i className="fa-brands fa-google"></i>Sign in with Google
       </button>
     </div>
   );
