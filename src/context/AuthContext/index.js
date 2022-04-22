@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
           payload: { userId: user.uid, email: user.email },
         });
       } else {
+        console.log("hi")
         dispatch({ type: "LOG_OUT" });
       }
     });
