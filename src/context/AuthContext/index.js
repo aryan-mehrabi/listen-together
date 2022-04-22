@@ -3,7 +3,7 @@ import authReducer from "./authReducer";
 import { logIn, logOut } from "../../auth/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const initValue = { userId: null };
+const initValue = { userId: null, email: null };
 const AuthContext = createContext(initValue);
 
 export const AuthProvider = ({ children }) => {
@@ -12,7 +12,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     onAuthStateChanged(getAuth(), user => {
       if (user) {
-        dispatch({ type: "LOG_IN", payload: user.uid });
+        dispatch({
+          type: "LOG_IN",
+          payload: { userId: user.uid, email: user.email },
+        });
       } else {
         dispatch({ type: "LOG_OUT" });
       }

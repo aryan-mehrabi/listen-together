@@ -1,5 +1,6 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { createContext, useReducer, useContext, useEffect } from "react";
 import { setData, getData } from "../../apis/firebase";
+import useAuth from "../AuthContext";
 import userReducer from "./userReducer";
 
 const initValue = {};
@@ -7,6 +8,8 @@ const UserContext = createContext(initValue);
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
+  const { userId } = useAuth();
+
 
   // ACTION CREATORS
   const createUser = async (uid, data) => {
@@ -17,6 +20,7 @@ export const UserProvider = ({ children }) => {
   const fetchUser = async uid => {
     getData("users", uid);
   };
+
 
   // STORE
   const value = {

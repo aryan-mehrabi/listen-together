@@ -5,8 +5,9 @@ import useAuth from "../context/AuthContext";
 import useUser from "../context/UserContext";
 
 const Home = () => {
-  const { logIn, userId } = useAuth();
+  const { logIn, userId, email } = useAuth();
   const { createUser, fetchUser } = useUser()
+
   return (
     <div
       style={{ backgroundImage: `url('${heroImage}')` }}
