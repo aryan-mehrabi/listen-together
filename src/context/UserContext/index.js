@@ -10,6 +10,11 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
   const { userId } = useAuth();
 
+  useEffect(() => {
+    if (userId) {
+      fetchUser(userId)
+    }
+  } ,[userId])
 
   // ACTION CREATORS
   const createUser = async (uid, data) => {
