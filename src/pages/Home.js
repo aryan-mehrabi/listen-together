@@ -6,7 +6,7 @@ import useUser from "../context/UserContext";
 
 const Home = () => {
   const { logIn, userId, email } = useAuth();
-  const { createUser, fetchUser } = useUser()
+  const { createUser, fetchUser } = useUser();
 
   return (
     <div
@@ -21,7 +21,9 @@ const Home = () => {
       <button onClick={logIn} className={styles.button}>
         <i className="fa-brands fa-google"></i>Sign in with Google
       </button>
-      <button onClick={() => createUser(userId, {name: "naghi"})}>createUser</button>
+      <button onClick={() => createUser(userId, { name: "naghi" })}>
+        createUser
+      </button>
       <button onClick={() => fetchUser(userId)}>fetchUser</button>
     </div>
   );

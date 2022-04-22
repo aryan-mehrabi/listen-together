@@ -12,23 +12,31 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (userId) {
-      fetchUser(userId)
+      fetchUser(userId);
     }
-  } ,[userId])
+  }, [userId]);
 
   // ACTION CREATORS
   const createUser = async (uid, data) => {
-    await setData("users", uid, data).catch(error => {
+    try {
+      await setData("users", uid, data);
+      dispatch({ type: "CREATE_USER", payload: data });
+    } catch (error) {
       throw error;
-    });
+    }
   };
   const fetchUser = async uid => {
-    getData("users", uid);
+    const result = await getData("users", uid);
+    if (result === "Not Found") {
+      dispatch({ type: "USER_NOT_FOUND", payload: uid });
+    } else {
+      dispatch({ type: "FETCH_USER", payload: result });
+    }
   };
-
 
   // STORE
   const value = {
+    users: state,
     createUser,
     fetchUser,
   };
