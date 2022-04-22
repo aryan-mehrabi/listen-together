@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import heroImage from "../assets/hero-section.jpg";
 import styles from "./home.module.css";
 import useAuth from "../context/AuthContext";
+import useUser from "../context/UserContext";
 
 const Home = () => {
-  const { logIn } = useAuth();
-
+  const { logIn, userId } = useAuth();
+  const { createUser, fetchUser } = useUser()
   return (
     <div
       style={{ backgroundImage: `url('${heroImage}')` }}
@@ -19,6 +20,8 @@ const Home = () => {
       <button onClick={logIn} className={styles.button}>
         <i className="fa-brands fa-google"></i>Sign in with Google
       </button>
+      <button onClick={() => createUser(userId, {name: "naghi"})}>createUser</button>
+      <button onClick={() => fetchUser(userId)}>fetchUser</button>
     </div>
   );
 };
