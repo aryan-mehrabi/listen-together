@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import heroImage from "../assets/hero-section.jpg";
 import styles from "./home.module.css";
 import useAuth from "../context/AuthContext";
-import useUser from "../context/UserContext";
 
 const Home = () => {
-  const { logIn, userId, email } = useAuth();
-  const { createUser, fetchUser, users } = useUser()
+  const { logIn } = useAuth();
 
   return (
     <div

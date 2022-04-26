@@ -2,7 +2,6 @@ import React, { createContext, useReducer, useContext, useEffect } from "react";
 import { setData, getData } from "../../apis/firebase";
 import useAuth from "../AuthContext";
 import userReducer from "./userReducer";
-import { useNavigate } from "react-router-dom";
 
 const initValue = {};
 const UserContext = createContext(initValue);
@@ -10,7 +9,6 @@ const UserContext = createContext(initValue);
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
   const { userId } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (userId) {
@@ -30,7 +28,7 @@ export const UserProvider = ({ children }) => {
   const fetchUser = async uid => {
     const result = await getData("users", uid);
     if (result === "Not Found") {
-      navigate("./signup")
+      dispatch({ type: "USER_NOT_FOUND", payload: uid });
     } else {
       dispatch({ type: "FETCH_USER", payload: result });
     }
