@@ -21,15 +21,10 @@ const provider = new GoogleAuthProvider();
 
 const auth = getAuth();
 
-export const logIn = async () => {
-  signInWithPopup(auth, provider).catch(error => {
-    const errorMessage = error.message;
-    throw errorMessage;
-  });
+export const tryLogIn = async () => {
+  await signInWithPopup(auth, provider);
 };
 
-export const logOut = async () => {
-  signOut(auth).catch(error => {
-    throw error;
-  });
+export const tryLogOut = async () => {
+  await signOut(auth);
 };

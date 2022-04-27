@@ -3,12 +3,8 @@ import useAuth from "../context/AuthContext";
 import useUser from "../context/UserContext";
 
 const SignUp = () => {
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-  const range = [1, 1000000];
   const [name, setName] = useState("");
-  const [seed, setSeed] = useState(random(...range));
+  const [seed, setSeed] = useState(Math.random());
   const { userId, email } = useAuth();
   const { createUser } = useUser();
 
@@ -17,7 +13,7 @@ const SignUp = () => {
       <div className="text-center w-72 bg-ne">
         <div className="w-3/4 mx-auto mb-10">
           <div
-            onClick={() => setSeed(random(...range))}
+            onClick={() => setSeed(Math.random())}
             className="group relative rounded-sm overflow-hidden cursor-pointer"
           >
             <img

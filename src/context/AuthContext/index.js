@@ -1,9 +1,9 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import authReducer from "./authReducer";
-import { logIn, logOut } from "../../auth/firebase";
+import { tryLogIn, tryLogOut } from "../../auth/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const initValue = { userId: null, email: null };
+const initValue = { userId: null, email: null, errors: "" };
 const AuthContext = createContext(initValue);
 
 export const AuthProvider = ({ children }) => {
@@ -17,11 +17,28 @@ export const AuthProvider = ({ children }) => {
           payload: { userId: user.uid, email: user.email },
         });
       } else {
-        console.log("hi")
         dispatch({ type: "LOG_OUT" });
       }
     });
   }, []);
+
+  //ACTIONS
+  const logIn = async () => {
+    try {
+      await tryLogIn();
+    } catch (error) {
+      console.log("error")
+      dispatch({ type: "AUTH_ERROR" , payload: error})
+    }
+  };
+  const logOut = async () => {
+    try {
+      await tryLogOut();
+    } catch (error) {
+      console.log("error2")
+      dispatch({ type: "AUTH_ERROR" , payload: error})
+    }
+  };
 
   const value = {
     ...state,
