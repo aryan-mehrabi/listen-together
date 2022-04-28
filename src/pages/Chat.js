@@ -1,4 +1,5 @@
 import React from "react";
+import ChatRoom from "../components/ChatRoom";
 import notesImgUrl from "../assets/music-notes.jpg";
 
 const Chat = () => {
@@ -31,7 +32,7 @@ const Chat = () => {
       </aside>
       <main
         // style={{ backgroundImage: `url("${notesImgUrl}")` }}
-        className="bg-blend-multiply bg-repeat bg-primary flex-grow "
+        className="bg-blend-multiply bg-repeat bg-primary w-3/4"
       >
         {/* <section className="flex items-center justify-center text-center h-full">
           <h1 className="text-4xl font-semibold leading-relaxed text-secondary">
@@ -39,69 +40,7 @@ const Chat = () => {
             Create one
           </h1>
         </section> */}
-        <section className="h-full flex flex-col">
-          <nav className="flex items-center border-b border-neutral-700 py-4 px-7">
-            <h2 className="text-3xl">chatroom 1</h2>
-            <i class="fa-solid fa-users-gear ml-auto text-xl"></i>
-          </nav>
-          <div
-            className="overflow-auto flex flex-col 
-          items-start flex-grow p-6"
-          >
-            <div className="flex items-start my-1 max-w-[80%]">
-              <img
-                className="w-10 mt-2"
-                src="https://avatars.dicebear.com/api/human/seasddasded.svg"
-                alt=""
-              />
-              <div className="bg-neutral-700 rounded-sm p-2 ml-2">
-                <h6 className="text-lg font-semibold text-cta">mamad</h6>
-                <p>
-                  mamad oono goft asda asdasd asdasd asdasd unu unu unu unun unu ak
-                </p>
-              </div>
-            </div>
-            <div className="ml-auto my-1 max-w-[80%]">
-              <p className="bg-secondary text-primary rounded-sm p-2 ml-2">
-                mamad oono goft asda asdasd asdasd asdasd kni kni kni kni asdasdsa asdasdsa
-              </p>
-            </div>
-            <div className="flex items-start my-1 max-w-[80%]">
-              <img
-                className="w-10 mt-2"
-                src="https://avatars.dicebear.com/api/human/sedasded.svg"
-                alt=""
-              />
-              <div className="bg-neutral-700 rounded-sm p-2 ml-2">
-                <h6 className="text-lg font-semibold text-cta">aryan</h6>
-                <p>
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
-
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex p-3 border-t border-neutral-700 ">
-            <input className="flex-grow bg-neutral-700 h-10 rounded outline-none p-2" type="text" />
-            <button className="bg-cta text-primary rounded-sm ml-2 px-4">SEND</button>
-          </div>
-        </section>
+        <ChatRoom />
       </main>
     </div>
   );
