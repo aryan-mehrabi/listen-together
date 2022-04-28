@@ -48,34 +48,51 @@ const Chat = () => {
             className="overflow-auto flex flex-col 
           items-start flex-grow p-6"
           >
-            <div className="flex items-center my-1">
+            <div className="flex items-start my-1 max-w-[80%]">
               <img
-                className="w-10"
+                className="w-10 mt-2"
                 src="https://avatars.dicebear.com/api/human/seasddasded.svg"
                 alt=""
               />
               <div className="bg-neutral-700 rounded-sm p-2 ml-2">
                 <h6 className="text-lg font-semibold text-cta">mamad</h6>
                 <p>
-                  mamad oono goft asda asdasd asdasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdasd asdasd unu unu unu unun unu ak
                 </p>
               </div>
             </div>
-            <div className="flex items-center ml-auto my-1">
+            <div className="ml-auto my-1 max-w-[80%]">
               <p className="bg-secondary text-primary rounded-sm p-2 ml-2">
-                mamad oono goft asda asdasd asdasd asdasd asdasdsa asdasdsa
+                mamad oono goft asda asdasd asdasd asdasd kni kni kni kni asdasdsa asdasdsa
               </p>
             </div>
-            <div className="flex items-center my-1">
+            <div className="flex items-start my-1 max-w-[80%]">
               <img
-                className="w-10"
+                className="w-10 mt-2"
                 src="https://avatars.dicebear.com/api/human/sedasded.svg"
                 alt=""
               />
               <div className="bg-neutral-700 rounded-sm p-2 ml-2">
                 <h6 className="text-lg font-semibold text-cta">aryan</h6>
                 <p>
-                  mamad oono goft asda asdasd asdasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+                  mamad oono goft asda asdasd asdkkkkkk ouhniunasd asdasd asdasdsa asdasdsa
+
                 </p>
               </div>
             </div>
