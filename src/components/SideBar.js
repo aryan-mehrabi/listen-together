@@ -1,7 +1,7 @@
 import React from "react";
 import ChatItem from "./ChatItem";
 
-const SideBar = () => {
+const SideBar = ({ setIsModalOpen }) => {
   return (
     <aside className="min-w-[250px] w-1/4 max-w-[400px] border-neutral-700 border-r flex flex-col">
       <div className="flex items-center px-4 py-3 border-b border-neutral-700">
@@ -17,7 +17,7 @@ const SideBar = () => {
         ></i>
       </div>
       <div className="text-center border-b border-neutral-700">
-        <button className=" font-semibold text-lg text-cta rounded-sm py-2 px-4 my-4">
+        <button onClick={() => setIsModalOpen(true)} className=" font-semibold text-lg text-cta rounded-sm py-2 px-4 my-4">
           Create a Channel
         </button>
       </div>
