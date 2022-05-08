@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useChatRoom from "../context/ChatRoomContext";
+import useChatRoom from "../context/ChannelContext";
 
 const CreateChatRoom = () => {
   const [channelName, setChannelName] = useState("");

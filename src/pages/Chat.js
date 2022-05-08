@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import ChatRoom from "../components/ChatRoom";
-import CreateChatRoom from "../components/CreateChatRoom";
+import Channel from "../components/Channel";
+import CreateChannel from "../components/CreateChannel";
 import Modal from "../components/Modal";
 import SideBar from "../components/SideBar";
-import { ChatRoomProvider } from "../context/ChatRoomContext";
+import { ChannelProvider } from "../context/ChannelContext";
 
 const Chat = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <ChatRoomProvider {...{setIsModalOpen}}>
+    <ChannelProvider {...{setIsModalOpen}}>
       {isModalOpen ? (
         <Modal closeModal={setIsModalOpen}>
-          <CreateChatRoom />
+          <CreateChannel />
         </Modal>
       ) : null}
       <div className="overflow-hidden h-screen bg-primary text-secondary flex">
@@ -23,10 +23,10 @@ const Chat = () => {
               Create one
             </h1>
           </section>
-          {/* <ChatRoom /> */}
+          {/* <Channel /> */}
         </main>
       </div>
-    </ChatRoomProvider>
+    </ChannelProvider>
   );
 };
 
