@@ -1,10 +1,24 @@
-import { doc, setDoc, getDoc, getFirestore } from "firebase/firestore";
+import {
+  writeBatch,
+  onSnapshot,
+  doc,
+  setDoc,
+  getDoc,
+  getFirestore,
+  collection,
+} from "firebase/firestore";
 import { app } from "../auth/firebase";
 
 const db = getFirestore(app);
 
 export const setData = async (collection, document, documentData) => {
   await setDoc(doc(db, collection, document), documentData);
+};
+
+export const setDataId = async data => {
+  const newChatRoomRef = doc(collection(db, "channels"));
+
+  await setDoc(newChatRoomRef, { ...data, channelId: newChatRoomRef.id });
 };
 
 export const getData = async (collection, document) => {
@@ -16,4 +30,33 @@ export const getData = async (collection, document) => {
   } else {
     return "Not Found";
   }
+};
+
+export const listenDocument = (collection, document, actionCreator) => {
+  return onSnapshot(doc(db, collection, document), (doc) => {
+    actionCreator(doc.data())
+  });
+
+};
+
+export const createChannel = async (user, channelName, channel) => {
+  const batch = writeBatch(db);
+
+  // Set
+  const channelRef = doc(collection(db, "channels"));
+  batch.set(channelRef, { ...channel, id: channelRef.id });
+
+  // Update
+  const newChannels = {
+    ...user.channels,
+    [channelRef.id]: {
+      id: channelRef.id,
+      name: channelName,
+    },
+  };
+  const userRef = doc(db, "users", user.userId);
+  batch.update(userRef, { channels: newChannels });
+
+  // Commit the batch
+  await batch.commit();
 };

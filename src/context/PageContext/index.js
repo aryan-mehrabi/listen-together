@@ -16,7 +16,7 @@ const usePage = () => {
   const context = useContext(PageContext);
   
   if (context === undefined) {
-    throw new Error("useAuth should be use within its provider");
+    throw new Error("usePage should be use within its provider");
   }
 
   return context;

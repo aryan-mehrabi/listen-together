@@ -1,10 +1,36 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useReducer } from "react";
+import { createChannel } from "../../apis/firebase";
+import chatRoomReducer from "./chatRoomReducer";
+import useUser from "../UserContext";
+import useAuth from "../AuthContext";
 
 const initValue = {};
 const ChatRoomContext = createContext(initValue);
 
-export const ChatRoomProvider = ({ children }) => {
-  const value = {};
+export const ChatRoomProvider = ({ children, setIsModalOpen }) => {
+  const { users } = useUser();
+  const { userId } = useAuth();
+  const [state, dispatch] = useReducer(chatRoomReducer, initValue);
+
+  //ACTIONS
+  const createChatRoom = async name => {
+    const channelData = {
+      name,
+      roles: {
+        [userId]: "creator",
+      },
+    };
+    try {
+      await createChannel(users[userId], name, channelData);
+      setIsModalOpen(false)
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const value = {
+    createChatRoom,
+  };
   return (
     <ChatRoomContext.Provider {...{ value }}>
       {children}

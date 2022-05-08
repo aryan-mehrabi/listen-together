@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
-import { setData, getData } from "../../apis/firebase";
+import { setData, getData, listenDocument } from "../../apis/firebase";
 import useAuth from "../AuthContext";
 import userReducer from "./userReducer";
 
@@ -8,21 +8,36 @@ const UserContext = createContext(initValue);
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
-  const { userId } = useAuth();
+  const { userId, email } = useAuth();
 
   useEffect(() => {
     if (userId) {
-      fetchUser(userId);
+      listenDocument("users", userId, userActionCreator);
     }
   }, [userId]);
 
   // ACTION CREATORS
-  const createUser = async (uid, data) => {
+  const userActionCreator = data => {
+    if (data) {
+      dispatch({ type: "FETCH_USER", payload: data });
+    } else {
+      dispatch({ type: "USER_NOT_FOUND", payload: userId });
+    }
+  };
+
+  const createUser = async (name, seed) => {
+    const data = {
+      name,
+      email,
+      userId,
+      avatar: `https://avatars.dicebear.com/api/human/${seed}.svg`,
+      chatrooms: {},
+    };
     try {
-      await setData("users", uid, data);
+      await setData("users", userId, data);
       dispatch({ type: "CREATE_USER", payload: data });
     } catch (error) {
-      console.log("error4")
+      console.log("error4");
     }
   };
   const fetchUser = async uid => {
@@ -34,7 +49,7 @@ export const UserProvider = ({ children }) => {
         dispatch({ type: "FETCH_USER", payload: result });
       }
     } catch (error) {
-      console.log("error3")
+      console.log("error3");
     }
   };
 

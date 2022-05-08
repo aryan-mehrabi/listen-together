@@ -6,9 +6,9 @@ import SideBar from "../components/SideBar";
 import { ChatRoomProvider } from "../context/ChatRoomContext";
 
 const Chat = () => {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <ChatRoomProvider>
+    <ChatRoomProvider {...{setIsModalOpen}}>
       {isModalOpen ? (
         <Modal closeModal={setIsModalOpen}>
           <CreateChatRoom />

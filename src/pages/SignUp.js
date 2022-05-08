@@ -5,7 +5,6 @@ import useUser from "../context/UserContext";
 const SignUp = () => {
   const [name, setName] = useState("");
   const [seed, setSeed] = useState(Math.random());
-  const { userId, email } = useAuth();
   const { createUser } = useUser();
 
   return (
@@ -36,13 +35,7 @@ const SignUp = () => {
         </div>
         <button
           onClick={() =>
-            createUser(userId, {
-              name,
-              email,
-              userId,
-              avatar: `https://avatars.dicebear.com/api/human/${seed}.svg`,
-              chatrooms: []
-            })
+            createUser(name, seed)
           }
           className="mt-5 bg-cta text-primary text-lg w-full py-2 rounded-sm"
         >
