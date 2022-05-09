@@ -1,11 +1,18 @@
 import React from "react";
+import useChannel from "../context/ChannelContext";
 
 const ChatRoom = () => {
+  const { setSelectedChannel } = useChannel();
+
   return (
     <section className="h-full flex flex-col">
       <nav className="flex items-center border-b border-neutral-700 py-4 px-7">
+        <i
+          onClick={() => setSelectedChannel("")}
+          className="fa-solid fa-arrow-left text-xl mr-4 cursor-pointer"
+        ></i>
         <h2 className="text-2xl">chatroom 1</h2>
-        <i class="fa-solid fa-users-gear ml-auto text-xl"></i>
+        <i className="fa-solid fa-users-gear ml-auto text-xl cursor-pointer"></i>
       </nav>
       <div
         className="overflow-auto flex flex-col 
@@ -19,9 +26,7 @@ const ChatRoom = () => {
           />
           <div className="bg-neutral-700 rounded-sm p-2 ml-2">
             <h6 className="text-lg font-semibold text-cta">mamad</h6>
-            <p>
-              mamad goft enghad noobe sag nabash
-            </p>
+            <p>mamad goft enghad noobe sag nabash</p>
           </div>
         </div>
         <div className="ml-auto my-1 max-w-[80%]">

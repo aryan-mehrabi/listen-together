@@ -7,8 +7,8 @@ const SideBar = ({ setIsModalOpen }) => {
   const { users } = useUser();
   const { userId } = useAuth();
   const renderChatList = () => {
-    return Object.values(users[userId].channels).map(chat => (
-      <ChatItem {...{ chat }} />
+    return Object.values(users[userId].channels).map(channel => (
+      <ChatItem key={channel.id} {...{ channel }} />
     ));
   };
 

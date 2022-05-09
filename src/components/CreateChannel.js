@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import useChatRoom from "../context/ChannelContext";
+import useChannel from "../context/ChannelContext";
 
-const CreateChatRoom = () => {
+const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
-  const { createChatRoom } = useChatRoom();
+  const { createChannel } = useChannel();
 
   return (
     <div className="bg-primary text-secondary w-[350px] rounded flex flex-col p-8">
@@ -21,7 +21,7 @@ const CreateChatRoom = () => {
             className="bg-neutral-700 rounded-sm w-full p-2 mt-1"
           />
         </div>
-        <button onClick={() => createChatRoom(channelName)} className="bg-cta text-primary w-full rounded-sm p-2">
+        <button onClick={() => createChannel(channelName)} className="bg-cta text-primary w-full rounded-sm p-2">
           Create
         </button>
       </div>
@@ -29,4 +29,4 @@ const CreateChatRoom = () => {
   );
 };
 
-export default CreateChatRoom;
+export default CreateChannel;

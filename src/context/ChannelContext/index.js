@@ -1,19 +1,20 @@
-import React, { createContext, useContext, useReducer } from "react";
-import { createChannel } from "../../apis/firebase";
+import React, { createContext, useContext, useReducer, useState } from "react";
+import { createChannel as generateChannel } from "../../apis/firebase";
 import channelReducer from "./channelReducer";
 import useUser from "../UserContext";
 import useAuth from "../AuthContext";
 
 const initValue = {};
-const ChatRoomContext = createContext(initValue);
+const ChannelContext = createContext(initValue);
 
 export const ChannelProvider = ({ children, setIsModalOpen }) => {
   const { users } = useUser();
   const { userId } = useAuth();
   const [state, dispatch] = useReducer(channelReducer, initValue);
+  const [selectedChannel, setSelectedChannel] = useState("");
 
   //ACTIONS
-  const createChatRoom = async name => {
+  const createChannel = async name => {
     const channelData = {
       name,
       roles: {
@@ -21,31 +22,34 @@ export const ChannelProvider = ({ children, setIsModalOpen }) => {
       },
     };
     try {
-      await createChannel(users[userId], name, channelData);
-      setIsModalOpen(false)
+      await generateChannel(users[userId], name, channelData);
+      setIsModalOpen(false);
     } catch (error) {
       console.log(error.message);
     }
   };
 
   const value = {
-    createChatRoom,
+    selectedChannel,
+    setSelectedChannel,
+    ...state,
+    createChannel,
   };
   return (
-    <ChatRoomContext.Provider {...{ value }}>
+    <ChannelContext.Provider {...{ value }}>
       {children}
-    </ChatRoomContext.Provider>
+    </ChannelContext.Provider>
   );
 };
 
-const useChatRoom = () => {
-  const context = useContext(ChatRoomContext);
+const useChannel = () => {
+  const context = useContext(ChannelContext);
 
   if (context === undefined) {
-    throw new Error("useChatRoom should be use within its provider");
+    throw new Error("usechannel should be use within its provider");
   }
 
   return context;
 };
 
-export default useChatRoom;
+export default useChannel;

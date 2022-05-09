@@ -12,12 +12,12 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (userId) {
-      listenDocument("users", userId, userActionCreator);
+      listenDocument("users", userId, listenUser);
     }
   }, [userId]);
 
   // ACTION CREATORS
-  const userActionCreator = data => {
+  const listenUser = data => {
     if (data) {
       dispatch({ type: "FETCH_USER", payload: data });
     } else {

@@ -16,9 +16,9 @@ export const setData = async (collection, document, documentData) => {
 };
 
 export const setDataId = async data => {
-  const newChatRoomRef = doc(collection(db, "channels"));
+  const newChannelRef = doc(collection(db, "channels"));
 
-  await setDoc(newChatRoomRef, { ...data, channelId: newChatRoomRef.id });
+  await setDoc(newChannelRef, { ...data, channelId: newChannelRef.id });
 };
 
 export const getData = async (collection, document) => {
@@ -33,10 +33,9 @@ export const getData = async (collection, document) => {
 };
 
 export const listenDocument = (collection, document, actionCreator) => {
-  return onSnapshot(doc(db, collection, document), (doc) => {
-    actionCreator(doc.data())
+  return onSnapshot(doc(db, collection, document), doc => {
+    actionCreator(doc.data());
   });
-
 };
 
 export const createChannel = async (user, channelName, channel) => {
