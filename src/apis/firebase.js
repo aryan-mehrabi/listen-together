@@ -46,15 +46,12 @@ export const createChannel = async (user, channelName, channel) => {
   batch.set(channelRef, { ...channel, id: channelRef.id });
 
   // Update
-  const newChannels = {
-    ...user.channels,
-    [channelRef.id]: {
-      id: channelRef.id,
-      name: channelName,
-    },
+  const newChannel = {
+    id: channelRef.id,
+    name: channelName,
   };
   const userRef = doc(db, "users", user.userId);
-  batch.update(userRef, { channels: newChannels });
+  batch.update(userRef, { [`channels.${channelRef.id}`]: newChannel });
 
   // Commit the batch
   await batch.commit();

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Channel from "../components/Channel";
 import CreateChannel from "../components/CreateChannel";
 import Modal from "../components/Modal";
 import SideBar from "../components/SideBar";
-import useChannel, { ChannelProvider } from "../context/ChannelContext";
+import useChannel from "../context/ChannelContext";
 
 const Chat = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

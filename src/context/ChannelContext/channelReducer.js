@@ -1,9 +1,7 @@
-const chatRoomReducer = (state, { type, paylaod }) => {
+const chatRoomReducer = (state, { type, payload }) => {
   switch (type) {
-    case "":
-      
-      break;
-  
+    case "FETCH_CHANNEL":
+      return {...state, [payload.id]: payload}
     default:
       return state;
   }

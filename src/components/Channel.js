@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useChannel from "../context/ChannelContext";
 
 const ChatRoom = () => {
-  const { setSelectedChannel } = useChannel();
+  const { setSelectedChannel, selectedChannel, listenChannel, channels } =
+    useChannel();
+  useEffect(() => {
+    if (selectedChannel) {
+      return listenChannel(selectedChannel);
+    }
+  }, [selectedChannel]);
+  if (!channels[selectedChannel]) {
+    return <div>loadin</div>;
+  }
 
   return (
     <section className="h-full flex flex-col">
@@ -11,14 +20,11 @@ const ChatRoom = () => {
           onClick={() => setSelectedChannel("")}
           className="fa-solid fa-arrow-left text-xl mr-4 cursor-pointer"
         ></i>
-        <h2 className="text-2xl">chatroom 1</h2>
+        <h2 className="text-2xl">{channels[selectedChannel].name}</h2>
         <i className="fa-solid fa-users-gear ml-auto text-xl cursor-pointer"></i>
       </nav>
-      <div
-        className="overflow-auto flex flex-col 
-    items-start flex-grow p-6"
-      >
-        <div className="flex items-start my-1 max-w-[80%]">
+      <section className="overflow-auto flex flex-col items-start flex-grow p-6">
+        {/* <div className="flex items-start my-1 max-w-[80%]">
           <img
             className="w-10 mt-2"
             src="https://avatars.dicebear.com/api/human/seasddasded.svg"
@@ -44,8 +50,8 @@ const ChatRoom = () => {
             <h6 className="text-lg font-semibold text-cta">aryan</h6>
             <p>haji dirooz rafte boodam filan ja bisar ja shod har har</p>
           </div>
-        </div>
-      </div>
+        </div> */}
+      </section>
       <div className="flex p-3 border-t border-neutral-700 ">
         <input
           placeholder="Type a message"

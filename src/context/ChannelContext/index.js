@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
-import { createChannel as generateChannel } from "../../apis/firebase";
+import {
+  createChannel as generateChannel,
+  listenDocument,
+} from "../../apis/firebase";
 import channelReducer from "./channelReducer";
 import useUser from "../UserContext";
 import useAuth from "../AuthContext";
@@ -28,17 +31,21 @@ export const ChannelProvider = ({ children, setIsModalOpen }) => {
       console.log(error.message);
     }
   };
+  const listenChannel = async channelId => {
+    return listenDocument("channels", channelId, data =>
+      dispatch({ type: "FETCH_CHANNEL", payload: data })
+    );
+  };
 
   const value = {
+    channels: state,
     selectedChannel,
     setSelectedChannel,
-    ...state,
     createChannel,
+    listenChannel,
   };
   return (
-    <ChannelContext.Provider {...{ value }}>
-      {children}
-    </ChannelContext.Provider>
+    <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>
   );
 };
 
