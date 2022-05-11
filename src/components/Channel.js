@@ -14,7 +14,7 @@ const ChatRoom = () => {
   if (!channels[selectedChannel]) {
     return <div>loadin</div>;
   }
-
+  console.log(channels)
   return (
     <section className="h-full flex flex-col">
       <nav className="flex items-center border-b border-neutral-700 py-4 px-7">

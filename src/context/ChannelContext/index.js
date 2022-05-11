@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
 import {
   createChannel as generateChannel,
+  listenCollection,
   listenDocument,
   setDataId,
 } from "../../apis/firebase";
@@ -34,9 +35,20 @@ export const ChannelProvider = ({ children, setIsModalOpen }) => {
   };
 
   const listenChannel = async channelId => {
-    return listenDocument("channels", channelId, data =>
+    const docUnsub = listenDocument("channels", channelId, data =>
       dispatch({ type: "FETCH_CHANNEL", payload: data })
     );
+    const colUnsub = listenCollection(
+      data =>
+        dispatch({ type: "FETCH_MESSAGES", payload: { channelId, data } }),
+      "channels",
+      channelId,
+      "messages"
+    );
+    return () => {
+      docUnsub();
+      colUnsub();
+    };
   };
 
   const sendMessage = async message => {

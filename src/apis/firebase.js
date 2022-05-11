@@ -37,6 +37,15 @@ export const listenDocument = (collection, document, actionCreator) => {
   });
 };
 
+export const listenCollection = (actionCreator, ...path) => {
+  return onSnapshot(collection(db, ...path), doc => {
+    const messages = {};
+    doc.forEach(doc => {
+      messages[doc.data().id] = { ...doc.data() };
+    });
+    actionCreator(messages);
+  });
+};
 export const createChannel = async (user, channelName, channel) => {
   const batch = writeBatch(db);
 
