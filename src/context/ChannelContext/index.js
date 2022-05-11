@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useState } from "react";
 import {
   createChannel as generateChannel,
   listenDocument,
+  setDataId,
 } from "../../apis/firebase";
 import channelReducer from "./channelReducer";
 import useUser from "../UserContext";
@@ -31,18 +32,34 @@ export const ChannelProvider = ({ children, setIsModalOpen }) => {
       console.log(error.message);
     }
   };
+
   const listenChannel = async channelId => {
     return listenDocument("channels", channelId, data =>
       dispatch({ type: "FETCH_CHANNEL", payload: data })
     );
   };
 
+  const sendMessage = async message => {
+    try {
+      const messageData = {
+        creationTime: Date.now(),
+        message,
+        from: userId,
+      };
+      await setDataId(messageData, "channels", selectedChannel, "messages");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // STORE
   const value = {
     channels: state,
     selectedChannel,
     setSelectedChannel,
     createChannel,
     listenChannel,
+    sendMessage,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

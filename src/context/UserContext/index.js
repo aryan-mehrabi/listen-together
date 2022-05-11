@@ -34,7 +34,7 @@ export const UserProvider = ({ children }) => {
       chatrooms: {},
     };
     try {
-      await setData("users", userId, data);
+      await setData(data, "users", userId);
       dispatch({ type: "CREATE_USER", payload: data });
     } catch (error) {
       console.log("error4");

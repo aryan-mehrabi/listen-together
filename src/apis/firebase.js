@@ -11,14 +11,13 @@ import { app } from "../auth/firebase";
 
 const db = getFirestore(app);
 
-export const setData = async (collection, document, documentData) => {
-  await setDoc(doc(db, collection, document), documentData);
+export const setData = async (documentData, ...path) => {
+  await setDoc(doc(db, ...path), documentData);
 };
 
-export const setDataId = async data => {
-  const newChannelRef = doc(collection(db, "channels"));
-
-  await setDoc(newChannelRef, { ...data, channelId: newChannelRef.id });
+export const setDataId = async (data, ...path) => {
+  const docRef = doc(collection(db, ...path));
+  await setDoc(docRef, { ...data, id: docRef.id });
 };
 
 export const getData = async (collection, document) => {
