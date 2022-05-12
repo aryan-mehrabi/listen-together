@@ -12,6 +12,7 @@ const Router = () => {
   const { page, setPage } = usePage();
 
   useEffect(() => {
+    console.log("did u ran?")
     if (userId) {
       fetchUser(userId);
     } else if (userId === "") {

@@ -4,6 +4,7 @@ import useChannel from "../context/ChannelContext";
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
   const { sendMessage } = useChannel();
+  
   return (
     <div className="flex p-3 border-t border-neutral-700 ">
       <input
@@ -14,11 +15,12 @@ const ChannelMessageInput = () => {
         type="text"
       />
       <button
+        disabled={!message}
         onClick={() => {
           sendMessage(message);
           setMessage("");
         }}
-        className="bg-cta text-primary rounded-sm ml-2 px-4"
+        className="bg-cta text-primary disabled:opacity-50 rounded-sm ml-2 px-4"
       >
         SEND
       </button>
