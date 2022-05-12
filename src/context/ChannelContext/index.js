@@ -54,9 +54,11 @@ export const ChannelProvider = ({ children, setIsModalOpen }) => {
   const sendMessage = async message => {
     try {
       const messageData = {
-        creationTime: Date.now(),
-        message,
+        createdAt: Date.now(),
+        content: message,
         from: userId,
+        name: users[userId].name,
+        avatar: users[userId].avatar,
       };
       await setDataId(messageData, "channels", selectedChannel, "messages");
     } catch (error) {

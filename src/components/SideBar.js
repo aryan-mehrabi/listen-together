@@ -7,9 +7,13 @@ const SideBar = ({ setIsModalOpen }) => {
   const { users } = useUser();
   const { userId } = useAuth();
   const renderChatList = () => {
-    return Object.values(users[userId].channels).map(channel => (
-      <ChatItem key={channel.id} {...{ channel }} />
-    ));
+    if (users[userId].channels) {
+      return Object.values(users[userId].channels).map(channel => (
+        <ChatItem key={channel.id} {...{ channel }} />
+      ));
+    } else {
+      return null;
+    }
   };
 
   return (
