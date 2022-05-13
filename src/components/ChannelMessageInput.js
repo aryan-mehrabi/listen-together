@@ -4,9 +4,18 @@ import useChannel from "../context/ChannelContext";
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
   const { sendMessage } = useChannel();
-  
+
+  const onSubmitForm = e => {
+    e.preventDefault();
+    sendMessage(message);
+    setMessage("");
+  };
+
   return (
-    <div className="flex p-3 border-t border-neutral-700 ">
+    <form
+      onSubmit={onSubmitForm}
+      className="flex p-3 border-t border-neutral-700"
+    >
       <input
         onChange={e => setMessage(e.target.value)}
         value={message}
@@ -16,15 +25,11 @@ const ChannelMessageInput = () => {
       />
       <button
         disabled={!message}
-        onClick={() => {
-          sendMessage(message);
-          setMessage("");
-        }}
         className="bg-cta text-primary disabled:opacity-50 rounded-sm ml-2 px-4"
       >
         SEND
       </button>
-    </div>
+    </form>
   );
 };
 
