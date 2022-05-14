@@ -9,7 +9,8 @@ const Channel = () => {
 
   useEffect(() => {
     if (selectedChannel) {
-      return listenChannel(selectedChannel);
+      // return listenChannel(selectedChannel);
+      listenChannel(selectedChannel);
     }
   }, [selectedChannel]);
 

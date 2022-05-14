@@ -4,18 +4,22 @@ import { AuthProvider } from "../context/AuthContext";
 import { UserProvider } from "../context/UserContext";
 import { PageProvider } from "../context/PageContext";
 import { ChannelProvider } from "../context/ChannelContext";
+import { ModalProvider } from "../context/ModalContext"
 
 const App = () => {
+
   return (
-    <AuthProvider>
-      <UserProvider>
-        <PageProvider>
-          <ChannelProvider>
-            <Router />
-          </ChannelProvider>
-        </PageProvider>
-      </UserProvider>
-    </AuthProvider>
+    <ModalProvider>
+      <AuthProvider>
+        <UserProvider>
+          <PageProvider>
+            <ChannelProvider>
+              <Router />
+            </ChannelProvider>
+          </PageProvider>
+        </UserProvider>
+      </AuthProvider>
+    </ModalProvider>
   );
 };
 

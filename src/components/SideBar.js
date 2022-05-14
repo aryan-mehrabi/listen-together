@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import useAuth from "../context/AuthContext";
+import useModal from "../context/ModalContext";
 import useUser from "../context/UserContext";
 import ChatItem from "./ChatItem";
+import CreateChannel from "./CreateChannel";
 
-const SideBar = ({ setIsModalOpen }) => {
+const SideBar = () => {
+  const { setModal } = useModal();
   const [dropdown, setDropdown] = useState(false);
   const { users } = useUser();
   const { userId, logOut } = useAuth();
@@ -35,13 +38,15 @@ const SideBar = ({ setIsModalOpen }) => {
               dropdown || "hidden"
             }`}
           >
-            <button onClick={logOut} className="text-red-300 py-2 w-full">Log Out</button>
+            <button onClick={logOut} className="text-red-300 py-2 w-full">
+              Log Out
+            </button>
           </div>
         </div>
       </div>
       <div className="text-center border-b border-neutral-700">
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setModal(<CreateChannel />)}
           className=" font-semibold text-lg text-cta rounded-sm py-2 px-4 my-4"
         >
           Create a Channel

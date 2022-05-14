@@ -1,32 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import Channel from "../components/Channel";
-import CreateChannel from "../components/CreateChannel";
-import Modal from "../components/Modal";
 import SideBar from "../components/SideBar";
 import useChannel from "../context/ChannelContext";
 
 const Chat = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { selectedChannel, setSelectedChannel } = useChannel();
+  const { selectedChannel } = useChannel();
 
   return (
     <>
-      {isModalOpen ? (
-        <Modal closeModal={setIsModalOpen}>
-          <CreateChannel />
-        </Modal>
-      ) : null}
       <div className="overflow-hidden h-screen bg-primary text-secondary flex">
-        <SideBar {...{ setIsModalOpen }} />
+        <SideBar />
         <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
           {selectedChannel ? (
             <Channel />
           ) : (
             <section className="flex items-center justify-center text-center h-full">
-              <h1
-                onClick={() => setSelectedChannel("222")}
-                className="text-4xl font-semibold leading-relaxed text-secondary"
-              >
+              <h1 className="text-4xl font-semibold leading-relaxed text-secondary">
                 Select a channel <br /> or <br />
                 Create one
               </h1>

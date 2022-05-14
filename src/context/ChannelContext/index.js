@@ -8,11 +8,13 @@ import {
 import channelReducer from "./channelReducer";
 import useUser from "../UserContext";
 import useAuth from "../AuthContext";
+import useModal from "../ModalContext";
 
 const initValue = {};
 const ChannelContext = createContext(initValue);
 
-export const ChannelProvider = ({ children, setIsModalOpen }) => {
+export const ChannelProvider = ({ children }) => {
+  const { setModal } = useModal();
   const { users } = useUser();
   const { userId } = useAuth();
   const [state, dispatch] = useReducer(channelReducer, initValue);
@@ -28,7 +30,7 @@ export const ChannelProvider = ({ children, setIsModalOpen }) => {
     };
     try {
       await generateChannel(users[userId], name, channelData);
-      setIsModalOpen(false);
+      setModal(null)
     } catch (error) {
       console.log(error.message);
     }

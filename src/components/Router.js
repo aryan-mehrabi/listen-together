@@ -2,11 +2,14 @@ import React, { useEffect } from "react";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
 import Chat from "../pages/Chat";
+import Modal from "./Modal"
 import useAuth from "../context/AuthContext";
 import useUser from "../context/UserContext";
 import usePage from "../context/PageContext";
+import useModal from "../context/ModalContext";
 
 const Router = () => {
+  const { modal } = useModal();
   const { userId } = useAuth();
   const { fetchUser, users } = useUser();
   const { page, setPage } = usePage();
@@ -38,7 +41,12 @@ const Router = () => {
         return <div>loading</div>;
     }
   };
-  return renderApp();
+  return (
+    <>
+      {modal ? <Modal>{modal}</Modal> : null}
+      {renderApp()}
+    </>
+  );
 };
 
 export default Router;
