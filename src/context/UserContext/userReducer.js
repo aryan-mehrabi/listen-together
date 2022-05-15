@@ -4,8 +4,10 @@ const userReducer = (state, { type, payload }) => {
       return { ...state, [payload.userId]: payload };
     case "CREATE_USER":
       return { ...state, [payload.userId]: payload };
+    case "FETCH_USERS":
+      return { ...state, ...payload };
     case "USER_NOT_FOUND":
-      return { ...state, [payload]: {}}
+      return { ...state, [payload]: {} };
     default:
       return state;
   }

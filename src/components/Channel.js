@@ -22,7 +22,7 @@ const Channel = () => {
 
   return (
     <section className="h-full flex">
-      <div className="flex flex-col flex-grow border-r border-neutral-700">
+      <div className="flex flex-col flex-grow">
         <ChannelNav {...{ isSettingOpen, setIsSettingOpen }} />
         <ChannelConversation />
         <ChannelMessageInput />

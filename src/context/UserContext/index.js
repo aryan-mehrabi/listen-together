@@ -1,5 +1,11 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
-import { setData, getData, listenDocument } from "../../apis/firebase";
+import {
+  setData,
+  getData,
+  listenDocument,
+  queryListener,
+  queryCollection,
+} from "../../apis/firebase";
 import useAuth from "../AuthContext";
 import userReducer from "./userReducer";
 
@@ -17,6 +23,13 @@ export const UserProvider = ({ children }) => {
   }, [userId]);
 
   // ACTION CREATORS
+  const listenChannelMembers = channelId => {
+    queryListener(
+      data => dispatch({ type: "FETCH_USERS", payload: data }),
+      queryCollection("users", `channels.${channelId}`, "!=", null)
+    );
+  };
+
   const listenUser = data => {
     if (data) {
       dispatch({ type: "FETCH_USER", payload: data });
@@ -40,6 +53,7 @@ export const UserProvider = ({ children }) => {
       console.log("error4");
     }
   };
+
   const fetchUser = async uid => {
     try {
       const result = await getData("users", uid);
@@ -58,8 +72,9 @@ export const UserProvider = ({ children }) => {
     users: state,
     createUser,
     fetchUser,
+    listenChannelMembers,
   };
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
 };
 
 const useUser = () => {

@@ -6,6 +6,8 @@ import {
   getDoc,
   getFirestore,
   collection,
+  query,
+  where,
 } from "firebase/firestore";
 import { app } from "../auth/firebase";
 
@@ -46,6 +48,22 @@ export const listenCollection = (actionCreator, ...path) => {
     actionCreator(messages);
   });
 };
+
+export const queryListener = (actionCreator, q) => {
+  return onSnapshot(q, doc => {
+    const users = {};
+    doc.forEach(doc => {
+      users[doc.data().userId] = { ...doc.data() };
+    });
+    actionCreator(users);
+  });
+};
+
+export const queryCollection = (col, ...queries) => {
+  const q = query(collection(db, col), where(...queries));
+  return q;
+};
+
 export const createChannel = async (user, channelName, channel) => {
   const batch = writeBatch(db);
 
