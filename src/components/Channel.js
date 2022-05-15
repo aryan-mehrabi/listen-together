@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useChannel from "../context/ChannelContext";
 import ChannelConversation from "./ChannelConversation";
 import ChannelMessageInput from "./ChannelMessageInput";
 import ChannelNav from "./ChannelNav";
+import ChannelSettings from "./ChannelSettings";
 
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   useEffect(() => {
     if (selectedChannel) {
@@ -19,10 +21,13 @@ const Channel = () => {
   }
 
   return (
-    <section className="h-full flex flex-col">
-      <ChannelNav />
-      <ChannelConversation />
-      <ChannelMessageInput />
+    <section className="h-full flex">
+      <div className="flex flex-col flex-grow border-r border-neutral-700">
+        <ChannelNav {...{ isSettingOpen, setIsSettingOpen }} />
+        <ChannelConversation />
+        <ChannelMessageInput />
+      </div>
+      {isSettingOpen && <ChannelSettings />}
     </section>
   );
 };
