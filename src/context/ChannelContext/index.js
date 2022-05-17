@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
 import {
+  addMemberToChannel,
   createChannel as generateChannel,
   listenCollection,
   listenDocument,
+  queryCollection,
   setDataId,
 } from "../../apis/firebase";
 import channelReducer from "./channelReducer";
 import useUser from "../UserContext";
 import useAuth from "../AuthContext";
 import useModal from "../ModalContext";
+import { getDocs } from "firebase/firestore";
 
 const initValue = {};
 const ChannelContext = createContext(initValue);
@@ -29,8 +32,8 @@ export const ChannelProvider = ({ children }) => {
       },
     };
     try {
-      await generateChannel(users[userId], name, channelData);
-      setModal(null)
+      await generateChannel(userId, channelData);
+      setModal(null);
     } catch (error) {
       console.log(error.message);
     }
@@ -68,6 +71,23 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
+  const addMember = async userEmail => {
+    const q = queryCollection("users", "email", "==", userEmail);
+    try {
+      const docs = await getDocs(q);
+      if (docs.size) {
+        docs.forEach(doc => {
+          const user = doc.data();
+          addMemberToChannel(user.userId, state[selectedChannel]);
+        });
+      } else {
+        console.log("no doc");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // STORE
   const value = {
     channels: state,
@@ -76,6 +96,7 @@ export const ChannelProvider = ({ children }) => {
     createChannel,
     listenChannel,
     sendMessage,
+    addMember,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

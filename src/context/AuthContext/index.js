@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await tryLogIn();
     } catch (error) {
-      console.log("error")
+      console.log(error.message)
       dispatch({ type: "AUTH_ERROR" , payload: error})
     }
   };
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await tryLogOut();
     } catch (error) {
-      console.log("error2")
+      console.log(error.message)
       dispatch({ type: "AUTH_ERROR" , payload: error})
     }
   };

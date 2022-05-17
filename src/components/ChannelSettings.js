@@ -1,14 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useChannel from "../context/ChannelContext";
 import useUser from "../context/UserContext";
 
 const ChannelSettings = () => {
-  const { selectedChannel } = useChannel();
+  const [email, setEmail] = useState("");
+  const { selectedChannel, addMember } = useChannel();
   const { listenChannelMembers, users } = useUser();
 
   useEffect(() => {
     listenChannelMembers(selectedChannel);
   }, []);
+
+  const onSubmitForm = (event) => {
+    event.preventDefault();
+    addMember(email)
+  }
 
   const renderMembers = () => {
     return Object.values(users)
@@ -38,11 +44,13 @@ const ChannelSettings = () => {
       </div>
       <div className="my-11">
         <h2 className="text-2xl font-semibold">Add a Member</h2>
-        <form className="mt-3.5">
+        <form className="mt-3.5" onSubmit={onSubmitForm}>
           <label htmlFor="">User Email Adress:</label>
           <input
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             className="w-full bg-neutral-700 rounded-sm p-1.5 my-2"
-            type="text"
+            type="email"
             placeholder="E.g. example@example.com"
           />
           <button className="w-full bg-cta text-primary my-1 px-2 py-1.5 rounded-sm">
@@ -52,20 +60,7 @@ const ChannelSettings = () => {
       </div>
       <div className="my-11">
         <h2 className="text-2xl font-semibold">Members</h2>
-        <div className="mt-3.5">
-          {renderMembers()/* <div className="flex items-center my-2.5">
-            <img
-              src="https://avatars.dicebear.com/api/human/0.023434045249369317.svg"
-              alt=""
-              className="w-12"
-            />
-            <p className="text-lg ml-2">name</p>
-            <i
-              title="settings"
-              className="fa-solid fa-ellipsis text-xl ml-auto cursor-pointer"
-            ></i>
-          </div> */}
-        </div>
+        <div className="mt-3.5">{renderMembers()}</div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import {
   collection,
   query,
   where,
+  runTransaction,
 } from "firebase/firestore";
 import { app } from "../auth/firebase";
 
@@ -64,7 +65,7 @@ export const queryCollection = (col, ...queries) => {
   return q;
 };
 
-export const createChannel = async (user, channelName, channel) => {
+export const createChannel = async (userId, channel) => {
   const batch = writeBatch(db);
 
   // Set
@@ -74,11 +75,27 @@ export const createChannel = async (user, channelName, channel) => {
   // Update
   const newChannel = {
     id: channelRef.id,
-    name: channelName,
+    name: channel.name,
   };
-  const userRef = doc(db, "users", user.userId);
+  const userRef = doc(db, "users", userId);
   batch.update(userRef, { [`channels.${channelRef.id}`]: newChannel });
 
   // Commit the batch
   await batch.commit();
 };
+
+export const addMemberToChannel = async (userId, channel) => {
+  const batch = writeBatch(db);
+
+  const newChannel = {
+    id: channel.id,
+    name: channel.name,
+  };
+  const userRef = doc(db, "users", userId)
+  batch.update(userRef, {[`channels.${channel.id}`]: newChannel} )
+
+  const channelRef = doc(db, "channels", channel.id)
+  batch.update(channelRef, {[`roles.${userId}`]: "member"})
+
+  batch.commit();
+}

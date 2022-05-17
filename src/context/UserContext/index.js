@@ -44,7 +44,6 @@ export const UserProvider = ({ children }) => {
       email,
       userId,
       avatar: `https://avatars.dicebear.com/api/human/${seed}.svg`,
-      chatrooms: {},
     };
     try {
       await setData(data, "users", userId);

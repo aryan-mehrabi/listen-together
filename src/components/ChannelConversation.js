@@ -9,9 +9,10 @@ const ChannelConversation = () => {
   useEffect(() => {
     scrollBottom.current.scrollIntoView({ behavior: "smooth" });
   }, [channels[selectedChannel].messages]);
-
+  console.log(channels[selectedChannel])
   const renderMessages = () => {
     const channel = channels[selectedChannel];
+    console.log(channel)
     if (channel.messages) {
       const messages = Object.values(channel.messages);
       return messages
