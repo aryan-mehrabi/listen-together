@@ -8,6 +8,7 @@ const ChannelAddMember = () => {
   const onSubmitForm = event => {
     event.preventDefault();
     addMember(email);
+    setEmail("")
   };
 
   return (

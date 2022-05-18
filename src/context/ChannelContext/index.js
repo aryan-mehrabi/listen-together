@@ -5,6 +5,7 @@ import {
   listenCollection,
   listenDocument,
   queryCollection,
+  removeMemberFromChannel,
   setDataId,
 } from "../../apis/firebase";
 import channelReducer from "./channelReducer";
@@ -76,15 +77,22 @@ export const ChannelProvider = ({ children }) => {
     try {
       const docs = await getDocs(q);
       if (docs.size) {
-        docs.forEach(doc => {
-          const user = doc.data();
-          addMemberToChannel(user.userId, state[selectedChannel]);
-        });
+        const user = docs.docs[0].data();
+        await addMemberToChannel(user.userId, state[selectedChannel]);
       } else {
         console.log("no doc");
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const removeMember = async userId => {
+    try {
+      await removeMemberFromChannel(userId, selectedChannel);
+      setSelectedChannel("");
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -97,6 +105,7 @@ export const ChannelProvider = ({ children }) => {
     listenChannel,
     sendMessage,
     addMember,
+    removeMember,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

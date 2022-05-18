@@ -8,7 +8,7 @@ import {
   collection,
   query,
   where,
-  runTransaction,
+  deleteField,
 } from "firebase/firestore";
 import { app } from "../auth/firebase";
 
@@ -91,11 +91,23 @@ export const addMemberToChannel = async (userId, channel) => {
     id: channel.id,
     name: channel.name,
   };
-  const userRef = doc(db, "users", userId)
-  batch.update(userRef, {[`channels.${channel.id}`]: newChannel} )
+  const userRef = doc(db, "users", userId);
+  batch.update(userRef, { [`channels.${channel.id}`]: newChannel });
 
-  const channelRef = doc(db, "channels", channel.id)
-  batch.update(channelRef, {[`roles.${userId}`]: "member"})
+  const channelRef = doc(db, "channels", channel.id);
+  batch.update(channelRef, { [`roles.${userId}`]: "member" });
 
-  batch.commit();
-}
+  await batch.commit();
+};
+
+export const removeMemberFromChannel = async (userId, channelId) => {
+  const batch = writeBatch(db);
+
+  const userRef = doc(db, "users", userId);
+  batch.update(userRef, { [`channels.${channelId}`]: deleteField() });
+
+  const channelRef = doc(db, "channels", channelId);
+  batch.update(channelRef, { [`roles.${userId}`]: deleteField() });
+
+  await batch.commit();
+};
