@@ -12,7 +12,7 @@ const Home = () => {
       className={styles.container}
     >
       <h1 className="text-6xl m-3">LET'S LISTEN TOGETHER</h1>
-      <p className="text-lg">
+      <p className="text-lg mx-3">
         listen to your favorite music synchornously with your friends and talk
         about it.
       </p>

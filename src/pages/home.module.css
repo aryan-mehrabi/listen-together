@@ -1,6 +1,6 @@
 .container {
   @apply bg-primary bg-cover bg-blend-overlay bg-center text-secondary 
-  flex flex-col justify-center items-center h-screen;
+  flex flex-col justify-center items-center h-screen text-center;
 }
 .button {
   @apply bg-secondary text-primary text-lg font-semibold rounded-sm p-3 m-10

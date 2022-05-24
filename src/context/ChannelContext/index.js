@@ -87,10 +87,11 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const removeMember = async userId => {
+  const leaveChannel = async () => {
     try {
       await removeMemberFromChannel(userId, selectedChannel);
-      setSelectedChannel("");
+      dispatch({ type: "LEAVE_CHANNEL", payload: selectedChannel });
+      setSelectedChannel("")
     } catch (error) {
       console.log(error.message);
     }
@@ -105,7 +106,7 @@ export const ChannelProvider = ({ children }) => {
     listenChannel,
     sendMessage,
     addMember,
-    removeMember,
+    leaveChannel,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

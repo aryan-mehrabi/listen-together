@@ -43,7 +43,7 @@ const Router = () => {
   };
   return (
     <>
-      {modal ? <Modal>{modal}</Modal> : null}
+      {modal && <Modal>{modal}</Modal>}
       {renderApp()}
     </>
   );

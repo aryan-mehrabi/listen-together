@@ -4,7 +4,7 @@ import useChannel from "../context/ChannelContext";
 
 const ChannelInfo = () => {
   const { userId } = useAuth();
-  const { channels, selectedChannel, removeMember } = useChannel();
+  const { channels, selectedChannel, leaveChannel } = useChannel();
   const channel = channels[selectedChannel];
 
   const deleteButton = (
@@ -14,7 +14,7 @@ const ChannelInfo = () => {
   );
   const leaveButton = (
     <button
-      onClick={() => removeMember(userId)}
+      onClick={() => leaveChannel(userId)}
       className="bg-neutral-800 rounded-sm p-2 w-full text-red-500"
     >
       Leave Channel
