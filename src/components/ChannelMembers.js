@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useChannel from "../context/ChannelContext";
 import useUser from "../context/UserContext";
+import MembersSetting from "./MembersSetting";
 
 const ChannelMembers = () => {
   const { selectedChannel } = useChannel();
@@ -17,10 +18,7 @@ const ChannelMembers = () => {
         <div key={userId} className="flex items-center my-2.5">
           <img src={avatar} alt="avatar" className="w-12" />
           <p className="text-lg ml-2">{name}</p>
-          <i
-            title="settings"
-            className="fa-solid fa-ellipsis text-xl ml-auto cursor-pointer"
-          ></i>
+          <MembersSetting />
         </div>
       ));
   };
