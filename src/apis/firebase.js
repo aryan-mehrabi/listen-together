@@ -4,6 +4,7 @@ import {
   doc,
   setDoc,
   getDoc,
+  updateDoc,
   getFirestore,
   collection,
   query,
@@ -33,6 +34,11 @@ export const getData = async (collection, document) => {
     return "Not Found";
   }
 };
+
+export const updateData = async (update, ...path) => {
+  const docRef = doc(db, ...path)
+  await updateDoc(docRef, update)
+}
 
 export const listenDocument = (collection, document, actionCreator) => {
   return onSnapshot(doc(db, collection, document), doc => {

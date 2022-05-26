@@ -7,7 +7,7 @@ import DropDown from "./DropDown";
 const MembersSetting = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
-  const { selectedChannel, channels, removeMember } = useChannel();
+  const { selectedChannel, channels, removeMember, changeRole } = useChannel();
   const { userId: authUserId } = useAuth();
 
   const userRole = channels[selectedChannel].roles[userId];
@@ -16,10 +16,20 @@ const MembersSetting = ({ userId }) => {
   const rolesRules = { creator: 3, admin: 2, member: 1 };
 
   const promoteButton = (
-    <button className="py-3 w-full border-b border-neutral-500">Promote</button>
+    <button
+      onClick={() => changeRole(userId, "admin")}
+      className="py-3 w-full border-b border-neutral-500"
+    >
+      Promote
+    </button>
   );
   const demoteButton = (
-    <button className="py-3 w-full border-b border-neutral-500">Demote</button>
+    <button
+      onClick={() => changeRole(userId, "member")}
+      className="py-3 w-full border-b border-neutral-500"
+    >
+      Demote
+    </button>
   );
   const removeButton = (
     <button onClick={() => removeMember(userId)} className="py-3 w-full">
