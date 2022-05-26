@@ -1,12 +1,13 @@
 import React, { useState, useRef } from "react";
 import useAuth from "../context/AuthContext";
 import useChannel from "../context/ChannelContext";
+import useUser from "../context/UserContext";
 import DropDown from "./DropDown";
 
 const MembersSetting = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
-  const { selectedChannel, channels } = useChannel();
+  const { selectedChannel, channels, removeMember } = useChannel();
   const { userId: authUserId } = useAuth();
 
   const userRole = channels[selectedChannel].roles[userId];
@@ -20,7 +21,11 @@ const MembersSetting = ({ userId }) => {
   const demoteButton = (
     <button className="py-3 w-full border-b border-neutral-500">Demote</button>
   );
-  const removeButton = <button className="py-3 w-full">Remove</button>;
+  const removeButton = (
+    <button onClick={() => removeMember(userId)} className="py-3 w-full">
+      Remove
+    </button>
+  );
 
   const renderedButtons = (() => {
     const buttons = [];

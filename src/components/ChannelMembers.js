@@ -4,8 +4,9 @@ import useUser from "../context/UserContext";
 import MembersSetting from "./MembersSetting";
 
 const ChannelMembers = () => {
-  const { selectedChannel } = useChannel();
+  const { selectedChannel, channels } = useChannel();
   const { listenChannelMembers, users } = useUser();
+  const channelRoles = Object.keys(channels[selectedChannel].roles);
 
   useEffect(() => {
     listenChannelMembers(selectedChannel);
@@ -13,7 +14,9 @@ const ChannelMembers = () => {
 
   const renderMembers = () => {
     return Object.values(users)
-      .filter(member => member.channels[selectedChannel])
+      .filter(member => {
+        return channelRoles.includes(member.userId)
+      })
       .map(({ userId, name, avatar }) => (
         <div key={userId} className="flex items-center my-2.5">
           <img src={avatar} alt="avatar" className="w-12" />
