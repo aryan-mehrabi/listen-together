@@ -18,7 +18,7 @@ const ChannelAddMember = () => {
         <label htmlFor="">User Email Adress:</label>
         <input
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value.toLowerCase())}
           className="w-full bg-neutral-700 rounded-sm p-1.5 my-2"
           type="email"
           placeholder="E.g. example@example.com"

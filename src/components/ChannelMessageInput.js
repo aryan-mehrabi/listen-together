@@ -7,7 +7,7 @@ const ChannelMessageInput = () => {
 
   const onSubmitForm = e => {
     e.preventDefault();
-    sendMessage(message);
+    sendMessage(message.trim());
     setMessage("");
   };
 
@@ -17,7 +17,7 @@ const ChannelMessageInput = () => {
       className="flex p-3 border-t border-neutral-700"
     >
       <input
-        onChange={e => setMessage(e.target.value)}
+        onChange={e => setMessage(e.target.value.trimStart())}
         value={message}
         placeholder="Type a message"
         className="flex-grow bg-neutral-700 h-10 rounded outline-none p-2"

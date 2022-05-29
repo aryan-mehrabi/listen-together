@@ -25,7 +25,7 @@ const SignUp = () => {
         </div>
         <div>
           <input
-            onChange={e => setName(e.target.value)}
+            onChange={e => setName(e.target.value.trimStart())}
             value={name}
             placeholder="Enter Your Name"
             className="outline-none w-full bg-transparent h-10 border-b-2 border-neutral-700"
@@ -34,7 +34,7 @@ const SignUp = () => {
         </div>
         <button
           onClick={() =>
-            createUser(name, seed)
+            createUser(name.trim(), seed)
           }
           className="mt-5 bg-cta text-primary text-lg w-full py-2 rounded-sm"
         >
