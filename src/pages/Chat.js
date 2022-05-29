@@ -8,7 +8,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="overflow-hidden h-screen bg-primary text-secondary flex">
+      <div className="overflow-hidden h-full flex">
         <SideBar />
         <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
           {selectedChannel ? (

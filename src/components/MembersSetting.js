@@ -18,7 +18,7 @@ const MembersSetting = ({ userId }) => {
   const promoteButton = (
     <button
       onClick={() => changeRole(userId, "admin")}
-      className="py-3 w-full border-b border-neutral-500"
+      className="py-3 w-full border-t border-neutral-500"
     >
       Promote
     </button>
@@ -26,7 +26,7 @@ const MembersSetting = ({ userId }) => {
   const demoteButton = (
     <button
       onClick={() => changeRole(userId, "member")}
-      className="py-3 w-full border-b border-neutral-500"
+      className="py-3 w-full border-t border-neutral-500"
     >
       Demote
     </button>

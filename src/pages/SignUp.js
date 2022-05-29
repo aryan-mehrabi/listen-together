@@ -7,8 +7,8 @@ const SignUp = () => {
   const { createUser } = useUser();
 
   return (
-    <div className="bg-primary text-secondary h-screen flex items-center justify-center">
-      <div className="text-center w-72 bg-ne">
+    <div className=" flex items-center justify-center h-full">
+      <div className="text-center w-72">
         <div className="w-3/4 mx-auto mb-10">
           <div
             onClick={() => setSeed(Math.random())}

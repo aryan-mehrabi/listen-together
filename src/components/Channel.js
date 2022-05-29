@@ -4,6 +4,7 @@ import ChannelConversation from "./ChannelConversation";
 import ChannelMessageInput from "./ChannelMessageInput";
 import ChannelNav from "./ChannelNav";
 import ChannelSettings from "./ChannelSettings";
+import Spinner from "./Spinner";
 
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
@@ -16,7 +17,7 @@ const Channel = () => {
   }, [selectedChannel]);
 
   if (!channels[selectedChannel]) {
-    return <div>loadin</div>;
+    return <div className="flex items-center justify-center h-full"><Spinner /></div>;
   }
 
   return (
