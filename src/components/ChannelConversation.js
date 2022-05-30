@@ -15,7 +15,7 @@ const ChannelConversation = () => {
     if (channel.messages) {
       const messages = Object.values(channel.messages);
       return messages
-        .sort((a, b) => a.createdAt - b.createdAt)
+        .sort((a, b) => {return a.createdAt.seconds - b.createdAt.seconds})
         .map(message => <ChannelMessage key={message.id} {...{ message }} />);
     }
   };
