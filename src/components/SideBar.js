@@ -22,7 +22,7 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="min-w-[200px] w-1/4 max-w-[400px] border-neutral-700 border-r flex flex-col">
+    <aside className="w-full md:min-w-[200px] md:w-1/4 md:max-w-[400px] md:border-neutral-700 md:border-r flex flex-col">
       <div className="flex items-center px-4 py-3 border-b border-neutral-700">
         <img className="w-11" src={users[userId]?.avatar} alt="avatar" />
         <p className="ml-2 font-semibold">{users[userId]?.name}</p>
@@ -43,7 +43,7 @@ const SideBar = () => {
       <div className="text-center border-b border-neutral-700">
         <button
           onClick={() => setModal(<CreateChannel />)}
-          className=" font-semibold text-lg text-cta rounded-sm py-2 px-4 my-4"
+          className=" font-semibold md:text-lg text-cta rounded-sm py-2 px-4 my-4"
         >
           Create a Channel
         </button>

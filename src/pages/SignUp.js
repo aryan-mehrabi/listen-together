@@ -33,10 +33,8 @@ const SignUp = () => {
           />
         </div>
         <button
-          onClick={() =>
-            createUser(name.trim(), seed)
-          }
-          className="mt-5 bg-cta text-primary text-lg w-full py-2 rounded-sm"
+          onClick={() => createUser(name.trim(), seed)}
+          className="mt-5 bg-cta text-primary md:text-lg w-full py-2 rounded-sm"
         >
           Start Chatting
         </button>

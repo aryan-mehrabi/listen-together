@@ -28,14 +28,14 @@ const Channel = () => {
 
   if (!channels[selectedChannel]) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="flex items-center justify-center h-full w-full">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <section className="h-full flex">
+    <section className="h-full flex w-full">
       {isMobile ? (
         isSettingOpen ? (
           <ChannelSettings />

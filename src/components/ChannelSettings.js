@@ -11,7 +11,7 @@ const ChannelSettings = () => {
   const role = channels[selectedChannel].roles[userId];
 
   return (
-    <div className="border-l border-neutral-700 w-[37%] min-w-[150px] max-w-sm px-5 py-3 overflow-auto">
+    <div className="w-full md:border-l md:border-neutral-700 md:w-[37%] md:min-w-[150px] md:max-w-sm px-5 py-3 overflow-auto">
       <ChannelInfo />
       {(role === "creator" || role === "admin") && <ChannelAddMember />}
       <ChannelMembers />
