@@ -10,6 +10,7 @@ import {
   query,
   where,
   deleteField,
+  serverTimestamp,
 } from "firebase/firestore";
 import { app } from "../auth/firebase";
 
@@ -21,7 +22,7 @@ export const setData = async (documentData, ...path) => {
 
 export const setDataId = async (data, ...path) => {
   const docRef = doc(collection(db, ...path));
-  await setDoc(docRef, { ...data, id: docRef.id });
+  await setDoc(docRef, { ...data, id: docRef.id, createdAt: serverTimestamp() });
 };
 
 export const getData = async (collection, document) => {

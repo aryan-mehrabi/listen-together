@@ -61,7 +61,7 @@ export const ChannelProvider = ({ children }) => {
   const sendMessage = async message => {
     try {
       const messageData = {
-        createdAt: Date.now(),
+        // createdAt: Date.now(),
         content: message,
         from: userId,
         name: users[userId].name,
