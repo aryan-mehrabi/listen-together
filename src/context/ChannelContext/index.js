@@ -4,6 +4,8 @@ import {
   createChannel as generateChannel,
   listenCollection,
   listenDocument,
+  listenQueryOrder,
+  queryByOrder,
   queryCollection,
   removeMemberFromChannel,
   setDataId,
@@ -45,12 +47,10 @@ export const ChannelProvider = ({ children }) => {
     const docUnsub = listenDocument("channels", channelId, data =>
       dispatch({ type: "FETCH_CHANNEL", payload: data })
     );
-    const colUnsub = listenCollection(
+    const colUnsub = listenQueryOrder(
       data =>
         dispatch({ type: "FETCH_MESSAGES", payload: { channelId, data } }),
-      "channels",
-      channelId,
-      "messages"
+      queryByOrder("createdAt", "channels", channelId, "messages")
     );
     return () => {
       docUnsub();
@@ -61,7 +61,6 @@ export const ChannelProvider = ({ children }) => {
   const sendMessage = async message => {
     try {
       const messageData = {
-        // createdAt: Date.now(),
         content: message,
         from: userId,
         name: users[userId].name,

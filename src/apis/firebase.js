@@ -11,6 +11,7 @@ import {
   where,
   deleteField,
   serverTimestamp,
+  orderBy,
 } from "firebase/firestore";
 import { app } from "../auth/firebase";
 
@@ -57,7 +58,7 @@ export const listenCollection = (actionCreator, ...path) => {
   });
 };
 
-export const queryListener = (actionCreator, q) => {
+export const listenQuery = (actionCreator, q) => {
   return onSnapshot(q, doc => {
     const users = {};
     doc.forEach(doc => {
@@ -71,6 +72,21 @@ export const queryCollection = (col, ...queries) => {
   const q = query(collection(db, col), where(...queries));
   return q;
 };
+
+export const listenQueryOrder = (actionCreator, q) => {
+  return onSnapshot(q, doc => {
+    const data = {};
+    doc.forEach(doc => {
+      data[doc.data().id] = { ...doc.data() };
+    });
+    actionCreator(data);
+  });
+}
+
+export const queryByOrder = (order, ...col) => {
+  const q = query(collection(db, ...col), orderBy(order))
+  return q;
+}
 
 export const createChannel = async (userId, channel) => {
   const batch = writeBatch(db);

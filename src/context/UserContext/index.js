@@ -3,7 +3,7 @@ import {
   setData,
   getData,
   listenDocument,
-  queryListener,
+  listenQuery,
   queryCollection,
 } from "../../apis/firebase";
 import useAuth from "../AuthContext";
@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
 
   // ACTION CREATORS
   const listenChannelMembers = channelId => {
-    queryListener(
+    listenQuery(
       data => dispatch({ type: "FETCH_USERS", payload: data }),
       queryCollection("users", `channels.${channelId}`, "!=", null)
     );
