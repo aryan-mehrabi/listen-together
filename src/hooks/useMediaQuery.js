@@ -14,12 +14,10 @@ const useMediaQuery = query => {
 
     try {
       media.addEventListener("change", listener);
-      alert("i run in try")
       return () => media.removeEventListener("change", listener);
       
     } catch (error) {
       media.addListener(listener)
-      alert("i run in catch")
       return () => media.removeListener(listener)
     }
     // media.onchange = listener
