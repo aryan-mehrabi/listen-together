@@ -18,10 +18,11 @@ const SignUp = () => {
               src={`https://avatars.dicebear.com/api/human/${seed}.svg`}
               alt="avatar"
             />
-            <div className="opacity-0 bg-neutral-700 bg-opacity-70 flex items-center justify-center group-hover:opacity-100 transition-opacity absolute inset-0">
-              <p>click me to see new avatar</p>
+            <div className="opacity-0 bg-neutral-700 bg-opacity-70 flex items-center justify-center sm:group-hover:opacity-100 transition-opacity absolute inset-0">
+              <p>Requst new avatar</p>
             </div>
           </div>
+          <p className="text-neutral-400 sm:hidden mt-3">to change your avatar tap on avatar</p>
         </div>
         <div>
           <input
