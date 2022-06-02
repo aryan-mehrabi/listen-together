@@ -2,7 +2,7 @@ import React from "react";
 import useAuth from "../context/AuthContext";
 import useChannel from "../context/ChannelContext";
 
-const ChannelInfo = () => {
+const ChannelInfo = ({ setIsSettingOpen }) => {
   const { userId } = useAuth();
   const { channels, selectedChannel, leaveChannel } = useChannel();
   const channel = channels[selectedChannel];
@@ -23,7 +23,13 @@ const ChannelInfo = () => {
 
   return (
     <div className="mt-2">
-      <h2 className="text-2xl font-semibold">Info</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold">Info</h2>
+        <i
+          onClick={() => setIsSettingOpen(false)}
+          className="fa-solid fa-xmark text-3xl cursor-pointer"
+        ></i>
+      </div>
       <div className="mt-3.5">
         <p className="text-xl my-3">chatroom 1</p>
         {channel.roles[userId] === "creator" ? deleteButton : leaveButton}

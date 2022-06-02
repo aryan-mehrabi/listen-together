@@ -38,14 +38,14 @@ const Channel = () => {
     <section className="h-full flex w-full">
       {isMobile ? (
         isSettingOpen ? (
-          <ChannelSettings />
+          <ChannelSettings {...{setIsSettingOpen}} />
         ) : (
           channelMain
         )
       ) : (
         <>
           {channelMain}
-          {isSettingOpen && <ChannelSettings />}
+          {isSettingOpen && <ChannelSettings {...{setIsSettingOpen}} />}
         </>
       )}
     </section>

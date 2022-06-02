@@ -14,15 +14,9 @@ const ChannelConversation = () => {
     const channel = channels[selectedChannel];
     if (channel.messages) {
       const messages = Object.values(channel.messages);
-      return messages
-        .sort((a, b) => {
-          if (!b.createdAt || !a.createdAt) {
-            return Infinity;
-          } else {
-            return a.createdAt.seconds - b.createdAt.seconds;
-          }
-        })
-        .map(message => <ChannelMessage key={message.id} {...{ message }} />);
+      return messages.map(message => (
+        <ChannelMessage key={message.id} {...{ message }} />
+      ));
     }
   };
 

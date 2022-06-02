@@ -19,7 +19,7 @@ const ChannelMembers = () => {
       })
       .map(({ userId, name, avatar }) => (
         <div key={userId} className="flex items-center my-2.5">
-          <img src={avatar} alt="avatar" className="w-11 md:w-12" />
+          <img src={avatar} alt="avatar" className="w-11 sm:w-12" />
           <p className="text-lg ml-2">{name}</p>
           <MembersSetting {...{ userId }} />
         </div>
