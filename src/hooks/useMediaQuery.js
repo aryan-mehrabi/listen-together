@@ -20,8 +20,6 @@ const useMediaQuery = query => {
       media.addListener(listener)
       return () => media.removeListener(listener)
     }
-    // media.onchange = listener
-    // return () => media.onchange = null;
   }, [matches, query]);
 
   return matches;

@@ -17,22 +17,28 @@ const MembersSetting = ({ userId }) => {
 
   const promoteButton = (
     <button
+      key="1"
       onClick={() => changeRole(userId, "admin")}
-      className="py-3 w-full border-t border-neutral-500"
+      className="p-3 w-full border-t border-neutral-500"
     >
       Promote to Admin
     </button>
   );
   const demoteButton = (
     <button
+      key="2"
       onClick={() => changeRole(userId, "member")}
-      className="py-3 w-full border-t border-neutral-500"
+      className="p-3 w-full border-t border-neutral-500"
     >
       Demote to Member
     </button>
   );
   const removeButton = (
-    <button onClick={() => removeMember(userId)} className="py-3 w-full">
+    <button
+      key="3"
+      onClick={() => removeMember(userId)}
+      className="p-3 w-full"
+    >
       Remove from Channel
     </button>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
-import Chat from "../pages/Chat";
+import Landing from "../pages/Landing";
 import Modal from "./Modal";
 import useAuth from "../context/AuthContext";
 import useUser from "../context/UserContext";
@@ -19,23 +19,23 @@ const Router = () => {
     if (userId) {
       fetchUser(userId);
     } else if (userId === "") {
-      setPage("home");
+      setPage("landing");
     }
   }, [userId]);
 
   useEffect(() => {
     const authUser = users[userId];
     if (authUser) {
-      Object.values(authUser).length ? setPage("chat") : setPage("signup");
+      Object.values(authUser).length ? setPage("home") : setPage("signup");
     }
   }, [users]);
 
   const renderApp = () => {
     switch (page) {
+      case "landing":
+        return <Landing />;
       case "home":
         return <Home />;
-      case "chat":
-        return <Chat />;
       case "signup":
         return <SignUp />;
       default:
