@@ -9,12 +9,12 @@ import Spinner from "./Spinner";
 
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
-  const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [rightSideBar, setRightSideBar] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   const channelMain = (
     <div className="flex flex-col flex-grow">
-      <ChannelNav {...{ isSettingOpen, setIsSettingOpen }} />
+      <ChannelNav {...{ rightSideBar, setRightSideBar }} />
       <ChannelConversation />
       <ChannelMessageInput />
     </div>
@@ -37,15 +37,15 @@ const Channel = () => {
   return (
     <section className="h-full flex w-full">
       {isMobile ? (
-        isSettingOpen ? (
-          <ChannelSettings {...{setIsSettingOpen}} />
+        rightSideBar ? (
+          <ChannelSettings {...{setRightSideBar}} />
         ) : (
           channelMain
         )
       ) : (
         <>
           {channelMain}
-          {isSettingOpen && <ChannelSettings {...{setIsSettingOpen}} />}
+          {rightSideBar && <ChannelSettings {...{setRightSideBar}} />}
         </>
       )}
     </section>

@@ -1,7 +1,7 @@
 import React from "react";
 import useChannel from "../context/ChannelContext";
 
-const ChannelNav = ({ isSettingOpen, setIsSettingOpen }) => {
+const ChannelNav = ({ rightSideBar, setRightSideBar }) => {
   const { channels, selectedChannel, setSelectedChannel } = useChannel();
 
   return (
@@ -13,8 +13,8 @@ const ChannelNav = ({ isSettingOpen, setIsSettingOpen }) => {
       <h2 className="text-2xl">{channels[selectedChannel].name}</h2>
       <i className="fa-solid fa-music ml-auto mr-6 text-xl"></i>
       <i
-        onClick={() => setIsSettingOpen(!isSettingOpen)}
-        className={`fa-solid fa-users-gear text-xl cursor-pointer ${isSettingOpen ? "text-cta" : ""}`}
+        onClick={() => setRightSideBar(!rightSideBar)}
+        className={`fa-solid fa-users-gear text-xl cursor-pointer ${rightSideBar ? "text-cta" : ""}`}
       ></i>
     </nav>
   );
