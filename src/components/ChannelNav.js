@@ -11,10 +11,21 @@ const ChannelNav = ({ rightSideBar, setRightSideBar }) => {
         className="fa-solid fa-arrow-left text-xl mr-4 cursor-pointer"
       ></i>
       <h2 className="text-2xl">{channels[selectedChannel].name}</h2>
-      <i className="fa-solid fa-music ml-auto mr-6 text-xl"></i>
       <i
-        onClick={() => setRightSideBar(!rightSideBar)}
-        className={`fa-solid fa-users-gear text-xl cursor-pointer ${rightSideBar ? "text-cta" : ""}`}
+        onClick={() =>
+          setRightSideBar(rightSideBar === "player" ? "" : "player")
+        }
+        className={`fa-solid fa-music cursor-pointer ml-auto mr-6 text-xl ${
+          rightSideBar === "player" ? "text-cta" : ""
+        }`}
+      ></i>
+      <i
+        onClick={() =>
+          setRightSideBar(rightSideBar === "setting" ? "" : "setting")
+        }
+        className={`fa-solid fa-users-gear text-xl cursor-pointer ${
+          rightSideBar === "setting" ? "text-cta" : ""
+        }`}
       ></i>
     </nav>
   );

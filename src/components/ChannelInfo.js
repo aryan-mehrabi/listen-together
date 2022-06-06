@@ -2,7 +2,7 @@ import React from "react";
 import useAuth from "../context/AuthContext";
 import useChannel from "../context/ChannelContext";
 
-const ChannelInfo = ({ setIsSettingOpen }) => {
+const ChannelInfo = ({ setRightSideBar }) => {
   const { userId } = useAuth();
   const { channels, selectedChannel, leaveChannel } = useChannel();
   const channel = channels[selectedChannel];
@@ -26,7 +26,7 @@ const ChannelInfo = ({ setIsSettingOpen }) => {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Info</h2>
         <i
-          onClick={() => setIsSettingOpen(false)}
+          onClick={() => setRightSideBar("")}
           className="fa-solid fa-xmark text-3xl cursor-pointer"
         ></i>
       </div>

@@ -9,7 +9,7 @@ import Spinner from "./Spinner";
 
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
-  const [rightSideBar, setRightSideBar] = useState(false);
+  const [rightSideBar, setRightSideBar] = useState("");
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   const channelMain = (
@@ -37,7 +37,7 @@ const Channel = () => {
   return (
     <section className="h-full flex w-full">
       {isMobile ? (
-        rightSideBar ? (
+        rightSideBar === "setting" ? (
           <ChannelSettings {...{setRightSideBar}} />
         ) : (
           channelMain
@@ -45,7 +45,7 @@ const Channel = () => {
       ) : (
         <>
           {channelMain}
-          {rightSideBar && <ChannelSettings {...{setRightSideBar}} />}
+          {rightSideBar === "setting" && <ChannelSettings {...{setRightSideBar}} />}
         </>
       )}
     </section>
