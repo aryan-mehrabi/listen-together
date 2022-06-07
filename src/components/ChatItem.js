@@ -12,7 +12,7 @@ const ChatItem = ({ channel }) => {
               }`}
       onClick={() => setSelectedChannel(channel.id)}
     >
-      <i className="fa-brands fa-itunes-note text-xl sm:text-2xl"></i>
+      <i class="fa-solid fa-headphones text-xl sm:text-xl"></i>
       <p className="ml-4 sm:text-lg text-ellipsis overflow-hidden whitespace-nowrap">
         {channel.name}
       </p>

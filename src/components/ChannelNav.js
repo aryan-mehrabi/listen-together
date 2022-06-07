@@ -15,7 +15,7 @@ const ChannelNav = ({ rightSideBar, setRightSideBar }) => {
         onClick={() =>
           setRightSideBar(rightSideBar === "player" ? "" : "player")
         }
-        className={`fa-solid fa-music cursor-pointer ml-auto mr-6 text-xl ${
+        className={`fa-solid fa-compact-disc cursor-pointer ml-auto mr-6 text-xl ${
           rightSideBar === "player" ? "text-cta" : ""
         }`}
       ></i>
