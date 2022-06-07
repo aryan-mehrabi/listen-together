@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useChannel from "../context/ChannelContext";
 import useMediaQuery from "../hooks/useMediaQuery";
-import ChannelConversation from "./ChannelConversation";
-import ChannelMessageInput from "./ChannelMessageInput";
-import ChannelNav from "./ChannelNav";
+import Chat from "./Chat";
 import ChannelSettings from "./ChannelSettings";
 import Spinner from "./Spinner";
 
@@ -11,14 +9,6 @@ const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
   const [rightSideBar, setRightSideBar] = useState("");
   const isMobile = useMediaQuery("(max-width: 640px)");
-
-  const channelMain = (
-    <div className="flex flex-col flex-grow">
-      <ChannelNav {...{ rightSideBar, setRightSideBar }} />
-      <ChannelConversation />
-      <ChannelMessageInput />
-    </div>
-  );
 
   useEffect(() => {
     if (selectedChannel) {
@@ -40,12 +30,13 @@ const Channel = () => {
         rightSideBar === "setting" ? (
           <ChannelSettings {...{setRightSideBar}} />
         ) : (
-          channelMain
+          <Chat {...{rightSideBar, setRightSideBar
+          }} />
         )
       ) : (
         <>
-          {channelMain}
           {rightSideBar === "setting" && <ChannelSettings {...{setRightSideBar}} />}
+          <Chat {...{rightSideBar, setRightSideBar}} />
         </>
       )}
     </section>
