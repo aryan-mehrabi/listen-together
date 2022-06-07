@@ -3,6 +3,7 @@ import useChannel from "../context/ChannelContext";
 import useMediaQuery from "../hooks/useMediaQuery";
 import Chat from "./Chat";
 import ChannelSettings from "./ChannelSettings";
+import MusicPanel from "./MusicPanel";
 import Spinner from "./Spinner";
 
 const Channel = () => {
@@ -28,15 +29,20 @@ const Channel = () => {
     <section className="h-full flex w-full">
       {isMobile ? (
         rightSideBar === "setting" ? (
-          <ChannelSettings {...{setRightSideBar}} />
+          <ChannelSettings {...{ setRightSideBar }} />
+        ) : rightSideBar === "player" ? (
+          <MusicPanel {...{ rightSideBar }} />
         ) : (
           <Chat {...{rightSideBar, setRightSideBar
           }} />
         )
       ) : (
         <>
-          {rightSideBar === "setting" && <ChannelSettings {...{setRightSideBar}} />}
           <Chat {...{rightSideBar, setRightSideBar}} />
+          <MusicPanel {...{ rightSideBar }} />
+          {rightSideBar === "setting" && (
+            <ChannelSettings {...{ setRightSideBar }} />
+          )}
         </>
       )}
     </section>
