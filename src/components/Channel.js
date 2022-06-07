@@ -31,15 +31,14 @@ const Channel = () => {
         rightSideBar === "setting" ? (
           <ChannelSettings {...{ setRightSideBar }} />
         ) : rightSideBar === "player" ? (
-          <MusicPanel {...{ rightSideBar }} />
+          <MusicPanel {...{ rightSideBar, setRightSideBar }} />
         ) : (
-          <Chat {...{rightSideBar, setRightSideBar
-          }} />
+          <Chat {...{ rightSideBar, setRightSideBar }} />
         )
       ) : (
         <>
-          <Chat {...{rightSideBar, setRightSideBar}} />
-          <MusicPanel {...{ rightSideBar }} />
+          <Chat {...{ rightSideBar, setRightSideBar }} />
+          <MusicPanel {...{ rightSideBar, setRightSideBar }} />
           {rightSideBar === "setting" && (
             <ChannelSettings {...{ setRightSideBar }} />
           )}
