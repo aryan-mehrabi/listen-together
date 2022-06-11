@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import useAuth from "../context/AuthContext";
 import useChannel from "../context/ChannelContext";
 
 const MusicPlayer = ({ widget }) => {
   const ref = useRef();
+  const { userId } = useAuth();
   const { channels, selectedChannel, playTrack, pauseTrack, seekTrack } =
     useChannel();
   const { track, position, isPlaying } = channels[selectedChannel];
+  const roles = channels[selectedChannel].roles
 
   useEffect(() => {
     widget.current = window.SC.Widget(ref.current);
@@ -51,7 +54,7 @@ const MusicPlayer = ({ widget }) => {
 
   return (
     <iframe
-      // className={`pointer-events-none`}
+      className={`${["creator", "admin"].includes(roles[userId]) ? "" : "pointer-events-none"}`}
       ref={ref}
       width="100%"
       height="150"
