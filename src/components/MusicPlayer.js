@@ -1,60 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import useAuth from "../context/AuthContext";
 import useChannel from "../context/ChannelContext";
+import useSyncPlayer from "../hooks/useSyncPlayer";
 
-const MusicPlayer = ({ widget }) => {
-  const ref = useRef();
+const MusicPlayer = () => {
+  const ref = useRef(null);
+  useSyncPlayer(ref);
   const { userId } = useAuth();
-  const { channels, selectedChannel, playTrack, pauseTrack, seekTrack } =
-    useChannel();
-  const { track, position, isPlaying } = channels[selectedChannel];
-  const roles = channels[selectedChannel].roles
-
-  useEffect(() => {
-    widget.current = window.SC.Widget(ref.current);
-    widget.current.bind(window.SC.Widget.Events.READY, () => {
-      widget.current.bind(window.SC.Widget.Events.PLAY, () => {
-        // do this on click play
-        widget.current.getPosition(position => {
-          console.log("play on event handlere");
-          playTrack(position);
-        });
-      });
-      widget.current.bind(window.SC.Widget.Events.PAUSE, () => {
-        // do this on click pause
-        console.log("pause on event handlere");
-        pauseTrack();
-      });
-      widget.current.bind(window.SC.Widget.Events.SEEK, () => {
-        // do this on click seek
-        widget.current.getPosition(position => {
-          seekTrack(position)
-        });
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    widget.current.bind(window.SC.Widget.Events.READY, () => {
-      widget.current.isPaused(isPaused => {
-        if (isPlaying && isPaused) {
-          widget.current.play();
-        } else if (!isPlaying && !isPaused) {
-          widget.current.pause();
-        }
-      });
-    });
-  }, [isPlaying]);
-
-  useEffect(() => {
-    widget.current.bind(window.SC.Widget.Events.READY, () => {
-      widget.current.seekTo(position);
-    });
-  }, [position]);
+  const { channels, selectedChannel } = useChannel();
+  const { track, roles } = channels[selectedChannel];
 
   return (
     <iframe
-      className={`${["creator", "admin"].includes(roles[userId]) ? "" : "pointer-events-none"}`}
+      className={`${
+        ["creator", "admin"].includes(roles[userId])
+          ? ""
+          : "pointer-events-none"
+      }`}
       ref={ref}
       width="100%"
       height="150"

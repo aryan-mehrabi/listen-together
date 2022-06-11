@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import MusicPlayer from "./MusicPlayer";
 
 const MusicPanel = ({ rightSideBar, setRightSideBar }) => {
-  const widget = useRef();
   const [searchTerm, setSearchTerm] = useState("")
 
   return (
@@ -53,7 +52,7 @@ const MusicPanel = ({ rightSideBar, setRightSideBar }) => {
         </>
       )}
       <div className="mt-auto">
-        <MusicPlayer {...{ widget }} />
+        <MusicPlayer  />
       </div>
     </div>
   );
