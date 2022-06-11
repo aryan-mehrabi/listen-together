@@ -34,6 +34,9 @@ export const ChannelProvider = ({ children }) => {
       roles: {
         [userId]: "creator",
       },
+      track: "303102630",
+      isPlaying: false,
+      position: 0,
     };
     try {
       await generateChannel(userId, channelData);
@@ -116,6 +119,29 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
+  const playTrack = async position => {
+    try {
+      await updateData({ isPlaying: true, position }, "channels", selectedChannel);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const pauseTrack = async () => {
+    try {
+      await updateData({ isPlaying: false }, "channels", selectedChannel);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const seekTrack = async position => {
+    try {
+      await updateData({ position }, "channels", selectedChannel);
+    } catch (error) {
+      throw error;
+    }
+  };
   // STORE
   const value = {
     channels: state,
@@ -128,6 +154,9 @@ export const ChannelProvider = ({ children }) => {
     leaveChannel,
     removeMember,
     changeRole,
+    playTrack,
+    pauseTrack,
+    seekTrack,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>
