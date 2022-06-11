@@ -24,17 +24,23 @@ const Channel = () => {
       </div>
     );
   }
+  const renderMobile = () => {
+    return (
+      <>
+        <MusicPanel {...{ rightSideBar, setRightSideBar }} />
+        {rightSideBar === "setting" ? (
+          <ChannelSettings {...{ setRightSideBar }} />
+        ) : rightSideBar === "" ? (
+          <Chat {...{ rightSideBar, setRightSideBar }} />
+        ) : null}
+      </>
+    );
+  };
 
   return (
     <section className="h-full flex w-full">
       {isMobile ? (
-        rightSideBar === "setting" ? (
-          <ChannelSettings {...{ setRightSideBar }} />
-        ) : rightSideBar === "player" ? (
-          <MusicPanel {...{ rightSideBar, setRightSideBar }} />
-        ) : (
-          <Chat {...{ rightSideBar, setRightSideBar }} />
-        )
+        renderMobile()
       ) : (
         <>
           <Chat {...{ rightSideBar, setRightSideBar }} />
