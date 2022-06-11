@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import MusicPlayer from "./MusicPlayer";
 
 const MusicPanel = ({ rightSideBar, setRightSideBar }) => {
   const widget = useRef();
+  const [searchTerm, setSearchTerm] = useState("")
 
   return (
     <div
@@ -22,6 +23,8 @@ const MusicPanel = ({ rightSideBar, setRightSideBar }) => {
               ></i>
             </div>
             <input
+              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
               placeholder="Search for artists, tracks"
               type="text"
               className="w-full mt-6 mb-2 bg-neutral-700 p-2 rounded-sm"
