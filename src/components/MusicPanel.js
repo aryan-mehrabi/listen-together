@@ -34,7 +34,7 @@ const MusicPanel = ({ rightSideBar, setRightSideBar }) => {
                 <p className="my-1">artist name</p>
               </div>
               <button className="ml-auto text-xl p-2">
-                <i class="fa-solid fa-play"></i>
+                <i className="fa-solid fa-play"></i>
               </button>
             </div>
             <div className="flex border-b border-neutral-700 py-2">
