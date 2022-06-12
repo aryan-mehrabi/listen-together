@@ -16,11 +16,11 @@ const ChannelMessageInput = () => {
       onSubmit={onSubmitForm}
       className="flex p-3 border-t border-neutral-700"
     >
-      <input
+      <textarea
         onChange={e => setMessage(e.target.value.trimStart())}
         value={message}
         placeholder="Type a message"
-        className="flex-grow bg-neutral-700 h-10 rounded outline-none p-2"
+        className="flex-grow bg-neutral-700 h-10 rounded outline-none p-2 resize-none"
         type="text"
       />
       <button

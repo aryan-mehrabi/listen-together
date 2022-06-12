@@ -43,7 +43,7 @@ const SideBar = () => {
       <div className="text-center border-b border-neutral-700">
         <button
           onClick={() => setModal(<CreateChannel />)}
-          className=" font-semibold sm:text-lg text-cta rounded-sm py-2 px-4 my-4"
+          className=" font-semibold sm:text-lg text-cta w-full py-4"
         >
           Create a Channel
         </button>

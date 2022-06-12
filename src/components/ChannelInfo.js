@@ -31,7 +31,7 @@ const ChannelInfo = ({ setRightSideBar }) => {
         ></i>
       </div>
       <div className="mt-3.5">
-        <p className="text-xl my-3">chatroom 1</p>
+        <p className="text-xl my-3">{channel.name}</p>
         {channel.roles[userId] === "creator" ? deleteButton : leaveButton}
       </div>
     </div>
