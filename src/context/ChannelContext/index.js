@@ -2,9 +2,8 @@ import React, { createContext, useContext, useReducer, useState } from "react";
 import {
   addMemberToChannel,
   createChannel as generateChannel,
-  listenCollection,
   listenDocument,
-  listenQueryOrder,
+  listenQuery,
   queryByOrder,
   queryCollection,
   removeMemberFromChannel,
@@ -50,7 +49,7 @@ export const ChannelProvider = ({ children }) => {
     const docUnsub = listenDocument("channels", channelId, data =>
       dispatch({ type: "FETCH_CHANNEL", payload: data })
     );
-    const colUnsub = listenQueryOrder(
+    const colUnsub = listenQuery(
       data =>
         dispatch({ type: "FETCH_MESSAGES", payload: { channelId, data } }),
       queryByOrder("createdAt", "channels", channelId, "messages")
@@ -121,7 +120,11 @@ export const ChannelProvider = ({ children }) => {
 
   const playTrack = async position => {
     try {
-      await updateData({ isPlaying: true, position }, "channels", selectedChannel);
+      await updateData(
+        { isPlaying: true, position },
+        "channels",
+        selectedChannel
+      );
     } catch (error) {
       throw error;
     }

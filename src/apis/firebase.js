@@ -17,17 +17,21 @@ import { app } from "../auth/firebase";
 
 const db = getFirestore(app);
 
-export const setData = async (documentData, ...path) => {
-  await setDoc(doc(db, ...path), documentData);
+export const setData = async (data, ...path) => {
+  await setDoc(doc(db, ...path), data);
 };
 
 export const setDataId = async (data, ...path) => {
   const docRef = doc(collection(db, ...path));
-  await setDoc(docRef, { ...data, id: docRef.id, createdAt: serverTimestamp() });
+  await setDoc(docRef, {
+    ...data,
+    id: docRef.id,
+    createdAt: serverTimestamp(),
+  });
 };
 
-export const getData = async (collection, document) => {
-  const docRef = doc(db, collection, document);
+export const getData = async (...path) => {
+  const docRef = doc(db, ...path);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
@@ -38,9 +42,9 @@ export const getData = async (collection, document) => {
 };
 
 export const updateData = async (update, ...path) => {
-  const docRef = doc(db, ...path)
-  await updateDoc(docRef, update)
-}
+  const docRef = doc(db, ...path);
+  await updateDoc(docRef, update);
+};
 
 export const listenDocument = (collection, document, actionCreator) => {
   return onSnapshot(doc(db, collection, document), doc => {
@@ -48,23 +52,9 @@ export const listenDocument = (collection, document, actionCreator) => {
   });
 };
 
-export const listenCollection = (actionCreator, ...path) => {
-  return onSnapshot(collection(db, ...path), doc => {
-    const messages = {};
-    doc.forEach(doc => {
-      messages[doc.data().id] = { ...doc.data() };
-    });
-    actionCreator(messages);
-  });
-};
-
 export const listenQuery = (actionCreator, q) => {
   return onSnapshot(q, doc => {
-    const users = {};
-    doc.forEach(doc => {
-      users[doc.data().userId] = { ...doc.data() };
-    });
-    actionCreator(users);
+    actionCreator(doc);
   });
 };
 
@@ -73,29 +63,17 @@ export const queryCollection = (col, ...queries) => {
   return q;
 };
 
-export const listenQueryOrder = (actionCreator, q) => {
-  return onSnapshot(q, doc => {
-    const data = {};
-    doc.forEach(doc => {
-      data[doc.data().id] = { ...doc.data() };
-    });
-    actionCreator(data);
-  });
-}
-
 export const queryByOrder = (order, ...col) => {
-  const q = query(collection(db, ...col), orderBy(order))
+  const q = query(collection(db, ...col), orderBy(order));
   return q;
-}
+};
 
 export const createChannel = async (userId, channel) => {
   const batch = writeBatch(db);
 
-  // Set
   const channelRef = doc(collection(db, "channels"));
   batch.set(channelRef, { ...channel, id: channelRef.id });
 
-  // Update
   const newChannel = {
     id: channelRef.id,
     name: channel.name,
@@ -103,7 +81,6 @@ export const createChannel = async (userId, channel) => {
   const userRef = doc(db, "users", userId);
   batch.update(userRef, { [`channels.${channelRef.id}`]: newChannel });
 
-  // Commit the batch
   await batch.commit();
 };
 
