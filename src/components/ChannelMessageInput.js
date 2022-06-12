@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import useChannel from "../context/ChannelContext";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
+  const formRef = useRef(null);
   const { sendMessage } = useChannel();
 
   const onSubmitForm = e => {
@@ -11,12 +13,21 @@ const ChannelMessageInput = () => {
     setMessage("");
   };
 
+  const onEnterPress = e => {
+    if (e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      formRef.current.requestSubmit();
+    }
+  };
+
   return (
     <form
+      ref={formRef}
       onSubmit={onSubmitForm}
       className="flex p-3 border-t border-neutral-700"
     >
       <textarea
+        onKeyDown={onEnterPress}
         onChange={e => setMessage(e.target.value.trimStart())}
         value={message}
         placeholder="Type a message"
