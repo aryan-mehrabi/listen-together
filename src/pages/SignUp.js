@@ -4,25 +4,48 @@ import useUser from "../context/UserContext";
 const SignUp = () => {
   const [name, setName] = useState("");
   const [seed, setSeed] = useState(Math.random());
+  const [gender, setGender] = useState("human");
   const { createUser } = useUser();
 
   return (
     <div className=" flex items-center justify-center h-full">
-      <div className="text-center w-72">
-        <div className="w-3/4 mx-auto mb-10">
-          <div
-            onClick={() => setSeed(Math.random())}
-            className="group relative rounded-sm overflow-hidden cursor-pointer"
-          >
-            <img
-              src={`https://avatars.dicebear.com/api/human/${seed}.svg`}
-              alt="avatar"
-            />
-            <div className="opacity-0 bg-neutral-700 bg-opacity-70 flex items-center justify-center sm:group-hover:opacity-100 transition-opacity absolute inset-0">
-              <p>Requst new avatar</p>
+      <div className="w-72">
+        <div className="w-3/4 mx-auto mb-6">
+          <img
+            src={`https://avatars.dicebear.com/api/${gender}/${seed}.svg`}
+            alt="avatar"
+          />
+          <div className="w-full flex justify-around mt-2">
+            <div
+              className="cursor-pointer p-1"
+              title="male"
+              onClick={() => setGender("male")}
+            >
+              <i
+                class={`fa-solid fa-person text-2xl ${
+                  gender === "male" ? "text-cta" : ""
+                }`}
+              ></i>
+            </div>
+            <div
+              className="cursor-pointer p-1"
+              title="female"
+              onClick={() => setGender("female")}
+            >
+              <i
+                class={`fa-solid fa-person-dress text-2xl ${
+                  gender === "female" ? "text-cta" : ""
+                }`}
+              ></i>
+            </div>
+            <div
+              className="cursor-pointer p-1"
+              title="reload"
+              onClick={() => setSeed(Math.random())}
+            >
+              <i class="fa-solid fa-arrows-rotate text-2xl "></i>
             </div>
           </div>
-          <p className="text-neutral-400 sm:hidden mt-3">to change your avatar tap on avatar</p>
         </div>
         <div>
           <input
