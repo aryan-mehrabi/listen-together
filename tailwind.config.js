@@ -8,6 +8,15 @@ module.exports = {
         secondary: "#E6ECEF",
         cta: "#31ABC4",
       },
+      keyframes: {
+        fillbar: {
+          "0%": { width: "0" },
+          "50%": { width: "100%" },
+        },
+      },
+      animation: {
+        fillbar: "fillbar 7.5s linear",
+      },
     },
   },
   plugins: [],
