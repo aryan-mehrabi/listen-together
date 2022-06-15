@@ -7,7 +7,7 @@ const ChannelMessage = ({ message }) => {
 
   const getMessageTime = () => {
     const time = createdAt?.toDate();
-    if (!time) return <i class="fa-solid fa-clock text-[11px]"></i>;
+    if (!time) return <i className="fa-solid fa-clock text-[11px]"></i>;
 
     const hour = time.getHours().toString();
     const minute = time.getMinutes().toString();

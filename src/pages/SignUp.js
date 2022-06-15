@@ -22,7 +22,7 @@ const SignUp = () => {
               onClick={() => setGender("male")}
             >
               <i
-                class={`fa-solid fa-person text-2xl ${
+                className={`fa-solid fa-person text-2xl ${
                   gender === "male" ? "text-cta" : ""
                 }`}
               ></i>
@@ -33,7 +33,7 @@ const SignUp = () => {
               onClick={() => setGender("female")}
             >
               <i
-                class={`fa-solid fa-person-dress text-2xl ${
+                className={`fa-solid fa-person-dress text-2xl ${
                   gender === "female" ? "text-cta" : ""
                 }`}
               ></i>
@@ -43,7 +43,7 @@ const SignUp = () => {
               title="reload"
               onClick={() => setSeed(Math.random())}
             >
-              <i class="fa-solid fa-arrows-rotate text-2xl "></i>
+              <i className="fa-solid fa-arrows-rotate text-2xl "></i>
             </div>
           </div>
         </div>
