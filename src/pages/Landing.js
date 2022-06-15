@@ -1,9 +1,11 @@
 import React from "react";
 import heroImage from "../assets/hero-section.jpg";
 import useAuth from "../context/AuthContext";
+import useError from "../hooks/useError";
 
 const Home = () => {
-  const { logIn } = useAuth();
+  const { logIn, error, dismissError } = useAuth();
+  const errorComponent = useError(error, dismissError)
 
   return (
     <div
@@ -11,6 +13,7 @@ const Home = () => {
       className="bg-cover bg-blend-overlay bg-center h-full bg-primary 
       flex flex-col justify-center items-center text-center"
     >
+      {errorComponent}
       <div>
         <h1 className="text-5xl md:text-6xl m-3">LET'S LISTEN TOGETHER</h1>
         <p className="text-base md:text-lg mx-3">
@@ -30,20 +33,20 @@ const Home = () => {
           href="https://github.com/aryan-mehrabi/listen-together"
           className="text-2xl mx-4 my-4 p-1"
         >
-          <i class="fa-brands fa-github"></i>
+          <i className="fa-brands fa-github"></i>
         </a>
         <a
           target="_blank"
           href="https://www.linkedin.com/in/aryan-mehrabi/"
           className="text-2xl mx-4 my-4 p-1"
         >
-          <i class="fa-brands fa-linkedin"></i>
+          <i className="fa-brands fa-linkedin"></i>
         </a>
         <a
           href="mailto:aryan.me77@yahoo.com"
           className="text-2xl mx-4 my-4 p-1"
         >
-          <i class="fa-solid fa-envelope"></i>
+          <i className="fa-solid fa-envelope"></i>
         </a>
       </footer>
     </div>

@@ -3,7 +3,7 @@ import authReducer from "./authReducer";
 import { tryLogIn, tryLogOut } from "../../auth/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const initValue = { userId: null, email: null, errors: "" };
+const initValue = { userId: null, email: null, error: "" };
 const AuthContext = createContext(initValue);
 
 export const AuthProvider = ({ children }) => {
@@ -27,23 +27,27 @@ export const AuthProvider = ({ children }) => {
     try {
       await tryLogIn();
     } catch (error) {
-      console.log(error.message)
-      dispatch({ type: "AUTH_ERROR" , payload: error})
+      console.log(error.message);
+      dispatch({ type: "AUTH_ERROR", payload: error });
     }
   };
   const logOut = async () => {
     try {
       await tryLogOut();
     } catch (error) {
-      console.log(error.message)
-      dispatch({ type: "AUTH_ERROR" , payload: error})
+      console.log(error.message);
+      dispatch({ type: "AUTH_ERROR", payload: error });
     }
+  };
+  const dismissError = () => {
+    dispatch({ type: "AUTH_ERROR_DISMISS" });
   };
 
   const value = {
     ...state,
     logIn,
     logOut,
+    dismissError,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -5,7 +5,9 @@ const authReducer = (state, { type, payload }) => {
     case "LOG_OUT":
       return { ...state, userId: "", email: "" };
     case "AUTH_ERROR":
-      break;
+      return { ...state, error: payload.code };
+    case "AUTH_ERROR_DISMISS":
+      return { ...state, error: "" };
     default:
       return state;
   }
