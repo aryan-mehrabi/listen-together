@@ -15,6 +15,7 @@ import useUser from "../UserContext";
 import useAuth from "../AuthContext";
 import useModal from "../ModalContext";
 import { getDocs } from "firebase/firestore";
+import Alert from "../../components/Alert";
 
 const initValue = {};
 const ChannelContext = createContext(initValue);
@@ -46,8 +47,11 @@ export const ChannelProvider = ({ children }) => {
   };
 
   const listenChannel = async channelId => {
-    const docUnsub = listenDocument("channels", channelId, data =>
-      dispatch({ type: "FETCH_CHANNEL", payload: data })
+    const docUnsub = listenDocument(
+      data => dispatch({ type: "FETCH_CHANNEL", payload: data }),
+      error => console.log(error),
+      "channels",
+      channelId
     );
     const colUnsub = listenQuery(
       data =>
@@ -82,7 +86,9 @@ export const ChannelProvider = ({ children }) => {
         const user = docs.docs[0].data();
         await addMemberToChannel(user.userId, state[selectedChannel]);
       } else {
-        console.log("no doc");
+        setModal(
+          <Alert>We couldn't find any user with this email address.</Alert>
+        );
       }
     } catch (error) {
       console.log(error);
