@@ -1,7 +1,6 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import React, { createContext, useReducer, useContext, useState } from "react";
 import {
   setData,
-  getData,
   listenDocument,
   listenQuery,
   queryCollection,
@@ -14,13 +13,8 @@ const UserContext = createContext(initValue);
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
+  const [error, setError] = useState("");
   const { userId, email } = useAuth();
-
-  useEffect(() => {
-    if (userId) {
-      listenDocument("users", userId, listenUser);
-    }
-  }, [userId]);
 
   // ACTION CREATORS
   const listenChannelMembers = channelId => {
@@ -30,12 +24,21 @@ export const UserProvider = ({ children }) => {
     );
   };
 
-  const listenUser = data => {
-    if (data) {
-      dispatch({ type: "FETCH_USER", payload: data });
-    } else {
-      dispatch({ type: "USER_NOT_FOUND", payload: userId });
-    }
+  const listenUser = userId => {
+    listenDocument(
+      data => {
+        if (data) {
+          dispatch({ type: "FETCH_USER", payload: data });
+        } else {
+          dispatch({ type: "USER_NOT_FOUND", payload: userId });
+        }
+      },
+      error => {
+        setError(error.message)
+      },
+      "users",
+      userId
+    );
   };
 
   const createUser = async (name, seed) => {
@@ -53,24 +56,13 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const fetchUser = async uid => {
-    try {
-      const result = await getData("users", uid);
-      if (result === "Not Found") {
-        dispatch({ type: "USER_NOT_FOUND", payload: uid });
-      } else {
-        dispatch({ type: "FETCH_USER", payload: result });
-      }
-    } catch (error) {
-      console.log("error3");
-    }
-  };
-
   // STORE
   const value = {
     users: state,
+    error,
+    setError,
     createUser,
-    fetchUser,
+    listenUser,
     listenChannelMembers,
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;

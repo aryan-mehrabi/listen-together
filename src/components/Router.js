@@ -8,16 +8,19 @@ import useUser from "../context/UserContext";
 import usePage from "../context/PageContext";
 import useModal from "../context/ModalContext";
 import Spinner from "./Spinner";
+import ErrorBanner from "./ErrorBanner";
+import useError from "../hooks/useError";
 
 const Router = () => {
   const { modal } = useModal();
   const { userId } = useAuth();
-  const { fetchUser, users } = useUser();
+  const { listenUser, users, error, setError } = useUser();
+  const errorComponent = useError(error, () => setError(""))
   const { page, setPage } = usePage();
 
   useEffect(() => {
     if (userId) {
-      fetchUser(userId);
+      listenUser(userId);
     } else if (userId === "") {
       setPage("landing");
     }
@@ -42,6 +45,7 @@ const Router = () => {
         return (
           <div className="flex items-center justify-center h-full">
             <Spinner />
+            {errorComponent}
           </div>
         );
     }

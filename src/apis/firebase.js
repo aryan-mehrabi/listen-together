@@ -46,10 +46,18 @@ export const updateData = async (update, ...path) => {
   await updateDoc(docRef, update);
 };
 
-export const listenDocument = (collection, document, actionCreator) => {
-  return onSnapshot(doc(db, collection, document), doc => {
-    actionCreator(doc.data());
-  });
+export const listenDocument = (actionCreator, errorCallback, ...path) => {
+  return onSnapshot(
+    doc(db, ...path),
+    doc => {
+      if (doc.metadata.fromCache) {
+        errorCallback(new Error("No internet connection. Make sure you have an active internet connection."));
+      } else {
+        actionCreator(doc.data());
+      }
+    },
+    errorCallback
+  );
 };
 
 export const listenQuery = (actionCreator, q) => {
