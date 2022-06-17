@@ -1,29 +1,23 @@
-import React, { useRef } from "react";
+import React from "react";
 import useAuth from "../context/AuthContext";
 import useChannel from "../context/ChannelContext";
-import useSyncPlayer from "../hooks/useSyncPlayer";
+import useYTPlayer from "../hooks/useYTPlayer";
 
 const MusicPlayer = () => {
-  const ref = useRef(null);
-  useSyncPlayer(ref);
+  useYTPlayer();
   const { userId } = useAuth();
   const { channels, selectedChannel } = useChannel();
   const { track, roles } = channels[selectedChannel];
 
   return (
     <iframe
-      className={`${
-        ["creator", "admin"].includes(roles[userId])
-          ? ""
-          : "pointer-events-none"
-      }`}
-      ref={ref}
+      className={["admin", "creator"].includes(roles[userId]) ? "" : "pointer-events-none"}
+      id="yt-player"
       width="100%"
-      height="150"
-      scrolling="no"
-      frameBorder="no"
-      allow="autoplay"
-      src={`https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${track}&color=%231a1d1e&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&download=false&sharing=false&single_active=false`}
+      src={`https://www.youtube.com/embed/${track}?enablejsapi=1`}
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     ></iframe>
   );
 };
