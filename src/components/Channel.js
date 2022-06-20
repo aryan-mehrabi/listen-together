@@ -20,7 +20,7 @@ const Channel = () => {
   if (!channels[selectedChannel]) {
     return (
       <div className="flex items-center justify-center h-full w-full">
-        <Spinner />
+        <Spinner className="w-14 h-14" />
       </div>
     );
   }
@@ -38,19 +38,19 @@ const Channel = () => {
   };
 
   return (
-    <section className="h-full flex w-full">
-      {isMobile ? (
-        renderMobile()
-      ) : (
-        <>
-          <Chat {...{ rightSideBar, setRightSideBar }} />
+      <section className="h-full flex w-full">
+        {isMobile ? (
+          renderMobile()
+          ) : (
+          <>
+            <Chat {...{ rightSideBar, setRightSideBar }} />
             <MusicSettings {...{ rightSideBar, setRightSideBar }} />
-          {rightSideBar === "setting" && (
-            <ChannelSettings {...{ setRightSideBar }} />
-          )}
-        </>
-      )}
-    </section>
+            {rightSideBar === "setting" && (
+              <ChannelSettings {...{ setRightSideBar }} />
+              )}
+          </>
+        )}
+      </section>
   );
 };
 

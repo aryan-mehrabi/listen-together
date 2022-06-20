@@ -144,13 +144,14 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const seekTrack = async position => {
+  const updateTrack = async track => {
     try {
-      await updateData({ position }, "channels", selectedChannel);
+      await updateData({ track }, "channels", selectedChannel);
     } catch (error) {
-      throw error;
+      throw error
     }
   };
+
   // STORE
   const value = {
     channels: state,
@@ -165,7 +166,7 @@ export const ChannelProvider = ({ children }) => {
     changeRole,
     playTrack,
     pauseTrack,
-    seekTrack,
+    updateTrack,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

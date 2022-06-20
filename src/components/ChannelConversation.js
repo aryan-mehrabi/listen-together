@@ -5,17 +5,17 @@ import ChannelMessage from "./ChannelMessage";
 const ChannelConversation = () => {
   const { channels, selectedChannel } = useChannel();
   const scrollBottom = useRef(null);
+  const {messages, roles} = channels[selectedChannel];
 
   useEffect(() => {
     scrollBottom.current.scrollIntoView({ behavior: "smooth" });
-  }, [channels[selectedChannel].messages]);
+  }, [messages]);
 
   const renderMessages = () => {
-    const channel = channels[selectedChannel];
-    if (channel.messages) {
-      const messages = Object.values(channel.messages);
-      return messages.map(message => (
-        <ChannelMessage key={message.id} {...{ message }} />
+    if (messages) {
+      const messagesArr = Object.values(messages);
+      return messagesArr.map(message => (
+        <ChannelMessage key={message.id} {...{ message, roles }} />
       ));
     }
   };

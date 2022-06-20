@@ -4,9 +4,8 @@ import useEventCallback from "./useEventCallback";
 
 const useYTPlayer = () => {
   const [player, setPlayer] = useState(null);
-  const { channels, selectedChannel, playTrack, pauseTrack, seekTrack } =
-    useChannel();
-  const { position, isPlaying } = channels[selectedChannel];
+  const { channels, selectedChannel, playTrack, pauseTrack } = useChannel();
+  const { position, isPlaying, track } = channels[selectedChannel];
   const playerPosition = useRef(position);
 
   // send server changes on player and prevent from resending
@@ -59,6 +58,10 @@ const useYTPlayer = () => {
   useEffect(() => {
     player?.seekTo(position);
   }, [position]);
+
+  useEffect(() => {
+    player?.loadVideoById(track);
+  }, [track]);
 };
 
 export default useYTPlayer;

@@ -15,7 +15,7 @@ const Router = () => {
   const { modal } = useModal();
   const { userId } = useAuth();
   const { listenUser, users, error, setError } = useUser();
-  const errorComponent = useError(error, () => setError(""))
+  const errorComponent = useError(error, () => setError(""));
   const { page, setPage } = usePage();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const Router = () => {
       default:
         return (
           <div className="flex items-center justify-center h-full">
-            <Spinner />
+              <Spinner className="w-14 h-14" />
             {errorComponent}
           </div>
         );
