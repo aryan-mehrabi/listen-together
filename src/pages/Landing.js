@@ -3,9 +3,9 @@ import heroImage from "../assets/hero-section.jpg";
 import useAuth from "../context/AuthContext";
 import useError from "../hooks/useError";
 
-const Home = () => {
-  const { logIn, error, dismissError } = useAuth();
-  const errorComponent = useError(error, dismissError)
+const Landing = () => {
+  const { logInAnonymous, logIn, error, dismissError } = useAuth();
+  const errorComponent = useError(error, dismissError);
 
   return (
     <div
@@ -20,12 +20,20 @@ const Home = () => {
           Listen to your favorite music synchornously and discuss it with your
           friends.
         </p>
-        <button
-          onClick={logIn}
-          className="bg-secondary text-primary text-base md:text-lg font-semibold rounded-sm p-3 m-10"
-        >
-          <i className="fa-brands fa-google pr-3"></i>Sign in with Google
-        </button>
+        <div className="flex items-center justify-center flex-col sm:flex-row gap-5 text-primary md:text-lg m-10">
+          <button
+            onClick={logIn}
+            className="bg-secondary rounded-sm p-3 font-semibold"
+          >
+            <i className="fa-brands fa-google pr-3"></i>Sign in with Google
+          </button>
+          <button
+            onClick={logInAnonymous}
+            className="bg-secondary rounded-sm p-3 font-semibold"
+          >
+            <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
+          </button>
+        </div>
       </div>
       <footer className="absolute w-full bottom-0 left-0 flex justify-center">
         <a
@@ -53,4 +61,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Landing;

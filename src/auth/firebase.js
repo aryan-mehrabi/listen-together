@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   signOut,
   signInWithRedirect,
+  signInAnonymously,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -20,6 +21,10 @@ export const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 
 const auth = getAuth();
+
+export const tryLogInAnonymous = async () => {
+  await signInAnonymously(auth);
+};
 
 export const tryLogIn = async () => {
   await signInWithRedirect(auth, provider);
