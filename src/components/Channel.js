@@ -3,7 +3,7 @@ import useChannel from "../context/ChannelContext";
 import useMediaQuery from "../hooks/useMediaQuery";
 import Chat from "./Chat";
 import ChannelSettings from "./ChannelSettings";
-import MusicPanel from "./MusicPanel";
+import MusicSettings from "./MusicSettings";
 import Spinner from "./Spinner";
 
 const Channel = () => {
@@ -27,7 +27,7 @@ const Channel = () => {
   const renderMobile = () => {
     return (
       <>
-        <MusicPanel {...{ rightSideBar, setRightSideBar }} />
+        <MusicSettings {...{ rightSideBar, setRightSideBar }} />
         {rightSideBar === "setting" ? (
           <ChannelSettings {...{ setRightSideBar }} />
         ) : rightSideBar === "" ? (
@@ -44,7 +44,7 @@ const Channel = () => {
       ) : (
         <>
           <Chat {...{ rightSideBar, setRightSideBar }} />
-          <MusicPanel {...{ rightSideBar, setRightSideBar }} />
+            <MusicSettings {...{ rightSideBar, setRightSideBar }} />
           {rightSideBar === "setting" && (
             <ChannelSettings {...{ setRightSideBar }} />
           )}
