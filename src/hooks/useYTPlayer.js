@@ -6,7 +6,6 @@ const useYTPlayer = () => {
   const [player, setPlayer] = useState(null);
   const { channels, selectedChannel, playTrack, pauseTrack } = useChannel();
   const { position, isPlaying, track } = channels[selectedChannel];
-  const playerPosition = useRef(position);
 
   // send server changes on player and prevent from resending
   const onPlayerStateChange = useEventCallback(
@@ -23,6 +22,12 @@ const useYTPlayer = () => {
     },
     [isPlaying]
   );
+
+  const removeCallbacks = useEventCallback(() => {
+    player.removeEventListener("onReady", onPlayerReady);
+    player.removeEventListener("onStateChange", onPlayerStateChange);
+    player.destroy();
+  }, [player]);
 
   // sync player with server on mount
   const onPlayerReady = event => {
@@ -44,6 +49,7 @@ const useYTPlayer = () => {
         })
       );
     })();
+    return removeCallbacks
   }, []);
 
   // receive status from server and take the appropriate action

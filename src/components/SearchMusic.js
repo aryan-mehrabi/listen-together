@@ -63,7 +63,7 @@ const SearchMusic = ({ setRightSideBar }) => {
           className="w-full mt-6 mb-2 bg-neutral-700 p-2 rounded-sm"
         />
       </div>
-      <div className="overflow-auto">{renderMusicItems()}</div>
+      <div className="overflow-y-auto overflow-x-hidden">{renderMusicItems()}</div>
     </>
   );
 };

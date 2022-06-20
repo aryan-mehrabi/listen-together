@@ -1,7 +1,6 @@
 import React from "react";
 import Router from "./Router";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthProvider } from "../context/AuthContext";
 import { UserProvider } from "../context/UserContext";
 import { PageProvider } from "../context/PageContext";
@@ -26,7 +25,6 @@ const App = () => {
           </UserProvider>
         </AuthProvider>
       </ModalProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
