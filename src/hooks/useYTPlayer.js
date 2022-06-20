@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useChannel from "../context/ChannelContext";
 import useEventCallback from "./useEventCallback";
 
@@ -49,7 +49,7 @@ const useYTPlayer = () => {
         })
       );
     })();
-    return removeCallbacks
+    return removeCallbacks;
   }, []);
 
   // receive status from server and take the appropriate action
@@ -62,11 +62,15 @@ const useYTPlayer = () => {
   }, [isPlaying]);
 
   useEffect(() => {
-    player?.seekTo(position);
+    if (player?.seekTo) {
+      player.seekTo(position);
+    }
   }, [position]);
 
   useEffect(() => {
-    player?.loadVideoById(track);
+    if (player?.loadVideoById) {
+      player.loadVideoById(track);
+    }
   }, [track]);
 };
 
