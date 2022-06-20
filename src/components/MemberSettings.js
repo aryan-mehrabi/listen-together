@@ -4,7 +4,7 @@ import useChannel from "../context/ChannelContext";
 import useUser from "../context/UserContext";
 import DropDown from "./DropDown";
 
-const MembersSetting = ({ userId }) => {
+const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
   const { selectedChannel, channels, removeMember, changeRole } = useChannel();
@@ -74,4 +74,4 @@ const MembersSetting = ({ userId }) => {
   );
 };
 
-export default MembersSetting;
+export default MemberSettings;
