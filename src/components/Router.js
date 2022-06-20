@@ -8,7 +8,6 @@ import useUser from "../context/UserContext";
 import usePage from "../context/PageContext";
 import useModal from "../context/ModalContext";
 import Spinner from "./Spinner";
-import ErrorBanner from "./ErrorBanner";
 import useError from "../hooks/useError";
 
 const Router = () => {
@@ -50,6 +49,7 @@ const Router = () => {
         );
     }
   };
+  
   return (
     <>
       {modal && <Modal>{modal}</Modal>}

@@ -19,7 +19,7 @@ const ChannelMessage = ({ message, roles }) => {
     if (typeof content === "object") {
       return (
         <div className="flex items-center pt-2">
-          <img className="w-20" src={content.thumbnail} alt="" />
+          <img className="w-14 md:w-20" src={content.thumbnail} alt="track thumbnail" />
           <p className="mx-3">{content.title}</p>
           {roles[userId] === "member" || (
             <div
@@ -38,7 +38,7 @@ const ChannelMessage = ({ message, roles }) => {
 
   if (userId === from) {
     return (
-      <div className="ml-auto my-1 max-w-[80%]">
+      <div className="ml-auto my-1 max-w-[90%] md:max-w-[80%]">
         <div className="bg-secondary rounded-sm p-2 ml-2">
           <div className="text-primary">{messageContent}</div>
           <p className="text-primary opacity-75 mt-1 mb-[-4px] text-sm text-right">
@@ -49,7 +49,7 @@ const ChannelMessage = ({ message, roles }) => {
     );
   } else {
     return (
-      <div className="flex items-start my-1 max-w-[80%]">
+      <div className="flex items-start my-1 max-w-[90%] md:max-w-[80%]">
         <img className="w-10 mt-2" src={avatar} alt="avatar" />
         <div className="bg-neutral-700 rounded-sm p-2 ml-2">
           <h6 className="text-lg font-semibold text-cta">{name}</h6>

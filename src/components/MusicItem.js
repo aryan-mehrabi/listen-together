@@ -19,12 +19,13 @@ const MusicItem = ({ track }) => {
       updateTrack(track.id.videoId);
     }
   };
+  
   return (
     <div
       onClick={onClickItem}
       className="flex items-center border-b border-neutral-700 p-4 cursor-pointer hover:bg-neutral-700"
     >
-      <img src={track.snippet.thumbnails.default.url} className="w-20 mr-4" />
+      <img src={track.snippet.thumbnails.default.url} className="w-20 mr-4" alt="track thumbnail" />
       <p className="my-1 text-sm">{decode(track.snippet.title)}</p>
     </div>
   );

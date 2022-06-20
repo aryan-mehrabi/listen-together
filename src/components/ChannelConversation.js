@@ -21,7 +21,7 @@ const ChannelConversation = () => {
   };
 
   return (
-    <section className="overflow-auto flex flex-col items-start flex-grow p-6">
+    <section className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6">
       {renderMessages()}
       <div ref={scrollBottom}></div>
     </section>
