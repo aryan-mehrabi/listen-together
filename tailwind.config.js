@@ -9,13 +9,13 @@ module.exports = {
         cta: "#31ABC4",
       },
       keyframes: {
-        fillbar: {
+        progressbar: {
           "0%": { width: "0" },
           "50%": { width: "100%" },
         },
       },
       animation: {
-        fillbar: "fillbar 7.5s linear",
+        progressbar: "progressbar 7.5s linear",
       },
     },
   },

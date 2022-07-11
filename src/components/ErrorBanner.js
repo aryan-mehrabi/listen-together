@@ -8,7 +8,7 @@ const ErrorBanner = ({ error }) => {
     >
       <div className="relative py-3 px-5">
         <p className="m-1.5">{error}</p>
-        <div className="h-1 w-full absolute left-0 bottom-0 bg-red-700 bg-opacity-70 animate-fillbar"></div>
+        <div className="h-1 w-full absolute left-0 bottom-0 bg-red-700 bg-opacity-70 animate-progressbar"></div>
       </div>
     </div>
   );
