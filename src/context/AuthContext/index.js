@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }) => {
     try {
       await tryLogOut();
     } catch (error) {
-      console.log(error.message);
       dispatch({ type: "AUTH_ERROR", payload: error });
     }
   };
