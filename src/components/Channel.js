@@ -12,6 +12,14 @@ const Channel = () => {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   useEffect(() => {
+    if(!isMobile) {
+      setRightSideBar("player")
+    } else {
+      setRightSideBar("")
+    }
+  }, [isMobile])
+
+  useEffect(() => {
     if (selectedChannel) {
       listenChannel(selectedChannel);
     }
