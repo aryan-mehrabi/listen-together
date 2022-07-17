@@ -32,7 +32,7 @@ const ChannelInfo = ({ setRightSideBar }) => {
       </div>
       <div className="mt-3.5">
         <p className="text-xl my-3">{channel.name}</p>
-        {channel.roles[userId] === "creator" ? deleteButton : leaveButton}
+        {channel.roles[userId] === "creator" ? null /* deleteButton */ : leaveButton}
       </div>
     </div>
   );
