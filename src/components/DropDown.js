@@ -13,7 +13,7 @@ const DropDown = ({ children, dropdown, setDropdown, dropdownRef }) => {
 
   return (
     <div
-      className={`absolute right-0 bg-neutral-700 w-40 text-center z-10 rounded-sm ${
+      className={`absolute right-0 shadow-md shadow-primary bg-neutral-800 w-40 text-center z-10 rounded-sm ${
         dropdown || "hidden"
       }`}
     >

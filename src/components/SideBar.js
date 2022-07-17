@@ -34,7 +34,7 @@ const SideBar = () => {
             <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
           </div>
           <DropDown {...{ dropdown, setDropdown, dropdownRef }}>
-            <button onClick={logOut} className="text-red-300 py-3 w-full">
+            <button onClick={logOut} className="text-red-500 py-3 w-full">
               Log Out
             </button>
           </DropDown>
