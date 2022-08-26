@@ -18,6 +18,7 @@ import { getDocs } from "firebase/firestore";
 import Alert from "../../components/Alert";
 
 const initValue = {};
+const statusInitValue = "idle";
 const ChannelContext = createContext(initValue);
 
 export const ChannelProvider = ({ children }) => {
@@ -26,6 +27,7 @@ export const ChannelProvider = ({ children }) => {
   const { userId } = useAuth();
   const [state, dispatch] = useReducer(channelReducer, initValue);
   const [selectedChannel, setSelectedChannel] = useState("");
+  const [status, setStatus] = useState(statusInitValue);
 
   //ACTIONS
   const createChannel = async name => {
@@ -39,9 +41,12 @@ export const ChannelProvider = ({ children }) => {
       position: 0,
     };
     try {
+      setStatus("loading")
       await generateChannel(userId, channelData);
       setModal(null);
+      setStatus("idle")
     } catch (error) {
+      setStatus("error")
       console.log(error.message);
     }
   };
@@ -81,6 +86,7 @@ export const ChannelProvider = ({ children }) => {
   const addMember = async userEmail => {
     const q = queryCollection("users", "email", "==", userEmail);
     try {
+      setStatus("loading")
       const docs = await getDocs(q);
       if (docs.size) {
         const user = docs.docs[0].data();
@@ -90,7 +96,9 @@ export const ChannelProvider = ({ children }) => {
           <Alert>We couldn't find any user with this email address.</Alert>
         );
       }
+      setStatus("idle")
     } catch (error) {
+      setStatus("error")
       console.log(error);
     }
   };
@@ -155,13 +163,14 @@ export const ChannelProvider = ({ children }) => {
   // STORE
   const value = {
     channels: state,
+    status,
     selectedChannel,
     setSelectedChannel,
     createChannel,
     listenChannel,
+    leaveChannel,
     sendMessage,
     addMember,
-    leaveChannel,
     removeMember,
     changeRole,
     playTrack,

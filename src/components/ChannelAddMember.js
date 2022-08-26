@@ -1,15 +1,21 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import useChannel from "../context/ChannelContext";
 
 const ChannelAddMember = () => {
   const [email, setEmail] = useState("");
-  const { addMember } = useChannel();
+  const { addMember, status } = useChannel();
 
   const onSubmitForm = event => {
     event.preventDefault();
     addMember(email);
-    setEmail("")
   };
+
+  useEffect(() => {
+    if (status === "idle") {
+      setEmail("");
+    }
+  }, [status]);
 
   return (
     <div className="my-11">
@@ -23,7 +29,10 @@ const ChannelAddMember = () => {
           type="email"
           placeholder="example@example.com"
         />
-        <button className="w-full bg-cta text-primary my-1 px-2 py-1.5 rounded-sm">
+        <button
+          disabled={status === "loading"}
+          className="w-full bg-cta text-primary my-1 px-2 py-1.5 rounded-sm disabled:opacity-50"
+        >
           Add Member
         </button>
       </form>

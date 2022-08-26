@@ -3,7 +3,7 @@ import useChannel from "../context/ChannelContext";
 
 const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
-  const { createChannel } = useChannel();
+  const { createChannel, status } = useChannel();
 
   return (
     <div className="bg-primary text-secondary w-[350px] rounded flex flex-col p-8">
@@ -22,7 +22,7 @@ const CreateChannel = () => {
           />
         </div>
         <button
-          disabled={!channelName}
+          disabled={!channelName || status === "loading"}
           onClick={() => createChannel(channelName.trim())}
           className="bg-cta text-primary w-full rounded-sm p-2 disabled:opacity-50"
         >
