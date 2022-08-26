@@ -14,6 +14,7 @@ const UserContext = createContext(initValue);
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
   const [error, setError] = useState("");
+  const [status, setStatus] = useState("idle");
   const { userId, email } = useAuth();
 
   // ACTION CREATORS
@@ -49,9 +50,12 @@ export const UserProvider = ({ children }) => {
       avatar: `https://avatars.dicebear.com/api/human/${seed}.svg`,
     };
     try {
+      setStatus("loading")
       await setData(data, "users", userId);
       dispatch({ type: "CREATE_USER", payload: data });
+      setStatus("idle")
     } catch (error) {
+      setStatus("failed")
       console.log("error4");
     }
   };
@@ -59,6 +63,7 @@ export const UserProvider = ({ children }) => {
   // STORE
   const value = {
     users: state,
+    status,
     error,
     setError,
     createUser,

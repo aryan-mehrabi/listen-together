@@ -5,7 +5,7 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [seed, setSeed] = useState(Math.random());
   const [gender, setGender] = useState("human");
-  const { createUser } = useUser();
+  const { createUser, status } = useUser();
 
   return (
     <div className=" flex items-center justify-center h-full">
@@ -58,7 +58,8 @@ const SignUp = () => {
         </div>
         <button
           onClick={() => createUser(name.trim(), seed)}
-          className="mt-5 bg-cta text-primary md:text-lg w-full py-2 rounded-sm"
+          className="mt-5 bg-cta text-primary md:text-lg w-full py-2 rounded-sm disabled:opacity-50"
+          disabled={status === "loading"}
         >
           Start Chatting
         </button>
