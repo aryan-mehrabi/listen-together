@@ -1,5 +1,5 @@
 import React from "react";
-import useModal from "../context/ModalContext";
+import useModal from "context/ModalContext";
 
 const Alert = ({ children }) => {
   const { setModal } = useModal();

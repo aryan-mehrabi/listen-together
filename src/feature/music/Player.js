@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import useAuth from "../context/AuthContext";
-import useChannel from "../context/ChannelContext";
-import useYTPlayer from "../hooks/useYTPlayer";
+import useAuth from "context/AuthContext";
+import useChannel from "context/ChannelContext";
+import useYTPlayer from "hooks/useYTPlayer";
 
 const Player = () => {
   useYTPlayer();

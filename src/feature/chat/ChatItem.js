@@ -1,5 +1,5 @@
 import React from "react";
-import useChannel from "../context/ChannelContext";
+import useChannel from "context/ChannelContext";
 
 const ChatItem = ({ channel }) => {
   const { setSelectedChannel, selectedChannel } = useChannel();

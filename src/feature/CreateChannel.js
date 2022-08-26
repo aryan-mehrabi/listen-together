@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useChannel from "../context/ChannelContext";
+import useChannel from "context/ChannelContext";
 
 const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");

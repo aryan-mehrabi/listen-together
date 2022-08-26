@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import useChannel from "../context/ChannelContext";
+import useChannel from "context/ChannelContext";
 import ChannelMessage from "./ChannelMessage";
 
 const ChannelConversation = () => {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useChannel from "../context/ChannelContext";
-import useMediaQuery from "../hooks/useMediaQuery";
-import Chat from "./Chat";
-import ChannelSettings from "./ChannelSettings";
-import MusicSettings from "./MusicSettings";
-import Spinner from "./Spinner";
+import useChannel from "context/ChannelContext";
+import useMediaQuery from "hooks/useMediaQuery";
+import Chat from "feature/chat/Chat";
+import ChannelSettings from "feature/setting/ChannelSettings";
+import MusicSettings from "feature/music/MusicSettings";
+import Spinner from "components/Spinner";
 
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();

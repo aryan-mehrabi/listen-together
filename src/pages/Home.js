@@ -1,8 +1,8 @@
 import React from "react";
-import Channel from "../components/Channel";
-import SideBar from "../components/SideBar";
-import useChannel from "../context/ChannelContext";
-import useMediaQuery from "../hooks/useMediaQuery";
+import Channel from "feature/Channel";
+import SideBar from "feature/SideBar";
+import useChannel from "context/ChannelContext";
+import useMediaQuery from "hooks/useMediaQuery";
 
 const Chat = () => {
   const { selectedChannel } = useChannel();

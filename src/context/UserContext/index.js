@@ -4,8 +4,8 @@ import {
   listenDocument,
   listenQuery,
   queryCollection,
-} from "../../apis/firebase";
-import useAuth from "../AuthContext";
+} from "apis/firebase";
+import useAuth from "context/AuthContext";
 import userReducer from "./userReducer";
 
 const initValue = {};

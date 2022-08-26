@@ -1,7 +1,7 @@
 import React from "react";
-import useChannel from "../context/ChannelContext";
+import useChannel from "context/ChannelContext";
 import { decode } from "he";
-import useAuth from "../context/AuthContext";
+import useAuth from "context/AuthContext";
 
 const MusicItem = ({ track }) => {
   const { updateTrack, selectedChannel, channels, sendMessage } = useChannel();

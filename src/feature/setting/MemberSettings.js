@@ -1,8 +1,7 @@
 import React, { useState, useRef } from "react";
-import useAuth from "../context/AuthContext";
-import useChannel from "../context/ChannelContext";
-import useUser from "../context/UserContext";
-import DropDown from "./DropDown";
+import useAuth from "context/AuthContext";
+import useChannel from "context/ChannelContext";
+import DropDown from "components/DropDown";
 
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);

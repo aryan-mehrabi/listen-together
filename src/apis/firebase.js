@@ -13,7 +13,7 @@ import {
   serverTimestamp,
   orderBy,
 } from "firebase/firestore";
-import { app } from "../auth/firebase";
+import { app } from "auth/firebase";
 
 const db = getFirestore(app);
 

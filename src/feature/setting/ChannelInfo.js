@@ -1,6 +1,6 @@
 import React from "react";
-import useAuth from "../context/AuthContext";
-import useChannel from "../context/ChannelContext";
+import useAuth from "context/AuthContext";
+import useChannel from "context/ChannelContext";
 
 const ChannelInfo = ({ setRightSideBar }) => {
   const { userId } = useAuth();

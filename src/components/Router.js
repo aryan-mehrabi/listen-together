@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import Home from "../pages/Home";
-import SignUp from "../pages/SignUp";
-import Landing from "../pages/Landing";
+import Home from "pages/Home";
+import SignUp from "pages/SignUp";
+import Landing from "pages/Landing";
 import Modal from "./Modal";
-import useAuth from "../context/AuthContext";
-import useUser from "../context/UserContext";
-import usePage from "../context/PageContext";
-import useModal from "../context/ModalContext";
+import useAuth from "context/AuthContext";
+import useUser from "context/UserContext";
+import usePage from "context/PageContext";
+import useModal from "context/ModalContext";
 import Spinner from "./Spinner";
-import useError from "../hooks/useError";
+import useError from "hooks/useError";
 
 const Router = () => {
   const { modal } = useModal();

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useUser from "../context/UserContext";
+import useUser from "context/UserContext";
 
 const SignUp = () => {
   const [name, setName] = useState("");

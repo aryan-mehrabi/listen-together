@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import useAuth from "../context/AuthContext";
-import useModal from "../context/ModalContext";
-import useUser from "../context/UserContext";
-import ChatItem from "./ChatItem";
+import useAuth from "context/AuthContext";
+import useModal from "context/ModalContext";
+import useUser from "context/UserContext";
+import ChatItem from "feature/chat/ChatItem";
 import CreateChannel from "./CreateChannel";
-import DropDown from "./DropDown";
+import DropDown from "components/DropDown";
 
 const SideBar = () => {
   const { setModal } = useModal();

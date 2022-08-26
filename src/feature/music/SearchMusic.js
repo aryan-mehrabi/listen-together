@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
-import { fetchTracks } from "../apis/youtube";
-import useDebouncing from "../hooks/useDebouncing";
-import useIntersection from "../hooks/useIntersection";
+import { fetchTracks } from "apis/youtube";
+import useDebouncing from "hooks/useDebouncing";
+import useIntersection from "hooks/useIntersection";
 import MusicItem from "./MusicItem";
-import Spinner from "./Spinner";
+import Spinner from "components/Spinner";
 
 const SearchMusic = ({ setRightSideBar }) => {
   const [searchTerm, setSearchTerm] = useState("");

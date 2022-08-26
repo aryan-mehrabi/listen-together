@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import useModal from "../context/ModalContext";
+import useModal from "context/ModalContext";
 
 const Modal = ({ children }) => {
   const { setModal } = useModal();

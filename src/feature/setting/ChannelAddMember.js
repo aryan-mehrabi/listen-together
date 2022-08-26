@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import useChannel from "../context/ChannelContext";
+import React, { useState, useEffect } from "react";
+import useChannel from "context/ChannelContext";
 
 const ChannelAddMember = () => {
   const [email, setEmail] = useState("");

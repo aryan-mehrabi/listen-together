@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import useChannel from "../context/ChannelContext";
-import useUser from "../context/UserContext";
+import useChannel from "context/ChannelContext";
+import useUser from "context/UserContext";
 import MemberSettings from "./MemberSettings";
 
 const ChannelMembers = () => {

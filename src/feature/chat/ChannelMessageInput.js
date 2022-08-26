@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useRef } from "react";
-import useChannel from "../context/ChannelContext";
+import React, { useState, useRef } from "react";
+import useChannel from "context/ChannelContext";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");

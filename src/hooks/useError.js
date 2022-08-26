@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ErrorBanner from "../components/ErrorBanner";
+import ErrorBanner from "components/ErrorBanner";
 
 const useError = (error, dismissError) => {
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React from "react";
-import useChannel from "../context/ChannelContext";
+import useChannel from "context/ChannelContext";
 
 const ChannelNav = ({ rightSideBar, setRightSideBar }) => {
   const { channels, selectedChannel, setSelectedChannel } = useChannel();

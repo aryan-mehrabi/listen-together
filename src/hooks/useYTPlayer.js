@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useChannel from "../context/ChannelContext";
+import useChannel from "context/ChannelContext";
 import useEventCallback from "./useEventCallback";
 
 const useYTPlayer = () => {

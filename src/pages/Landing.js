@@ -1,7 +1,7 @@
 import React from "react";
-import heroImage from "../assets/hero-section.jpg";
-import useAuth from "../context/AuthContext";
-import useError from "../hooks/useError";
+import heroImage from "assets/hero-section.jpg";
+import useAuth from "context/AuthContext";
+import useError from "hooks/useError";
 
 const Landing = () => {
   const { logInAnonymous, logIn, error, dismissError } = useAuth();
