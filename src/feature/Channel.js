@@ -9,7 +9,7 @@ import Spinner from "components/Spinner";
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
   const [rightSideBar, setRightSideBar] = useState("");
-  const isMobile = useMediaQuery("(max-width: 640px)");
+  const isMobile = useMediaQuery("screen and (max-width: 640px)");
 
   useEffect(() => {
     if(!isMobile) {

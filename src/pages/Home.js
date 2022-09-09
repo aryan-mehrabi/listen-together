@@ -6,7 +6,7 @@ import useMediaQuery from "hooks/useMediaQuery";
 
 const Chat = () => {
   const { selectedChannel } = useChannel();
-  const isMobile = useMediaQuery("(max-width: 640px");
+  const isMobile = useMediaQuery("screen and (max-width: 640px");
 
   return (
     <>
