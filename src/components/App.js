@@ -11,21 +11,23 @@ const App = () => {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ModalProvider>
-        <AuthProvider>
-          <UserProvider>
-            <PageProvider>
-              <ChannelProvider>
-                <div className="text-secondary bg-primary h-screen">
-                  <Router />
-                </div>
-              </ChannelProvider>
-            </PageProvider>
-          </UserProvider>
-        </AuthProvider>
-      </ModalProvider>
-    </QueryClientProvider>
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <ModalProvider>
+          <AuthProvider>
+            <UserProvider>
+              <PageProvider>
+                <ChannelProvider>
+                  <div className="text-secondary bg-primary h-screen">
+                    <Router />
+                  </div>
+                </ChannelProvider>
+              </PageProvider>
+            </UserProvider>
+          </AuthProvider>
+        </ModalProvider>
+      </QueryClientProvider>
+    </React.StrictMode>
   );
 };
 
