@@ -3,10 +3,10 @@ import ChannelNav from "./ChannelNav";
 import ChannelConversation from "./ChannelConversation";
 import ChannelMessageInput from "./ChannelMessageInput";
 
-const Chat = ({ rightSideBar, setRightSideBar }) => {
+const Chat = () => {
   return (
     <div className="flex flex-col flex-grow">
-      <ChannelNav {...{ rightSideBar, setRightSideBar }} />
+      <ChannelNav />
       <ChannelConversation />
       <ChannelMessageInput />
     </div>

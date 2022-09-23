@@ -3,14 +3,16 @@ import { useInfiniteQuery } from "react-query";
 import { fetchTracks } from "apis/youtube";
 import useDebouncing from "hooks/useDebouncing";
 import useIntersection from "hooks/useIntersection";
+import useRightSidebar from "context/RightSidebarContext";
 import MusicItem from "./MusicItem";
 import Spinner from "components/Spinner";
 
-const SearchMusic = ({ setRightSideBar }) => {
+const SearchMusic = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [spinner, setSpinner] = useState(null);
   const isVisible = useIntersection(spinner);
   const debouncedTerm = useDebouncing(searchTerm, 1000);
+  const { setRightSidebar } = useRightSidebar();
 
   const { data, isLoading, isError, isIdle, fetchNextPage } = useInfiniteQuery(
     ["tracks", debouncedTerm],
@@ -51,7 +53,7 @@ const SearchMusic = ({ setRightSideBar }) => {
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold">Search Music</h2>
           <i
-            onClick={() => setRightSideBar("")}
+            onClick={() => setRightSidebar("")}
             className="fa-solid fa-xmark text-3xl cursor-pointer"
           ></i>
         </div>
@@ -63,7 +65,9 @@ const SearchMusic = ({ setRightSideBar }) => {
           className="w-full mt-6 mb-2 bg-neutral-700 p-2 rounded-sm"
         />
       </div>
-      <div className="overflow-y-auto overflow-x-hidden">{renderMusicItems()}</div>
+      <div className="overflow-y-auto overflow-x-hidden">
+        {renderMusicItems()}
+      </div>
     </>
   );
 };

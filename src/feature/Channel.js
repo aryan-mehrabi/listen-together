@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useChannel from "context/ChannelContext";
+import useRightSidebar from "context/RightSidebarContext";
 import useMediaQuery from "hooks/useMediaQuery";
 import Chat from "feature/chat/Chat";
 import ChannelSettings from "feature/setting/ChannelSettings";
@@ -8,16 +9,16 @@ import Spinner from "components/Spinner";
 
 const Channel = () => {
   const { selectedChannel, listenChannel, channels } = useChannel();
-  const [rightSideBar, setRightSideBar] = useState("");
+  const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery("screen and (max-width: 640px)");
 
   useEffect(() => {
-    if(!isMobile) {
-      setRightSideBar("player")
+    if (!isMobile) {
+      setRightSidebar("player");
     } else {
-      setRightSideBar("")
+      setRightSidebar("");
     }
-  }, [isMobile])
+  }, [isMobile]);
 
   useEffect(() => {
     if (selectedChannel) {
@@ -32,33 +33,29 @@ const Channel = () => {
       </div>
     );
   }
-  const renderMobile = () => {
-    return (
-      <>
-        <MusicSettings {...{ rightSideBar, setRightSideBar }} />
-        {rightSideBar === "setting" ? (
-          <ChannelSettings {...{ setRightSideBar }} />
-        ) : rightSideBar === "" ? (
-          <Chat {...{ rightSideBar, setRightSideBar }} />
-        ) : null}
-      </>
-    );
-  };
 
+  const mobile = (
+    <>
+      {rightSidebar === "setting" ? (
+        <ChannelSettings />
+      ) : rightSidebar === "" ? (
+        <Chat />
+      ) : null}
+    </>
+  );
+
+  const desktop = (
+    <>
+      <Chat />
+      {rightSidebar === "setting" && <ChannelSettings />}
+    </>
+  );
+  
   return (
-      <section className="h-full flex w-full">
-        {isMobile ? (
-          renderMobile()
-          ) : (
-          <>
-            <Chat {...{ rightSideBar, setRightSideBar }} />
-            <MusicSettings {...{ rightSideBar, setRightSideBar }} />
-            {rightSideBar === "setting" && (
-              <ChannelSettings {...{ setRightSideBar }} />
-              )}
-          </>
-        )}
-      </section>
+    <section className="h-full flex w-full">
+      {isMobile ? mobile : desktop}
+      <MusicSettings />
+    </section>
   );
 };
 

@@ -1,10 +1,12 @@
 import React from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
+import useRightSidebar from "context/RightSidebarContext";
 
-const ChannelInfo = ({ setRightSideBar }) => {
+const ChannelInfo = () => {
   const { userId } = useAuth();
   const { channels, selectedChannel, leaveChannel } = useChannel();
+  const { setRightSidebar } = useRightSidebar();
   const channel = channels[selectedChannel];
 
   const deleteButton = (
@@ -26,13 +28,15 @@ const ChannelInfo = ({ setRightSideBar }) => {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Info</h2>
         <i
-          onClick={() => setRightSideBar("")}
+          onClick={() => setRightSidebar("")}
           className="fa-solid fa-xmark text-3xl cursor-pointer"
         ></i>
       </div>
       <div className="mt-3.5">
         <p className="text-xl my-3">{channel.name}</p>
-        {channel.roles[userId] === "creator" ? null /* deleteButton */ : leaveButton}
+        {channel.roles[userId] === "creator"
+          ? null /* deleteButton */
+          : leaveButton}
       </div>
     </div>
   );

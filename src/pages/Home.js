@@ -3,39 +3,38 @@ import Channel from "feature/Channel";
 import SideBar from "feature/SideBar";
 import useChannel from "context/ChannelContext";
 import useMediaQuery from "hooks/useMediaQuery";
+import { RightSidebarProvider } from "context/RightSidebarContext";
 
 const Chat = () => {
   const { selectedChannel } = useChannel();
   const isMobile = useMediaQuery("screen and (max-width: 640px");
 
-  return (
+  const mobile = selectedChannel ? <Channel /> : <SideBar />;
+
+  const desktop = (
     <>
-      <div className="overflow-hidden h-full flex">
-        {isMobile ? (
-          selectedChannel ? (
-            <Channel />
-          ) : (
-            <SideBar />
-          )
+      <SideBar />
+      <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
+        {selectedChannel ? (
+          <Channel />
         ) : (
-          <>
-            <SideBar />
-            <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
-              {selectedChannel ? (
-                <Channel />
-              ) : (
-                <section className="flex items-center justify-center text-center h-full">
-                  <h1 className="text-4xl font-semibold leading-relaxed text-secondary">
-                    Select a channel <br /> or <br />
-                    Create one
-                  </h1>
-                </section>
-              )}
-            </main>
-          </>
+          <section className="flex items-center justify-center text-center h-full">
+            <h1 className="text-4xl font-semibold leading-relaxed text-secondary">
+              Select a channel <br /> or <br />
+              Create one
+            </h1>
+          </section>
         )}
-      </div>
+      </main>
     </>
+  );
+
+  return (
+    <RightSidebarProvider>
+      <div className="overflow-hidden h-full flex">
+        {isMobile ? mobile : desktop}
+      </div>
+    </RightSidebarProvider>
   );
 };
 
