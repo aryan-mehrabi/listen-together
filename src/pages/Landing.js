@@ -1,15 +1,18 @@
 import React from "react";
 import heroImage from "assets/hero-section.jpg";
+import heroImageMobile from "assets/hero-section-mobile.jpg";
 import useAuth from "context/AuthContext";
 import useError from "hooks/useError";
+import useMediaQuery from "hooks/useMediaQuery";
 
 const Landing = () => {
+  const isMobile = useMediaQuery("screen and (max-width: 640px");
   const { logInAnonymous, logIn, error, dismissError } = useAuth();
   const errorComponent = useError(error, dismissError);
 
   return (
     <div
-      style={{ backgroundImage: `url('${heroImage}')` }}
+      style={{ backgroundImage: `url('${isMobile ? heroImageMobile : heroImage}')` }}
       className="bg-cover bg-blend-overlay bg-center h-full bg-primary 
       flex flex-col justify-center items-center text-center"
     >
@@ -39,21 +42,20 @@ const Landing = () => {
         <a
           target="_blank"
           href="https://github.com/aryan-mehrabi/listen-together"
-          className="text-2xl mx-4 my-4 p-1"
+          rel="noreferrer"
+          className="text-xl mx-4 my-4 p-1"
         >
           <i className="fa-brands fa-github"></i>
         </a>
         <a
           target="_blank"
           href="https://www.linkedin.com/in/aryan-mehrabi/"
-          className="text-2xl mx-4 my-4 p-1"
+          rel="noreferrer"
+          className="text-xl mx-4 my-4 p-1"
         >
           <i className="fa-brands fa-linkedin"></i>
         </a>
-        <a
-          href="mailto:aryan.me77@yahoo.com"
-          className="text-2xl mx-4 my-4 p-1"
-        >
+        <a href="mailto:aryan.me77@yahoo.com" className="text-xl mx-4 my-4 p-1">
           <i className="fa-solid fa-envelope"></i>
         </a>
       </footer>
