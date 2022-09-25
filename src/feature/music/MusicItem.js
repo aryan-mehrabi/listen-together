@@ -1,7 +1,10 @@
 import React from "react";
 import useChannel from "context/ChannelContext";
-import { decode } from "he";
+// import { decode } from "he";
 import useAuth from "context/AuthContext";
+
+let decoding;
+import("he").then(({decode}) => decoding = decode)
 
 const MusicItem = ({ track }) => {
   const { updateTrack, selectedChannel, channels, sendMessage } = useChannel();
@@ -26,7 +29,7 @@ const MusicItem = ({ track }) => {
       className="flex items-center border-b border-neutral-700 p-4 cursor-pointer hover:bg-neutral-700"
     >
       <img src={track.snippet.thumbnails.default.url} className="w-20 mr-4" alt="track thumbnail" />
-      <p className="my-1 text-sm">{decode(track.snippet.title)}</p>
+      <p className="my-1 text-sm">{decoding(track.snippet.title)}</p>
     </div>
   );
 };

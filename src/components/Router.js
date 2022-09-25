@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import Home from "pages/Home";
-import SignUp from "pages/SignUp";
-import Landing from "pages/Landing";
+import React, { useEffect, lazy, Suspense } from "react";
+// import Home from "pages/Home";
+// import SignUp from "pages/SignUp";
+// import Landing from "pages/Landing";
 import Modal from "./Modal";
 import useAuth from "context/AuthContext";
 import useUser from "context/UserContext";
@@ -9,6 +9,10 @@ import usePage from "context/PageContext";
 import useModal from "context/ModalContext";
 import Spinner from "./Spinner";
 import useError from "hooks/useError";
+
+const Home = lazy(() => import("pages/Home"));
+const SignUp = lazy(() => import("pages/SignUp"));
+const Landing = lazy(() => import("pages/Landing"));
 
 const Router = () => {
   const { modal } = useModal();
@@ -43,17 +47,25 @@ const Router = () => {
       default:
         return (
           <div className="flex items-center justify-center h-full">
-              <Spinner className="w-14 h-14" />
+            <Spinner className="w-14 h-14" />
             {errorComponent}
           </div>
         );
     }
   };
-  
+
   return (
     <>
       {modal && <Modal>{modal}</Modal>}
-      {renderApp()}
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center h-full">
+            <Spinner className="w-14 h-14" />
+          </div>
+        }
+      >
+        {renderApp()}
+      </Suspense>
     </>
   );
 };

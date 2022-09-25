@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import authReducer from "./authReducer";
 import { tryLogInAnonymous, tryLogIn, tryLogOut } from "auth/firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+const { getAuth, onAuthStateChanged } = await import("firebase/auth");
 
 const initValue = { userId: null, email: null, error: "" };
 const AuthContext = createContext(initValue);

@@ -1,11 +1,11 @@
-import { initializeApp } from "firebase/app";
-import {
+const { initializeApp } = await import("firebase/app");
+const {
   getAuth,
   GoogleAuthProvider,
   signOut,
   signInWithRedirect,
   signInAnonymously,
-} from "firebase/auth";
+} = await import("firebase/auth");
 
 const firebaseConfig = {
   apiKey: "AIzaSyArp9Ty5-TJVGoEGsAnfbRBDKdH8_IblsM",

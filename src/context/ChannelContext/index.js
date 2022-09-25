@@ -14,8 +14,8 @@ import channelReducer from "./channelReducer";
 import useUser from "context/UserContext";
 import useAuth from "context/AuthContext";
 import useModal from "context/ModalContext";
-import { getDocs } from "firebase/firestore";
 import Alert from "components/Alert";
+const { getDocs } = await import("firebase/firestore");
 
 const initValue = {};
 const statusInitValue = "idle";
