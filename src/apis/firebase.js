@@ -1,5 +1,5 @@
 import { app } from "auth/firebase";
-const {
+import {
   writeBatch,
   onSnapshot,
   doc,
@@ -13,8 +13,8 @@ const {
   deleteField,
   serverTimestamp,
   orderBy,
-  getDocs
-} = await import("firebase/firestore");
+  getDocs,
+} from "firebase/firestore";
 
 const db = getFirestore(app);
 

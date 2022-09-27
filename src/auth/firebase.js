@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
-const {
+import {
   getAuth,
   GoogleAuthProvider,
   signOut,
   signInWithRedirect,
   signInAnonymously,
   onAuthStateChanged,
-} = await import("firebase/auth");
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyArp9Ty5-TJVGoEGsAnfbRBDKdH8_IblsM",
