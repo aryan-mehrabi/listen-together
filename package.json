@@ -20,6 +20,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
+    "analyze": "npm run build -- --stats && yarn webpack-bundle-analyzer ./build/bundle-stats.json",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
