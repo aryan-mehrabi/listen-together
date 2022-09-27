@@ -1,7 +1,6 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import authReducer from "./authReducer";
-import { tryLogInAnonymous, tryLogIn, tryLogOut } from "auth/firebase";
-const { getAuth, onAuthStateChanged } = await import("firebase/auth");
+import { tryLogInAnonymous, tryLogIn, tryLogOut, authStateChanged } from "auth/firebase";
 
 const initValue = { userId: null, email: null, error: "" };
 const AuthContext = createContext(initValue);
@@ -10,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initValue);
 
   useEffect(() => {
-    onAuthStateChanged(getAuth(), user => {
+    authStateChanged(user => {
       if (user) {
         dispatch({
           type: "LOG_IN",

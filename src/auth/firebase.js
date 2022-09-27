@@ -1,10 +1,11 @@
-const { initializeApp } = await import("firebase/app");
+import { initializeApp } from "firebase/app";
 const {
   getAuth,
   GoogleAuthProvider,
   signOut,
   signInWithRedirect,
   signInAnonymously,
+  onAuthStateChanged,
 } = await import("firebase/auth");
 
 const firebaseConfig = {
@@ -32,4 +33,8 @@ export const tryLogIn = async () => {
 
 export const tryLogOut = async () => {
   await signOut(auth);
+};
+
+export const authStateChanged = (action) => {
+  onAuthStateChanged(getAuth(), action);
 };

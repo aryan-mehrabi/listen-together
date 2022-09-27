@@ -9,13 +9,13 @@ import {
   removeMemberFromChannel,
   setDataId,
   updateData,
+  getQueryDocs,
 } from "apis/firebase";
 import channelReducer from "./channelReducer";
 import useUser from "context/UserContext";
 import useAuth from "context/AuthContext";
 import useModal from "context/ModalContext";
 import Alert from "components/Alert";
-const { getDocs } = await import("firebase/firestore");
 
 const initValue = {};
 const statusInitValue = "idle";
@@ -87,7 +87,7 @@ export const ChannelProvider = ({ children }) => {
     const q = queryCollection("users", "email", "==", userEmail);
     try {
       setStatus("loading")
-      const docs = await getDocs(q);
+      const docs = await getQueryDocs(q);
       if (docs.size) {
         const user = docs.docs[0].data();
         await addMemberToChannel(user.userId, state[selectedChannel]);

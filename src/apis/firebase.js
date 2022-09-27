@@ -12,10 +12,13 @@ const {
   deleteField,
   serverTimestamp,
   orderBy,
+  getDocs
 } = await import("firebase/firestore");
 const { app } = await import("auth/firebase");
 
 const db = getFirestore(app);
+
+export const getQueryDocs = getDocs;
 
 export const setData = async (data, ...path) => {
   await setDoc(doc(db, ...path), data);
