@@ -8,12 +8,15 @@ const ChannelMessageInput = () => {
 
   const onSubmitForm = e => {
     e.preventDefault();
-    sendMessage(message.trim());
-    setMessage("");
+    const trimedMessage = message.trim();
+    if (trimedMessage) {
+      sendMessage(trimedMessage);
+      setMessage("");
+    }
   };
 
   const onEnterPress = e => {
-    if (e.keyCode == 13 && e.shiftKey == false) {
+    if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       formRef.current.requestSubmit();
     }
