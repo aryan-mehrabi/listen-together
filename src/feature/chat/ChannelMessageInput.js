@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import useChannel from "context/ChannelContext";
+import Button from "components/Button";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
@@ -36,12 +37,13 @@ const ChannelMessageInput = () => {
         className="flex-grow bg-neutral-700 h-10 rounded outline-none p-2 resize-none"
         type="text"
       />
-      <button
+      <Button
+        type="cta"
         disabled={!message}
-        className="bg-cta text-primary disabled:opacity-50 rounded-sm ml-2 px-4"
+        className="ml-2"
       >
         SEND
-      </button>
+      </Button>
     </form>
   );
 };

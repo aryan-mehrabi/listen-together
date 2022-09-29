@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useUser from "context/UserContext";
+import Button from "components/Button";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -56,13 +57,14 @@ const SignUp = () => {
             type="text"
           />
         </div>
-        <button
+        <Button
+          type="cta"
           onClick={() => createUser(name.trim(), seed)}
-          className="mt-5 bg-cta text-primary md:text-lg w-full py-2 rounded-sm disabled:opacity-50"
+          className="mt-5 md:text-lg w-full"
           disabled={status === "loading"}
         >
           Start Chatting
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import useUser from "context/UserContext";
 import ChatItem from "feature/chat/ChatItem";
 import CreateChannel from "./CreateChannel";
 import DropDown from "components/DropDown";
+import Button from "components/Button";
 
 const SideBar = () => {
   const { setModal } = useModal();
@@ -34,9 +35,9 @@ const SideBar = () => {
             <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
           </div>
           <DropDown {...{ dropdown, setDropdown, dropdownRef }}>
-            <button onClick={logOut} className="text-red-500 py-3 w-full">
+            <Button type="danger" onClick={logOut}>
               Log Out
-            </button>
+            </Button>
           </DropDown>
         </div>
       </div>

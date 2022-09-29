@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useChannel from "context/ChannelContext";
+import Button from "components/Button";
 
 const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
@@ -21,13 +22,13 @@ const CreateChannel = () => {
             className="bg-neutral-700 rounded-sm w-full p-2 mt-1"
           />
         </div>
-        <button
+        <Button
+          type="cta"
           disabled={!channelName || status === "loading"}
           onClick={() => createChannel(channelName.trim())}
-          className="bg-cta text-primary w-full rounded-sm p-2 disabled:opacity-50"
         >
           Create Channel
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import DropDown from "components/DropDown";
+import Button from "components/Button";
 
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -15,31 +16,34 @@ const MemberSettings = ({ userId }) => {
   const rolesRules = { creator: 3, admin: 2, member: 1 };
 
   const promoteButton = (
-    <button
+    <Button
+      type="primary"
       key="1"
       onClick={() => changeRole(userId, "admin")}
-      className="p-3 w-full border-t border-neutral-500"
+      className="w-full border-t"
     >
       Promote to Admin
-    </button>
+    </Button>
   );
   const demoteButton = (
-    <button
+    <Button
+      type="primary"
       key="2"
       onClick={() => changeRole(userId, "member")}
-      className="p-3 w-full border-t border-neutral-500"
+      className="w-full border-t"
     >
       Demote to Member
-    </button>
+    </Button>
   );
   const removeButton = (
-    <button
+    <Button
+      type="primary"
       key="3"
       onClick={() => removeMember(userId)}
-      className="p-3 w-full"
+      className="w-full"
     >
       Remove from Channel
-    </button>
+    </Button>
   );
 
   const renderedButtons = (() => {

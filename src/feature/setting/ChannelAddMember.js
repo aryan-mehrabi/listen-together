@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useChannel from "context/ChannelContext";
+import Button from "components/Button";
 
 const ChannelAddMember = () => {
   const [email, setEmail] = useState("");
@@ -28,12 +29,14 @@ const ChannelAddMember = () => {
           type="email"
           placeholder="example@example.com"
         />
-        <button
+        <Button
+          type="cta"
           disabled={status === "loading"}
-          className="w-full bg-cta text-primary my-1 px-2 py-1.5 rounded-sm disabled:opacity-50"
+          className="w-full my-1"
         >
           Add Member
-        </button>
+        </Button
+          >
       </form>
     </div>
   );

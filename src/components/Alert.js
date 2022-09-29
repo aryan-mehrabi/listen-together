@@ -1,5 +1,6 @@
 import React from "react";
 import useModal from "context/ModalContext";
+import Button from "./Button";
 
 const Alert = ({ children }) => {
   const { setModal } = useModal();
@@ -7,12 +8,13 @@ const Alert = ({ children }) => {
   return (
     <div className="bg-primary px-10 py-7 max-w-sm shadow-xl">
       <p>{children}</p>
-      <button
-        className="bg-secondary text-primary px-8 py-2 mt-8 rounded-sm ml-auto block"
+      <Button
+        type="secondary"
+        className="block ml-auto px-8 mt-8"
         onClick={() => setModal(null)}
       >
         OK
-      </button>
+      </Button>
     </div>
   );
 };

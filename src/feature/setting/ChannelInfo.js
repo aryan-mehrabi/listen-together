@@ -2,6 +2,7 @@ import React from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
+import Button from "components/Button";
 
 const ChannelInfo = () => {
   const { userId } = useAuth();
@@ -10,17 +11,18 @@ const ChannelInfo = () => {
   const channel = channels[selectedChannel];
 
   const deleteButton = (
-    <button className="bg-neutral-800 rounded-sm p-2 w-full text-red-500">
+    <Button type="danger" className="w-full">
       Delete Channel
-    </button>
+    </Button>
   );
   const leaveButton = (
-    <button
+    <Button
+      type="danger"
       onClick={() => leaveChannel(userId)}
-      className="bg-neutral-800 rounded-sm p-2 w-full text-red-500"
+      className="w-full"
     >
       Leave Channel
-    </button>
+    </Button>
   );
 
   return (

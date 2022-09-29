@@ -4,6 +4,7 @@ import heroImageMobile from "assets/hero-section-mobile.jpg";
 import useAuth from "context/AuthContext";
 import useError from "hooks/useError";
 import useMediaQuery from "hooks/useMediaQuery";
+import Button from "components/Button";
 
 const Landing = () => {
   const isMobile = useMediaQuery("screen and (max-width: 640px");
@@ -24,18 +25,20 @@ const Landing = () => {
           friends.
         </p>
         <div className="flex items-center justify-center flex-col sm:flex-row gap-5 text-primary md:text-lg m-10">
-          <button
+          <Button
+            type="secondary"
             onClick={logIn}
-            className="bg-secondary rounded-sm p-3 font-semibold"
+            className="font-semibold"
           >
             <i className="fa-brands fa-google pr-3"></i>Sign in with Google
-          </button>
-          <button
+          </Button>
+          <Button
+            type="secondary"
             onClick={logInAnonymous}
-            className="bg-secondary rounded-sm p-3 font-semibold"
+            className="font-semibold"
           >
             <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
-          </button>
+          </Button>
         </div>
       </div>
       <footer className="absolute w-full bottom-0 left-0 flex justify-center">
