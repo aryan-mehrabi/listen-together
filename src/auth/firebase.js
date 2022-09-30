@@ -9,12 +9,12 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyArp9Ty5-TJVGoEGsAnfbRBDKdH8_IblsM",
-  authDomain: "listen-together-2331f.firebaseapp.com",
-  projectId: "listen-together-2331f",
-  storageBucket: "listen-together-2331f.appspot.com",
-  messagingSenderId: "466158373050",
-  appId: "1:466158373050:web:3f4835c3d83ba790705a83",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
