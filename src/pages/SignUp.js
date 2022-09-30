@@ -9,15 +9,23 @@ const SignUp = () => {
   const [gender, setGender] = useState("human");
   const { createUser, status } = useUser();
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    const trimedName = name.trim();
+    if (trimedName) {
+      createUser(trimedName, seed);
+    }
+  }
+
   return (
     <div className=" flex items-center justify-center h-full">
-      <div className="w-72">
+      <form onSubmit={onFormSubmit} className="w-72">
         <div className="w-3/4 mx-auto mb-6">
           <img
             src={`https://avatars.dicebear.com/api/${gender}/${seed}.svg`}
             alt="avatar"
           />
-          <div className="w-full flex justify-around mt-2">
+          <div className="w-full flex justify-around mt-3">
             <div
               className="cursor-pointer p-1"
               title="male"
@@ -60,13 +68,12 @@ const SignUp = () => {
         </div>
         <Button
           type="cta"
-          onClick={() => createUser(name.trim(), seed)}
-          className="mt-5 md:text-lg w-full"
-          disabled={status === "loading"}
+          className="mt-5 md:text-lg w-full font-semibold"
+          disabled={status === "loading" || !name}
         >
           Start Chatting
         </Button>
-      </div>
+      </form>
     </div>
   );
 };

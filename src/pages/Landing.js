@@ -28,14 +28,14 @@ const Landing = () => {
           <Button
             type="secondary"
             onClick={logIn}
-            className="font-semibold"
+            className="font-semibold py-3"
           >
             <i className="fa-brands fa-google pr-3"></i>Sign in with Google
           </Button>
           <Button
             type="secondary"
             onClick={logInAnonymous}
-            className="font-semibold"
+            className="font-semibold py-3"
           >
             <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
           </Button>
