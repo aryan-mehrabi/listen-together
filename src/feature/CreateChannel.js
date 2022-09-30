@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useChannel from "context/ChannelContext";
 import Button from "components/Button";
+import Input from "components/Input";
 
 const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
@@ -14,12 +15,12 @@ const CreateChannel = () => {
       <div className="flex flex-col gap-7 flex-grow">
         <div>
           <label>Channel Name:</label>
-          <input
-            onChange={e => setChannelName(e.target.value.trimStart())}
+          <Input
+            setValue={val => setChannelName(val.trimStart())}
             value={channelName}
             type="text"
             placeholder="Type Channel Name"
-            className="bg-neutral-700 rounded-sm w-full p-2 mt-1"
+            className="mt-1"
           />
         </div>
         <Button

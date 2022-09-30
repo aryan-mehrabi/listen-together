@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useUser from "context/UserContext";
 import Button from "components/Button";
+import Input from "components/Input";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -49,11 +50,11 @@ const SignUp = () => {
           </div>
         </div>
         <div>
-          <input
-            onChange={e => setName(e.target.value.trimStart())}
+          <Input
+            setValue={val => setName(val.trimStart())}
             value={name}
             placeholder="Enter Your Name"
-            className="outline-none w-full bg-transparent h-10 border-b-2 border-neutral-700"
+            className={`h-10 border-b-2 ${name ? "border-cta" : ""}`}
             type="text"
           />
         </div>

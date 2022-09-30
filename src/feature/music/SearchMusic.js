@@ -6,6 +6,7 @@ import useIntersection from "hooks/useIntersection";
 import useRightSidebar from "context/RightSidebarContext";
 import MusicItem from "./MusicItem";
 import Spinner from "components/Spinner";
+import Input from "components/Input";
 
 const SearchMusic = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,12 +58,12 @@ const SearchMusic = () => {
             className="fa-solid fa-xmark text-3xl cursor-pointer"
           ></i>
         </div>
-        <input
-          onChange={e => setSearchTerm(e.target.value)}
+        <Input
+          setValue={setSearchTerm}
           value={searchTerm}
           placeholder="Search for artists, tracks"
           type="text"
-          className="w-full mt-6 mb-2 bg-neutral-700 p-2 rounded-sm"
+          className="mt-6 mb-2"
         />
       </div>
       <div className="overflow-y-auto overflow-x-hidden">
