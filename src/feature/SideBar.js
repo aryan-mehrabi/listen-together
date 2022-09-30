@@ -7,7 +7,7 @@ import CreateChannel from "./CreateChannel";
 import DropDown from "components/DropDown";
 import Button from "components/Button";
 
-const SideBar = () => {
+const Sidebar = () => {
   const { setModal } = useModal();
   const [dropdown, setDropdown] = useState(false);
   const { users } = useUser();
@@ -54,4 +54,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

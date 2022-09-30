@@ -1,6 +1,6 @@
 import React from "react";
 import Channel from "feature/Channel";
-import SideBar from "feature/SideBar";
+import Sidebar from "feature/Sidebar";
 import useChannel from "context/ChannelContext";
 import useMediaQuery from "hooks/useMediaQuery";
 import { RightSidebarProvider } from "context/RightSidebarContext";
@@ -9,11 +9,11 @@ const Chat = () => {
   const { selectedChannel } = useChannel();
   const isMobile = useMediaQuery("screen and (max-width: 640px");
 
-  const mobile = selectedChannel ? <Channel /> : <SideBar />;
+  const mobile = selectedChannel ? <Channel /> : <Sidebar />;
 
   const desktop = (
     <>
-      <SideBar />
+      <Sidebar />
       <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
         {selectedChannel ? (
           <Channel />
