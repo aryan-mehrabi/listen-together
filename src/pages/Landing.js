@@ -8,7 +8,7 @@ import Button from "components/Button";
 
 const Landing = () => {
   const isMobile = useMediaQuery("screen and (max-width: 640px");
-  const { logInAnonymous, logIn, error, dismissError } = useAuth();
+  const { logIn, error, dismissError } = useAuth();
   const errorComponent = useError(error, dismissError);
 
   return (
@@ -24,7 +24,7 @@ const Landing = () => {
           Listen to your favorite music synchornously and discuss it with your
           friends.
         </p>
-        <div className="flex items-center justify-center flex-col sm:flex-row gap-5 text-primary md:text-lg m-10">
+        <div className="flex sm:items-center justify-center flex-col sm:flex-row gap-5 text-primary md:text-lg m-10">
           <Button
             type="secondary"
             onClick={logIn}
@@ -34,7 +34,7 @@ const Landing = () => {
           </Button>
           <Button
             type="secondary"
-            onClick={logInAnonymous}
+            disabled={true}
             className="font-semibold py-3"
           >
             <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
