@@ -17,13 +17,14 @@ const Landing = lazy(() => import("pages/Landing"));
 const Router = () => {
   const { modal } = useModal();
   const { userId } = useAuth();
-  const { listenUser, users, error, setError } = useUser();
+  const { users, error, setError, getUser } = useUser();
   const errorComponent = useError(error, () => setError(""));
   const { page, setPage } = usePage();
 
   useEffect(() => {
     if (userId) {
-      listenUser(userId);
+      // listenUser(userId);
+      getUser(userId)
     } else if (userId === "") {
       setPage("landing");
     }

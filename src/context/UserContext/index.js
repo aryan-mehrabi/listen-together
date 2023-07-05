@@ -7,6 +7,7 @@ import {
 } from "apis/firebase";
 import useAuth from "context/AuthContext";
 import userReducer from "./userReducer";
+import supabase from "auth/supabase";
 
 const initValue = {};
 const UserContext = createContext(initValue);
@@ -25,23 +26,6 @@ export const UserProvider = ({ children }) => {
     );
   };
 
-  const listenUser = userId => {
-    listenDocument(
-      data => {
-        if (data) {
-          dispatch({ type: "FETCH_USER", payload: data });
-        } else {
-          dispatch({ type: "USER_NOT_FOUND", payload: userId });
-        }
-      },
-      error => {
-        setError(error.message)
-      },
-      "users",
-      userId
-    );
-  };
-
   const createUser = async (name, seed) => {
     const data = {
       name,
@@ -50,13 +34,28 @@ export const UserProvider = ({ children }) => {
       avatar: `https://avatars.dicebear.com/api/human/${seed}.svg`,
     };
     try {
-      setStatus("loading")
+      setStatus("loading");
       await setData(data, "users", userId);
       dispatch({ type: "CREATE_USER", payload: data });
-      setStatus("idle")
+      setStatus("idle");
     } catch (error) {
-      setStatus("failed")
-      console.log("error4");
+      setStatus("failed");
+    }
+  };
+
+  const getUser = async userId => {
+    const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("uid", userId);
+    if (error) {
+      setError(error.message);
+      return
+    }
+    if (data.length) {
+      dispatch({ type: "FETCH_USER", payload: data[0] });
+    } else {
+      dispatch({ type: "USER_NOT_FOUND", payload: userId });
     }
   };
 
@@ -67,8 +66,8 @@ export const UserProvider = ({ children }) => {
     error,
     setError,
     createUser,
-    listenUser,
     listenChannelMembers,
+    getUser,
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
 };
