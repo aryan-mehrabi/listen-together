@@ -43,14 +43,31 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const setUser = async (name, avatarSeed) => {
+    const data = {
+      name,
+      email,
+      user_id: userId,
+      avatar: `https://avatars.dicebear.com/api/human/${avatarSeed}.svg`,
+    };
+    setStatus("loading");
+    const { error } = await supabase.from("users").insert(data);
+    if (!error) {
+      dispatch({ type: "CREATE_USER", payload: { ...data, userId } });
+      setStatus("idle");
+    } else {
+      setStatus("failed");
+    }
+  };
+
   const getUser = async userId => {
     const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("uid", userId);
+      .from("users")
+      .select("*")
+      .eq("user_id", userId);
     if (error) {
       setError(error.message);
-      return
+      return;
     }
     if (data.length) {
       dispatch({ type: "FETCH_USER", payload: data[0] });
@@ -67,6 +84,7 @@ export const UserProvider = ({ children }) => {
     setError,
     createUser,
     listenChannelMembers,
+    setUser,
     getUser,
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
