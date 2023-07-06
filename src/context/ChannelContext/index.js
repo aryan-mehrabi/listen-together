@@ -11,6 +11,7 @@ import {
   updateData,
   getQueryDocs,
 } from "apis/firebase";
+import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
 import useUser from "context/UserContext";
 import useAuth from "context/AuthContext";
@@ -31,24 +32,37 @@ export const ChannelProvider = ({ children }) => {
 
   //ACTIONS
   const createChannel = async name => {
+
+    setStatus("loading");
+
     const channelData = {
       name,
-      roles: {
-        [userId]: "creator",
-      },
       track: "54kTO17-j_0",
-      isPlaying: false,
+      is_playing: false,
       position: 0,
     };
-    try {
-      setStatus("loading")
-      await generateChannel(userId, channelData);
-      setModal(null);
-      setStatus("idle")
-    } catch (error) {
-      setStatus("error")
-      console.log(error.message);
+    const { data, channelError } = await supabase
+      .from("channels")
+      .insert(channelData)
+      .select();
+    if (channelError) {
+      setStatus("error");
+      return;
     }
+
+    const memberData = {
+      user_id: userId,
+      channel_id: data[0].id,
+      role: "creator",
+    };
+    const { memberError } = await supabase.from("members").insert(memberData);
+    if (memberError) {
+      setStatus("error");
+      return;
+    }
+
+    setModal(null);
+    setStatus("idle");
   };
 
   const listenChannel = async channelId => {
@@ -86,7 +100,7 @@ export const ChannelProvider = ({ children }) => {
   const addMember = async userEmail => {
     const q = queryCollection("users", "email", "==", userEmail);
     try {
-      setStatus("loading")
+      setStatus("loading");
       const docs = await getQueryDocs(q);
       if (docs.size) {
         const user = docs.docs[0].data();
@@ -96,9 +110,9 @@ export const ChannelProvider = ({ children }) => {
           <Alert>We couldn't find any user with this email address.</Alert>
         );
       }
-      setStatus("idle")
+      setStatus("idle");
     } catch (error) {
-      setStatus("error")
+      setStatus("error");
       console.log(error);
     }
   };
@@ -156,7 +170,7 @@ export const ChannelProvider = ({ children }) => {
     try {
       await updateData({ track }, "channels", selectedChannel);
     } catch (error) {
-      throw error
+      throw error;
     }
   };
 
