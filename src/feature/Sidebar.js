@@ -6,19 +6,36 @@ import ChatItem from "feature/chat/ChatItem";
 import CreateChannel from "./CreateChannel";
 import DropDown from "components/DropDown";
 import Button from "components/Button";
+import useMember from "context/MemberContext";
+import useChannel from "context/ChannelContext";
 
 const Sidebar = () => {
   const { setModal } = useModal();
   const [dropdown, setDropdown] = useState(false);
   const { users } = useUser();
+  const { members } = useMember();
+  const { channels } = useChannel();
   const { userId, logOut } = useAuth();
-  const dropdownRef = useRef()
+  const dropdownRef = useRef();
 
   const renderChatList = () => {
-    if (users[userId]?.channels) {
-      return Object.values(users[userId].channels).map(channel => (
-        <ChatItem key={channel.id} {...{ channel }} />
-      ));
+    // if (users[userId]?.channels) {
+    //   return Object.values(users[userId].channels).map(channel => (
+    //     <ChatItem key={channel.id} {...{ channel }} />
+    //   ));
+    // }
+    const memberArr = Object.values(members);
+    if (memberArr.length) {
+      return memberArr
+        .filter(
+          member => member.users.id === userId && channels[member.channels.id]
+        )
+        .map(member => (
+          <ChatItem
+            key={member.channels.id}
+            channel={channels[member.channels.id]}
+          />
+        ));
     }
   };
 

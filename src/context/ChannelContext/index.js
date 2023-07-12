@@ -174,6 +174,10 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
+  const setChannel = channel => {
+    dispatch({ type: "SET_CHANNEL", payload: channel });
+  };
+
   // STORE
   const value = {
     channels: state,
@@ -190,6 +194,7 @@ export const ChannelProvider = ({ children }) => {
     playTrack,
     pauseTrack,
     updateTrack,
+    setChannel,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>
