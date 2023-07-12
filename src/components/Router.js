@@ -56,7 +56,7 @@ const Router = () => {
   };
 
   return (
-    <>
+    <div className="text-secondary bg-primary h-screen">
       {modal && <Modal>{modal}</Modal>}
       <Suspense
         fallback={
@@ -67,7 +67,7 @@ const Router = () => {
       >
         {renderApp()}
       </Suspense>
-    </>
+    </div>
   );
 };
 
