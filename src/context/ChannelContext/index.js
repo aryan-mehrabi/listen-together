@@ -32,7 +32,6 @@ export const ChannelProvider = ({ children }) => {
 
   //ACTIONS
   const createChannel = async name => {
-
     setStatus("loading");
 
     const channelData = {
@@ -44,7 +43,8 @@ export const ChannelProvider = ({ children }) => {
     const { data, channelError } = await supabase
       .from("channels")
       .insert(channelData)
-      .select();
+      .select()
+      .single();
     if (channelError) {
       setStatus("error");
       return;
@@ -52,7 +52,7 @@ export const ChannelProvider = ({ children }) => {
 
     const memberData = {
       user_id: userId,
-      channel_id: data[0].id,
+      channel_id: data.id,
       role: "creator",
     };
     const { memberError } = await supabase.from("members").insert(memberData);

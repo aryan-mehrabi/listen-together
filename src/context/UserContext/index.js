@@ -1,10 +1,5 @@
 import React, { createContext, useReducer, useContext, useState } from "react";
-import {
-  setData,
-  listenDocument,
-  listenQuery,
-  queryCollection,
-} from "apis/firebase";
+import { setData, listenQuery, queryCollection } from "apis/firebase";
 import useAuth from "context/AuthContext";
 import userReducer from "./userReducer";
 import supabase from "auth/supabase";
@@ -45,9 +40,9 @@ export const UserProvider = ({ children }) => {
 
   const setUser = async (name, avatarSeed) => {
     const data = {
+      id: userId,
       name,
       email,
-      user_id: userId,
       avatar: `https://avatars.dicebear.com/api/human/${avatarSeed}.svg`,
     };
     setStatus("loading");
@@ -64,13 +59,14 @@ export const UserProvider = ({ children }) => {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("user_id", userId);
+      .eq("id", userId)
+      .maybeSingle();
     if (error) {
       setError(error.message);
       return;
     }
-    if (data.length) {
-      dispatch({ type: "FETCH_USER", payload: data[0] });
+    if (data) {
+      dispatch({ type: "FETCH_USER", payload: data });
     } else {
       dispatch({ type: "USER_NOT_FOUND", payload: userId });
     }

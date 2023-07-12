@@ -1,7 +1,10 @@
 const userReducer = (state, { type, payload }) => {
   switch (type) {
     case "FETCH_USER":
-      return { ...state, [payload.user_id]: {...payload, userId: payload.user_id} };
+      return {
+        ...state,
+        [payload.id]: { ...payload, userId: payload.id },
+      };
     case "CREATE_USER":
       return { ...state, [payload.userId]: payload };
     case "FETCH_USERS":
