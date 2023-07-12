@@ -9,6 +9,7 @@ import usePage from "context/PageContext";
 import useModal from "context/ModalContext";
 import Spinner from "./Spinner";
 import useError from "hooks/useError";
+import useMember from "context/MemberContext";
 
 const Home = lazy(() => import("pages/Home"));
 const SignUp = lazy(() => import("pages/SignUp"));
@@ -20,11 +21,11 @@ const Router = () => {
   const { users, error, setError, getUser } = useUser();
   const errorComponent = useError(error, () => setError(""));
   const { page, setPage } = usePage();
+  const { subscribeMemberUser } = useMember();
 
   useEffect(() => {
     if (userId) {
-      // listenUser(userId);
-      getUser(userId)
+      getUser(userId);
     } else if (userId === "") {
       setPage("landing");
     }
@@ -33,7 +34,13 @@ const Router = () => {
   useEffect(() => {
     const authUser = users[userId];
     if (authUser) {
-      Object.values(authUser).length ? setPage("home") : setPage("signup");
+      if (Object.values(authUser).length) {
+        setPage("home");
+        subscribeMemberUser();
+      } else {
+        setPage("signup");
+      }
+      // Object.values(authUser).length ? setPage("home") : setPage("signup");
     }
   }, [users]);
 
