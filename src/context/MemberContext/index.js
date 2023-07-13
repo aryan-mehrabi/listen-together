@@ -10,7 +10,7 @@ const MemberContext = createContext(initVal);
 export const MemberProvider = ({ children }) => {
   const [state, dispatch] = useReducer(memberReducer, initVal);
   const { userId } = useAuth();
-  const { setChannel } = useChannel();
+  const { gotMembersUser, updatedMembers } = useChannel();
 
   // ACTIONS
   const subscribeMemberUser = async () => {
@@ -20,30 +20,34 @@ export const MemberProvider = ({ children }) => {
         `
     id,
     role,
-    channels (id, name),
+    channels (*),
     users (id)
     `
       )
       .eq("user_id", userId);
     if (!error) {
-      dispatch({ type: "FETCH_MEMBER_USER", payload: data });
-      setChannel(data);
+      dispatch({ type: "FETCH_MEMBERS_USER", payload: data });
+      gotMembersUser(data);
     }
-    // const members = supabase
-    //   .channel("custom-all-channel")
-    //   .on(
-    //     "postgres_changes",
-    //     {
-    //       event: "*",
-    //       schema: "public",
-    //       table: "members",
-    //       filter: "user_id=eq." + userId,
-    //     },
-    //     payload => {
-    //       console.log("Change received!", payload);
-    //     }
-    //   )
-    //   .subscribe();
+
+    const members = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "members",
+          filter: "user_id=eq." + userId,
+        },
+        async payload => {
+          if (payload.eventType === "INSERT") {
+            dispatch({ type: "FETCH_MEMBER_USER", payload: payload.new });
+            updatedMembers(payload.new.channel_id);
+          }
+        }
+      )
+      .subscribe();
   };
   const value = {
     members: state,

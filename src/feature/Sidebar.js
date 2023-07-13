@@ -28,12 +28,12 @@ const Sidebar = () => {
     if (memberArr.length) {
       return memberArr
         .filter(
-          member => member.users.id === userId && channels[member.channels.id]
+          member => member.user_id === userId && channels[member.channel_id]
         )
         .map(member => (
           <ChatItem
-            key={member.channels.id}
-            channel={channels[member.channels.id]}
+            key={member.channel_id}
+            channel={channels[member.channel_id]}
           />
         ));
     }

@@ -174,8 +174,19 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const setChannel = channel => {
-    dispatch({ type: "SET_CHANNEL", payload: channel });
+  const gotMembersUser = channel => {
+    dispatch({ type: "SET_MEMBERS_CHANNEL", payload: channel });
+  };
+
+  const updatedMembers = async channelId => {
+    const { data, error } = await supabase
+      .from("channels")
+      .select("*")
+      .eq("id", channelId)
+      .single();
+    if (!error) {
+      dispatch({ type: "GET_MEMBER_CHANNEL", payload: data });
+    }
   };
 
   // STORE
@@ -194,7 +205,8 @@ export const ChannelProvider = ({ children }) => {
     playTrack,
     pauseTrack,
     updateTrack,
-    setChannel,
+    gotMembersUser,
+    updatedMembers,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>
