@@ -174,8 +174,8 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const gotMembersUser = channel => {
-    dispatch({ type: "SET_MEMBERS_CHANNEL", payload: channel });
+  const fetchUsersMember = channel => {
+    dispatch({ type: "FETCH_USERS_MEMBER", payload: channel });
   };
 
   const updatedMembers = async channelId => {
@@ -205,7 +205,7 @@ export const ChannelProvider = ({ children }) => {
     playTrack,
     pauseTrack,
     updateTrack,
-    gotMembersUser,
+    fetchUsersMember,
     updatedMembers,
   };
   return (

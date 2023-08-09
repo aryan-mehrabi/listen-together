@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Channel from "feature/Channel";
 import Sidebar from "feature/Sidebar";
 import useChannel from "context/ChannelContext";
 import useMediaQuery from "hooks/useMediaQuery";
 import { RightSidebarProvider } from "context/RightSidebarContext";
+import useMember from "context/MemberContext";
 
 const Chat = () => {
+  const { fetchUsersMember } = useMember();
   const { selectedChannel } = useChannel();
   const isMobile = useMediaQuery("screen and (max-width: 640px");
+
+  useEffect(() => {
+    fetchUsersMember();
+  }, []);
 
   const mobile = selectedChannel ? <Channel /> : <Sidebar />;
 

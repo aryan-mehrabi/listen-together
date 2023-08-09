@@ -25,7 +25,7 @@ const channelReducer = (state, { type, payload }) => {
         ...newChannels,
       };
 
-    case "SET_MEMBERS_CHANNEL":
+    case "FETCH_USERS_MEMBER":
       const newState = { ...state };
       payload.forEach(member => {
         const { id } = member.channels;

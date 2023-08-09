@@ -10,24 +10,24 @@ const MemberContext = createContext(initVal);
 export const MemberProvider = ({ children }) => {
   const [state, dispatch] = useReducer(memberReducer, initVal);
   const { userId } = useAuth();
-  const { gotMembersUser, updatedMembers } = useChannel();
+  const { fetchUsersMember: fetchUsersMemberChannel, updatedMembers } = useChannel();
 
   // ACTIONS
-  const subscribeMemberUser = async () => {
+  const fetchUsersMember = async () => {
     const { data, error } = await supabase
       .from("members")
       .select(
         `
     id,
     role,
-    channels (*),
+    channels (id, name),
     users (id)
     `
       )
       .eq("user_id", userId);
     if (!error) {
-      dispatch({ type: "FETCH_MEMBERS_USER", payload: data });
-      gotMembersUser(data);
+      dispatch({ type: "FETCH_USERS_MEMBER", payload: data });
+      fetchUsersMemberChannel(data);
     }
 
     const members = supabase
@@ -38,7 +38,7 @@ export const MemberProvider = ({ children }) => {
           event: "*",
           schema: "public",
           table: "members",
-          filter: "user_id=eq." + userId,
+          filter: `user_id=eq.${userId}`,
         },
         async payload => {
           if (payload.eventType === "INSERT") {
@@ -51,7 +51,7 @@ export const MemberProvider = ({ children }) => {
   };
   const value = {
     members: state,
-    subscribeMemberUser,
+    fetchUsersMember,
   };
   return (
     <MemberContext.Provider {...{ value }}>{children}</MemberContext.Provider>

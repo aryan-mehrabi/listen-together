@@ -19,13 +19,7 @@ const Sidebar = () => {
   const dropdownRef = useRef();
 
   const renderChatList = () => {
-    // if (users[userId]?.channels) {
-    //   return Object.values(users[userId].channels).map(channel => (
-    //     <ChatItem key={channel.id} {...{ channel }} />
-    //   ));
-    // }
     const memberArr = Object.values(members);
-    if (memberArr.length) {
       return memberArr
         .filter(
           member => member.user_id === userId && channels[member.channel_id]
@@ -36,7 +30,6 @@ const Sidebar = () => {
             channel={channels[member.channel_id]}
           />
         ));
-    }
   };
 
   return (
