@@ -1,7 +1,7 @@
 const channelReducer = (state, { type, payload }) => {
   switch (type) {
-    case "FETCH_CHANNEL":
-      return { ...state, [payload.id]: { ...state[payload.id], ...payload } };
+    // case "FETCH_CHANNEL":
+    //   return { ...state, [payload.id]: { ...state[payload.id], ...payload } };
 
     case "FETCH_MESSAGES":
       const messages = {};
@@ -17,25 +17,19 @@ const channelReducer = (state, { type, payload }) => {
       };
 
     case "LEAVE_CHANNEL":
-      const {
-        newChannels,
-        [payload]: { a },
-      } = state;
+      const { [payload]: a, ...newChannels } = state;
+      console.log(newChannels);
       return {
         ...newChannels,
       };
-
-    case "FETCH_USERS_MEMBER":
-      const newState = { ...state };
-      payload.forEach(member => {
-        const { id } = member.channels;
-        if (!(id in newState)) {
-          newState[id] = member.channels;
-        }
-      });
-      return newState;
-    case "GET_MEMBER_CHANNEL":
+    case "FETCH_CHANNEL":
       return { ...state, [payload.id]: payload };
+    case "FETCH_CHANNELS":
+      const channels = {};
+      payload.forEach(channel => {
+        channels[channel.id] = channel;
+      });
+      return { ...state, ...channels };
     default:
       return state;
   }

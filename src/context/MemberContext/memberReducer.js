@@ -11,8 +11,11 @@ const memberReducer = (state, { type, payload }) => {
         };
       });
       return { ...state, ...members };
-    case "FETCH_MEMBER_USER":
+    case "INSERT_USERS_MEMBER" || "UPDATE_USERS_MEMBER":
       return { ...state, [payload.id]: payload };
+    case "DELETE_USERS_MEMBER":
+      const { [payload.id]: deletedMember, ...remaining } = state;
+      return remaining;
     default:
       return state;
   }

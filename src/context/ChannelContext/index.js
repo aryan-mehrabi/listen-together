@@ -125,14 +125,8 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const leaveChannel = async () => {
-    try {
-      await removeMemberFromChannel(userId, selectedChannel);
-      dispatch({ type: "LEAVE_CHANNEL", payload: selectedChannel });
-      setSelectedChannel("");
-    } catch (error) {
-      console.log(error.message);
-    }
+  const leaveChannel = async (channelId) => {
+    dispatch({type: "LEAVE_CHANNEL", payload: channelId})
   };
 
   const changeRole = async (userId, role) => {
@@ -174,18 +168,18 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const fetchUsersMember = channel => {
-    dispatch({ type: "FETCH_USERS_MEMBER", payload: channel });
+  const setChannels = channels => {
+    dispatch({ type: "FETCH_CHANNELS", payload: channels });
   };
 
-  const updatedMembers = async channelId => {
+  const fetchChannel = async channelId => {
     const { data, error } = await supabase
       .from("channels")
       .select("*")
       .eq("id", channelId)
       .single();
     if (!error) {
-      dispatch({ type: "GET_MEMBER_CHANNEL", payload: data });
+      dispatch({ type: "FETCH_CHANNEL", payload: data });
     }
   };
 
@@ -205,8 +199,8 @@ export const ChannelProvider = ({ children }) => {
     playTrack,
     pauseTrack,
     updateTrack,
-    fetchUsersMember,
-    updatedMembers,
+    setChannels,
+    fetchChannel,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>
