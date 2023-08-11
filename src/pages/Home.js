@@ -12,7 +12,8 @@ const Chat = () => {
   const isMobile = useMediaQuery("screen and (max-width: 640px");
 
   useEffect(() => {
-    fetchUsersMember();
+    const memberChannel = fetchUsersMember()
+     return () => memberChannel.unsubscribe();
   }, []);
 
   const mobile = selectedChannel ? <Channel /> : <Sidebar />;

@@ -35,7 +35,7 @@ export const MemberProvider = ({ children }) => {
       table: "members",
       filter: `user_id=eq.${userId}`,
     };
-    const members = supabase
+    return supabase
       .channel("users-member-channel")
       .on("postgres_changes", { event: "INSERT", ...tableDetail }, payload => {
         dispatch({ type: "INSERT_USERS_MEMBER", payload: payload.new });
@@ -52,6 +52,7 @@ export const MemberProvider = ({ children }) => {
       })
       .subscribe();
   };
+
   const value = {
     members: state,
     fetchUsersMember,
