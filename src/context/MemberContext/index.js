@@ -35,7 +35,7 @@ export const MemberProvider = ({ children }) => {
       table: "members",
       filter: `user_id=eq.${userId}`,
     };
-    return supabase
+    const usersMemberChannel = supabase
       .channel("users-member-channel")
       .on("postgres_changes", { event: "INSERT", ...tableDetail }, payload => {
         dispatch({ type: "INSERT_USERS_MEMBER", payload: payload.new });
@@ -51,6 +51,7 @@ export const MemberProvider = ({ children }) => {
         leaveChannel(payload.old.channel_id);
       })
       .subscribe();
+      return () => supabase.removeChannel(usersMemberChannel)
   };
 
   const value = {
