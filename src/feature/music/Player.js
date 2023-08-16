@@ -1,20 +1,31 @@
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useYTPlayer from "hooks/useYTPlayer";
+import useMember from "context/MemberContext";
 
 const Player = () => {
   useYTPlayer();
   const { userId } = useAuth();
   const { channels, selectedChannel } = useChannel();
-  const { track, roles } = channels[selectedChannel];
+  const { members } = useMember();
+  const { track } = channels[selectedChannel];
   const loadTrack = useRef(track);
+
+  const userMembership = useMemo(
+    () =>
+      Object.values(members).find(
+        member =>
+          member.user_id === userId && member.channel_id === selectedChannel
+      ),
+    [members, userId, selectedChannel]
+  );
 
   return (
     <div className="mt-auto">
       <iframe
         className={
-          ["admin", "creator"].includes(roles[userId])
+          ["admin", "creator"].includes(userMembership.role)
             ? ""
             : "pointer-events-none"
         }
