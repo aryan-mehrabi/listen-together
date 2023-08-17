@@ -24,6 +24,12 @@ const MemberProvider = lazy(() =>
     default: module.MemberProvider,
   }))
 );
+const MessageProvider = lazy(() =>
+  import("context/MessageContext").then(module => ({
+    default: module.MessageProvider,
+  }))
+);
+
 const Router = lazy(() => import("./Router"));
 
 const App = () => {
@@ -44,7 +50,9 @@ const App = () => {
               <PageProvider>
                 <ChannelProvider>
                   <MemberProvider>
-                    <Router />
+                    <MessageProvider>
+                      <Router />
+                    </MessageProvider>
                   </MemberProvider>
                 </ChannelProvider>
               </PageProvider>
