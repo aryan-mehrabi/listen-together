@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { PageProvider } from "context/PageContext";
 import { ModalProvider } from "context/ModalContext";
-import { MemberProvider } from "context/MemberContext";
 import Spinner from "./Spinner";
 
 const AuthProvider = lazy(() =>
@@ -18,6 +17,11 @@ const UserProvider = lazy(() =>
 const ChannelProvider = lazy(() =>
   import("context/ChannelContext").then(module => ({
     default: module.ChannelProvider,
+  }))
+);
+const MemberProvider = lazy(() =>
+  import("context/MemberContext").then(module => ({
+    default: module.MemberProvider,
   }))
 );
 const Router = lazy(() => import("./Router"));
