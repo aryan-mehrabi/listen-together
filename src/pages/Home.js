@@ -22,7 +22,7 @@ const Chat = () => {
   const desktop = (
     <>
       <Sidebar />
-      <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
+      <main className="bg-blend-multiply bg-repeat bg-primary w-full">
         {selectedChannel ? (
           <Channel />
         ) : (
