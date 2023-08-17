@@ -7,13 +7,13 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [seed, setSeed] = useState(Math.random());
   const [gender, setGender] = useState("human");
-  const { setUser, status } = useUser();
+  const { createUser, status } = useUser();
 
   const onFormSubmit = (e) => {
     e.preventDefault();
     const trimedName = name.trim();
     if (trimedName) {
-      setUser(trimedName, seed);
+      createUser(trimedName, seed);
     }
   }
 

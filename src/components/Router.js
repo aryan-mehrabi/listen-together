@@ -1,7 +1,4 @@
 import React, { useEffect, lazy, Suspense } from "react";
-// import Home from "pages/Home";
-// import SignUp from "pages/SignUp";
-// import Landing from "pages/Landing";
 import Modal from "./Modal";
 import useAuth from "context/AuthContext";
 import useUser from "context/UserContext";
@@ -17,13 +14,13 @@ const Landing = lazy(() => import("pages/Landing"));
 const Router = () => {
   const { modal } = useModal();
   const { userId } = useAuth();
-  const { users, error, setError, getUser } = useUser();
+  const { users, error, setError, fetchUser } = useUser();
   const errorComponent = useError(error, () => setError(""));
   const { page, setPage } = usePage();
 
   useEffect(() => {
     if (userId) {
-      getUser(userId);
+      fetchUser(userId);
     } else if (userId === "") {
       setPage("landing");
     }
