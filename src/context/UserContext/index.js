@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
     setStatus("loading");
     const { error } = await supabase.from("users").insert(data);
     if (!error) {
-      dispatch({ type: "CREATE_USER", payload: { ...data, userId } });
+      dispatch({ type: "CREATE_USER", payload: data });
       setStatus("idle");
     } else {
       setStatus("failed");
@@ -55,6 +55,10 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const setUsers = payload => {
+    dispatch({ type: "FETCH_USERS", payload });
+  };
+
   // STORE
   const value = {
     users: state,
@@ -64,6 +68,7 @@ export const UserProvider = ({ children }) => {
     createUser,
     listenChannelMembers,
     fetchUser,
+    setUsers
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
 };
