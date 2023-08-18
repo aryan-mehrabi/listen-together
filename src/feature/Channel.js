@@ -6,9 +6,11 @@ import Chat from "feature/chat/Chat";
 import ChannelSettings from "feature/setting/ChannelSettings";
 import MusicSettings from "feature/music/MusicSettings";
 import Spinner from "components/Spinner";
+import useMessage from "context/MessageContext";
 
 const Channel = () => {
-  const { selectedChannel, listenChannel, channels } = useChannel();
+  const { selectedChannel, channels } = useChannel();
+  const { fetchMessages } = useMessage();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery("screen and (max-width: 640px)");
 
@@ -22,7 +24,8 @@ const Channel = () => {
 
   useEffect(() => {
     if (selectedChannel) {
-      listenChannel(selectedChannel);
+      fetchMessages(selectedChannel);
+      // listenChannel(selectedChannel);
     }
   }, [selectedChannel]);
 
@@ -50,7 +53,7 @@ const Channel = () => {
       {rightSidebar === "setting" && <ChannelSettings />}
     </>
   );
-  
+
   return (
     <section className="h-full flex w-full">
       {isMobile ? mobile : desktop}
