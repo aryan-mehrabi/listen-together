@@ -8,7 +8,7 @@ const MessageContext = createContext(initVal);
 
 export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
-  const { setUsers } = useUser();
+  const { setUsers, fetchUser, users } = useUser();
 
   // ACTIONS
   const fetchMessages = async channelId => {
@@ -34,10 +34,44 @@ export const MessageProvider = ({ children }) => {
     }
   };
 
+  const subscribeMessagesChannel = async channelId => {
+    const messagesChannel = supabase
+      .channel("messages-channel-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `channel_id=eq.${channelId}`,
+        },
+        payload => {
+          dispatch({ type: "INSERT_MESSAGE", payload: payload.new });
+          if (!(payload.new.user_id in users)) {
+            fetchUser(payload.new.user_id);
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "channels",
+          filter: `id=eq.${channelId}`,
+        },
+        payload => {
+          console.log("Change received!", payload);
+        }
+      )
+      .subscribe();
+    return () => supabase.removeChannel(messagesChannel);
+  };
 
   const value = {
     messages: state,
     fetchMessages,
+    subscribeMessagesChannel,
   };
   return (
     <MessageContext.Provider {...{ value }}>{children}</MessageContext.Provider>

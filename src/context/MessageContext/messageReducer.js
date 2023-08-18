@@ -6,6 +6,11 @@ const messageReducer = (state, { type, payload }) => {
         return { ...newMessage, user_id: users.id };
       });
       return { ...state, [payload.channelId]: messages };
+    case "INSERT_MESSAGE":
+      return {
+        ...state,
+        [payload.channel_id]: [...state[payload.channel_id], payload],
+      };
     default:
       return state;
   }

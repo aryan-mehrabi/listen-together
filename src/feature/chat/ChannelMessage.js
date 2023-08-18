@@ -4,7 +4,7 @@ import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
 import useMember from "context/MemberContext";
 
-const ChannelMessage = ({ message, roles }) => {
+const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
   const { updateTrack, selectedChannel } = useChannel();
   const { users } = useUser();
@@ -13,9 +13,9 @@ const ChannelMessage = ({ message, roles }) => {
   const { role } = Object.values(members).find(
     member => member.channel_id === selectedChannel && member.user_id === userId
   );
-    console.log(created_at)
+
   const getMessageTime = () => {
-    const time = new Date(created_at)
+    const time = new Date(created_at);
     if (!time) return <i className="fa-solid fa-clock text-[11px]"></i>;
     const hour = time.getHours().toString();
     const minute = time.getMinutes().toString();

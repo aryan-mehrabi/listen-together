@@ -10,7 +10,7 @@ import useMessage from "context/MessageContext";
 
 const Channel = () => {
   const { selectedChannel, channels } = useChannel();
-  const { fetchMessages } = useMessage();
+  const { fetchMessages, subscribeMessagesChannel } = useMessage();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery("screen and (max-width: 640px)");
 
@@ -23,9 +23,15 @@ const Channel = () => {
   }, [isMobile]);
 
   useEffect(() => {
+    let unsubscribe;
     if (selectedChannel) {
       fetchMessages(selectedChannel);
-      // listenChannel(selectedChannel);
+      subscribeMessagesChannel(selectedChannel).then(
+        res => (unsubscribe = res)
+      );
+      if (unsubscribe) {
+        return () => unsubscribe();
+      }
     }
   }, [selectedChannel]);
 
