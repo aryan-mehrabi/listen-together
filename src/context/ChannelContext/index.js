@@ -83,18 +83,27 @@ export const ChannelProvider = ({ children }) => {
     };
   };
 
-  const sendMessage = async message => {
-    try {
-      const messageData = {
-        content: message,
-        from: userId,
-        name: users[userId].name,
-        avatar: users[userId].avatar,
-      };
-      await setDataId(messageData, "channels", selectedChannel, "messages");
-    } catch (error) {
-      console.log(error.message);
-    }
+  const sendMessage = async content => {
+    // try {
+    //   const messageData = {
+    //     content: message,
+    //     from: userId,
+    //     name: users[userId].name,
+    //     avatar: users[userId].avatar,
+    //   };
+    //   await setDataId(messageData, "channels", selectedChannel, "messages");
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
+    const message = {
+      content,
+      user_id: userId,
+      channel_id: selectedChannel,
+    };
+    const { data, error } = await supabase
+      .from("messages")
+      .insert([message])
+      .select();
   };
 
   const addMember = async userEmail => {
@@ -125,8 +134,8 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const leaveChannel = async (channelId) => {
-    dispatch({type: "LEAVE_CHANNEL", payload: channelId})
+  const leaveChannel = async channelId => {
+    dispatch({ type: "LEAVE_CHANNEL", payload: channelId });
   };
 
   const changeRole = async (userId, role) => {
