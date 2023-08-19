@@ -13,7 +13,7 @@ const MusicItem = ({ track }) => {
       sendMessage({
         title: track.snippet.title,
         thumbnail: track.snippet.thumbnails.default.url,
-        trackId: track.id.videoId,
+        track_id: track.id.videoId,
       });
     } else {
       updateTrack(track.id.videoId);
