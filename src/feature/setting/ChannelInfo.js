@@ -4,7 +4,7 @@ import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import Button from "components/Button";
 
-const ChannelInfo = () => {
+const ChannelInfo = ({ role }) => {
   const { userId } = useAuth();
   const { channels, selectedChannel, leaveChannel } = useChannel();
   const { setRightSidebar } = useRightSidebar();
@@ -36,9 +36,7 @@ const ChannelInfo = () => {
       </div>
       <div className="mt-3.5">
         <p className="text-xl my-3">{channel.name}</p>
-        {channel.roles[userId] === "creator"
-          ? null /* deleteButton */
-          : leaveButton}
+        {role === "creator" ? null /* deleteButton */ : leaveButton}
       </div>
     </div>
   );

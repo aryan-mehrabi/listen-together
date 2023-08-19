@@ -3,15 +3,21 @@ import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import DropDown from "components/DropDown";
 import Button from "components/Button";
+import useMember from "context/MemberContext";
 
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
-  const { selectedChannel, channels, removeMember, changeRole } = useChannel();
+  const { removeMember, changeRole } = useChannel();
   const { userId: authUserId } = useAuth();
+  const { members } = useMember();
 
-  const userRole = channels[selectedChannel].roles[userId];
-  const authUserRole = channels[selectedChannel].roles[authUserId];
+  const { role: userRole } = Object.values(members).find(
+    member => member.user_id === userId
+  );
+  const { role: authUserRole } = Object.values(members).find(
+    member => member.user_id === authUserId
+  );
 
   const rolesRules = { creator: 3, admin: 2, member: 1 };
 

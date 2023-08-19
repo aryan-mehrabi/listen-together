@@ -3,6 +3,7 @@ import memberReducer from "./memberReducer";
 import useAuth from "context/AuthContext";
 import supabase from "auth/supabase";
 import useChannel from "context/ChannelContext";
+import useUser from "context/UserContext";
 
 const initVal = {};
 const MemberContext = createContext(initVal);
@@ -11,6 +12,7 @@ export const MemberProvider = ({ children }) => {
   const [state, dispatch] = useReducer(memberReducer, initVal);
   const { userId } = useAuth();
   const { setChannels, fetchChannel, channels, leaveChannel } = useChannel();
+  const { setUsers } = useUser();
 
   // ACTIONS
   const fetchUsersMember = async () => {
@@ -20,8 +22,8 @@ export const MemberProvider = ({ children }) => {
         `
     id,
     role,
-    channels (*),
-    users (id)
+    user_id,
+    channels (*)
     `
       )
       .eq("user_id", userId);
@@ -51,12 +53,35 @@ export const MemberProvider = ({ children }) => {
         leaveChannel(payload.old.channel_id);
       })
       .subscribe();
-      return () => supabase.removeChannel(usersMemberChannel)
+    return () => supabase.removeChannel(usersMemberChannel);
+  };
+
+  const fetchChannelsMember = async channelId => {
+    const { data, error } = await supabase
+      .from("members")
+      .select(
+        `
+      id,
+      channel_id,
+      role,
+      users (
+        id,
+        name,
+        avatar
+      )
+      `
+      )
+      .eq("channel_id", channelId);
+    if (!error) {
+      setUsers(data);
+      dispatch({ type: "FETCH_CHANNELS_MEMBER", payload: data });
+    }
   };
 
   const value = {
     members: state,
     fetchUsersMember,
+    fetchChannelsMember,
   };
   return (
     <MemberContext.Provider {...{ value }}>{children}</MemberContext.Provider>
