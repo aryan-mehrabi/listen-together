@@ -12,7 +12,7 @@ export const MemberProvider = ({ children }) => {
   const [state, dispatch] = useReducer(memberReducer, initVal);
   const { userId } = useAuth();
   const { setChannels, fetchChannel, channels, leaveChannel } = useChannel();
-  const { setUsers } = useUser();
+  const { setUsers, fetchUser, users } = useUser();
 
   // ACTIONS
   const fetchUsersMember = async () => {
@@ -40,17 +40,19 @@ export const MemberProvider = ({ children }) => {
     const usersMemberChannel = supabase
       .channel("users-member-channel")
       .on("postgres_changes", { event: "INSERT", ...tableDetail }, payload => {
-        dispatch({ type: "INSERT_USERS_MEMBER", payload: payload.new });
+        dispatch({ type: "INSERT_MEMBER", payload: payload.new });
         if (!(payload.new.channel_id in channels)) {
           fetchChannel(payload.new.channel_id);
         }
       })
       .on("postgres_changes", { event: "UPDATE", ...tableDetail }, payload => {
-        dispatch({ type: "UPDATE_USERS_MEMBER", payload: payload.new });
+        dispatch({ type: "UPDATE_MEMBER", payload: payload.new });
       })
       .on("postgres_changes", { event: "DELETE", ...tableDetail }, payload => {
-        dispatch({ type: "DELETE_USERS_MEMBER", payload: payload.old });
-        leaveChannel(payload.old.channel_id);
+        if (payload.old.user_id === userId) {
+          dispatch({ type: "DELETE_MEMBER", payload: payload.old });
+          leaveChannel(payload.old.channel_id);
+        }
       })
       .subscribe();
     return () => supabase.removeChannel(usersMemberChannel);
@@ -78,10 +80,36 @@ export const MemberProvider = ({ children }) => {
     }
   };
 
+  const subscribeChannelsMember = channelId => {
+    const tableDetail = {
+      schema: "public",
+      table: "members",
+      filter: `channel_id=eq.${channelId}`,
+    };
+    const channelsMember = supabase
+      .channel("channels-member-channel")
+      .on("postgres_changes", { event: "INSERT", ...tableDetail }, payload => {
+        dispatch({ type: "INSERT_MEMBER", payload: payload.new });
+        if (!(payload.new.user_id in users)) {
+          fetchUser(payload.new.user_id);
+        }
+      })
+      .on("postgres_changes", { event: "UPDATE", ...tableDetail }, payload => {
+        dispatch({ type: "UPDATE_MEMBER", payload: payload.new });
+      })
+      .on("postgres_changes", { event: "DELETE", ...tableDetail }, payload => {
+        console.log("channel member delete");
+        dispatch({ type: "DELETE_MEMBER", payload: payload.old });
+      })
+      .subscribe();
+    return () => supabase.removeChannel(channelsMember);
+  };
+
   const value = {
     members: state,
     fetchUsersMember,
     fetchChannelsMember,
+    subscribeChannelsMember,
   };
   return (
     <MemberContext.Provider {...{ value }}>{children}</MemberContext.Provider>

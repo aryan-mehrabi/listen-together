@@ -6,12 +6,13 @@ import useMember from "context/MemberContext";
 
 const ChannelMembers = () => {
   const { selectedChannel } = useChannel();
-  const { listenChannelMembers, users } = useUser();
-  const { members, fetchChannelsMember } = useMember();
+  const { users } = useUser();
+  const { members, fetchChannelsMember, subscribeChannelsMember } = useMember();
 
   useEffect(() => {
     fetchChannelsMember(selectedChannel);
-    listenChannelMembers(selectedChannel);
+    const unsubscribe = subscribeChannelsMember(selectedChannel);
+    return () => unsubscribe();
   }, [selectedChannel]);
 
   const renderMembers = () => {

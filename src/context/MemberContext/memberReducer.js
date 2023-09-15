@@ -11,9 +11,9 @@ const memberReducer = (state, { type, payload }) => {
         };
       });
       return { ...state, ...members };
-    case "INSERT_USERS_MEMBER" || "UPDATE_USERS_MEMBER":
+    case "INSERT_MEMBER" || "UPDATE_MEMBER":
       return { ...state, [payload.id]: payload };
-    case "DELETE_USERS_MEMBER":
+    case "DELETE_MEMBER":
       const { [payload.id]: deletedMember, ...remaining } = state;
       return remaining;
     case "FETCH_CHANNELS_MEMBER":
