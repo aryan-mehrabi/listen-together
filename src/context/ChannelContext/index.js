@@ -1,22 +1,15 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
 import {
-  addMemberToChannel,
-  createChannel as generateChannel,
   listenDocument,
   listenQuery,
   queryByOrder,
-  queryCollection,
   removeMemberFromChannel,
-  setDataId,
   updateData,
-  getQueryDocs,
 } from "apis/firebase";
 import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
-import useUser from "context/UserContext";
 import useAuth from "context/AuthContext";
 import useModal from "context/ModalContext";
-import Alert from "components/Alert";
 
 const initValue = {};
 const statusInitValue = "idle";
@@ -24,7 +17,6 @@ const ChannelContext = createContext(initValue);
 
 export const ChannelProvider = ({ children }) => {
   const { setModal } = useModal();
-  const { users } = useUser();
   const { userId } = useAuth();
   const [state, dispatch] = useReducer(channelReducer, initValue);
   const [selectedChannel, setSelectedChannel] = useState("");
@@ -106,26 +98,6 @@ export const ChannelProvider = ({ children }) => {
       .select();
   };
 
-  const addMember = async userEmail => {
-    const q = queryCollection("users", "email", "==", userEmail);
-    try {
-      setStatus("loading");
-      const docs = await getQueryDocs(q);
-      if (docs.size) {
-        const user = docs.docs[0].data();
-        await addMemberToChannel(user.userId, state[selectedChannel]);
-      } else {
-        setModal(
-          <Alert>We couldn't find any user with this email address.</Alert>
-        );
-      }
-      setStatus("idle");
-    } catch (error) {
-      setStatus("error");
-      console.log(error);
-    }
-  };
-
   const removeMember = async userId => {
     try {
       await removeMemberFromChannel(userId, selectedChannel);
@@ -198,11 +170,11 @@ export const ChannelProvider = ({ children }) => {
     status,
     selectedChannel,
     setSelectedChannel,
+    setStatus,
     createChannel,
     listenChannel,
     removeChannel,
     sendMessage,
-    addMember,
     removeMember,
     changeRole,
     playTrack,

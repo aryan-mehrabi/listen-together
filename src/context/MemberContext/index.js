@@ -1,9 +1,11 @@
 import { createContext, useContext, useReducer } from "react";
 import memberReducer from "./memberReducer";
+import Alert from "components/Alert";
 import useAuth from "context/AuthContext";
 import supabase from "auth/supabase";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
+import useModal from "context/ModalContext";
 
 const initVal = {};
 const MemberContext = createContext(initVal);
@@ -11,10 +13,40 @@ const MemberContext = createContext(initVal);
 export const MemberProvider = ({ children }) => {
   const [state, dispatch] = useReducer(memberReducer, initVal);
   const { userId } = useAuth();
-  const { setChannels, fetchChannel, channels, removeChannel } = useChannel();
+  const {
+    setChannels,
+    fetchChannel,
+    channels,
+    removeChannel,
+    selectedChannel,
+    setStatus
+  } = useChannel();
   const { setUsers, fetchUser, users } = useUser();
+  const { setModal } = useModal();
 
   // ACTIONS
+  const addMember = async email => {
+    setStatus("loading")
+    const { data : user } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .maybeSingle();
+    if (!user) {
+      setModal(
+        <Alert>We couldn't find any user with this email address.</Alert>
+      );
+    } else {
+      const memberData = {
+        user_id: user.id,
+        channel_id: selectedChannel,
+        role: "member",
+      };
+      await supabase.from("members").insert(memberData);
+    }
+    setStatus("idle")
+  };
+
   const fetchUsersMember = async () => {
     const { data, error } = await supabase
       .from("members")
@@ -31,7 +63,7 @@ export const MemberProvider = ({ children }) => {
       dispatch({ type: "FETCH_USERS_MEMBER", payload: data });
       setChannels(data.map(member => member.channels));
     }
-  }
+  };
   const subscribeUsersMember = async () => {
     const tableDetail = {
       schema: "public",
@@ -107,6 +139,7 @@ export const MemberProvider = ({ children }) => {
 
   const value = {
     members: state,
+    addMember,
     fetchUsersMember,
     subscribeUsersMember,
     fetchChannelsMember,
