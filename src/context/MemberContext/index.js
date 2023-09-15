@@ -31,7 +31,8 @@ export const MemberProvider = ({ children }) => {
       dispatch({ type: "FETCH_USERS_MEMBER", payload: data });
       setChannels(data.map(member => member.channels));
     }
-
+  }
+  const subscribeUsersMember = async () => {
     const tableDetail = {
       schema: "public",
       table: "members",
@@ -108,6 +109,7 @@ export const MemberProvider = ({ children }) => {
   const value = {
     members: state,
     fetchUsersMember,
+    subscribeUsersMember,
     fetchChannelsMember,
     subscribeChannelsMember,
   };

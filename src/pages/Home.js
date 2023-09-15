@@ -7,13 +7,13 @@ import { RightSidebarProvider } from "context/RightSidebarContext";
 import useMember from "context/MemberContext";
 
 const Chat = () => {
-  const { fetchUsersMember } = useMember();
+  const { fetchUsersMember, subscribeUsersMember } = useMember();
   const { selectedChannel } = useChannel();
   const isMobile = useMediaQuery("screen and (max-width: 640px");
 
   useEffect(() => {
-    let unsubscribe;
-    fetchUsersMember().then(res => (unsubscribe = res));
+    fetchUsersMember();
+    const unsubscribe = subscribeUsersMember()
     return () => unsubscribe();
   }, []);
 
