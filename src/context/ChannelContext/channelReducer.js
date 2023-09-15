@@ -16,7 +16,7 @@ const channelReducer = (state, { type, payload }) => {
         },
       };
 
-    case "LEAVE_CHANNEL":
+    case "DELETE_CHANNEL":
       const { [payload]: a, ...newChannels } = state;
       console.log(newChannels);
       return {

@@ -134,8 +134,8 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
-  const leaveChannel = async channelId => {
-    dispatch({ type: "LEAVE_CHANNEL", payload: channelId });
+  const removeChannel = async channelId => {
+    dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
 
   const changeRole = async (userId, role) => {
@@ -200,7 +200,7 @@ export const ChannelProvider = ({ children }) => {
     setSelectedChannel,
     createChannel,
     listenChannel,
-    leaveChannel,
+    removeChannel,
     sendMessage,
     addMember,
     removeMember,

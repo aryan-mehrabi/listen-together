@@ -11,7 +11,7 @@ const MemberContext = createContext(initVal);
 export const MemberProvider = ({ children }) => {
   const [state, dispatch] = useReducer(memberReducer, initVal);
   const { userId } = useAuth();
-  const { setChannels, fetchChannel, channels, leaveChannel } = useChannel();
+  const { setChannels, fetchChannel, channels, removeChannel } = useChannel();
   const { setUsers, fetchUser, users } = useUser();
 
   // ACTIONS
@@ -52,7 +52,7 @@ export const MemberProvider = ({ children }) => {
       .on("postgres_changes", { event: "DELETE", ...tableDetail }, payload => {
         if (payload.old.user_id === userId) {
           dispatch({ type: "DELETE_MEMBER", payload: payload.old });
-          leaveChannel(payload.old.channel_id);
+          removeChannel(payload.old.channel_id);
         }
       })
       .subscribe();
@@ -99,7 +99,6 @@ export const MemberProvider = ({ children }) => {
         dispatch({ type: "UPDATE_MEMBER", payload: payload.new });
       })
       .on("postgres_changes", { event: "DELETE", ...tableDetail }, payload => {
-        console.log("channel member delete");
         dispatch({ type: "DELETE_MEMBER", payload: payload.old });
       })
       .subscribe();
