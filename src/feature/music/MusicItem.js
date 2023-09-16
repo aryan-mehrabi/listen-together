@@ -2,14 +2,20 @@ import React from "react";
 import useChannel from "context/ChannelContext";
 import { decode } from "he";
 import useAuth from "context/AuthContext";
+import useMember from "context/MemberContext";
+import useMessage from "context/MessageContext";
 
 const MusicItem = ({ track }) => {
-  const { updateTrack, selectedChannel, channels, sendMessage } = useChannel();
+  const { updateTrack, selectedChannel } = useChannel();
   const { userId } = useAuth();
-  const { roles } = channels[selectedChannel];
+  const { members } = useMember();
+  const { sendMessage } = useMessage();
+  const { role } = Object.values(members).find(
+    member => member.user_id === userId && member.channel_id === selectedChannel
+  );
 
   const onClickItem = () => {
-    if (roles[userId] === "member") {
+    if (role === "member") {
       sendMessage({
         title: track.snippet.title,
         thumbnail: track.snippet.thumbnails.default.url,
