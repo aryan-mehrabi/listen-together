@@ -2,6 +2,8 @@ import { createContext, useContext, useReducer } from "react";
 import messageReducer from "./messageReducer";
 import supabase from "auth/supabase";
 import useUser from "context/UserContext";
+import useAuth from "context/AuthContext";
+import useChannel from "context/ChannelContext";
 
 const initVal = {};
 const MessageContext = createContext(initVal);
@@ -9,6 +11,8 @@ const MessageContext = createContext(initVal);
 export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
   const { setUsers, fetchUser, users } = useUser();
+  const { userId } = useAuth();
+  const { selectedChannel } = useChannel();
 
   // ACTIONS
   const fetchMessages = async channelId => {
@@ -68,8 +72,21 @@ export const MessageProvider = ({ children }) => {
     return () => supabase.removeChannel(messagesChannel);
   };
 
+  const sendMessage = async content => {
+    const message = {
+      content,
+      user_id: userId,
+      channel_id: selectedChannel,
+    };
+    await supabase
+      .from("messages")
+      .insert([message])
+      .select();
+  };
+
   const value = {
     messages: state,
+    sendMessage,
     fetchMessages,
     subscribeMessagesChannel,
   };

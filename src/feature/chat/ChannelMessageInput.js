@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import useChannel from "context/ChannelContext";
 import Button from "components/Button";
+import useMessage from "context/MessageContext";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
   const formRef = useRef(null);
-  const { sendMessage } = useChannel();
+  const { sendMessage } = useMessage();
 
   const onSubmitForm = e => {
     e.preventDefault();
