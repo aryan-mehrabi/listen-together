@@ -3,12 +3,19 @@ import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import Button from "components/Button";
+import useMember from "context/MemberContext";
 
 const ChannelInfo = ({ role }) => {
   const { userId } = useAuth();
-  const { channels, selectedChannel, leaveChannel } = useChannel();
+  const { channels, setSelectedChannel, selectedChannel } = useChannel();
+  const { removeMember } = useMember();
   const { setRightSidebar } = useRightSidebar();
   const channel = channels[selectedChannel];
+
+  const leaveChannel = async() => {
+    await removeMember(userId);
+    setSelectedChannel("")
+  }
 
   const deleteButton = (
     <Button type="danger" className="w-full">
@@ -18,7 +25,7 @@ const ChannelInfo = ({ role }) => {
   const leaveButton = (
     <Button
       type="danger"
-      onClick={() => leaveChannel(userId)}
+      onClick={leaveChannel}
       className="w-full"
     >
       Leave Channel
