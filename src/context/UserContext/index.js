@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext, useState } from "react";
-import { setData, listenQuery, queryCollection } from "apis/firebase";
+import {  listenQuery, queryCollection } from "apis/firebase";
 import useAuth from "context/AuthContext";
 import userReducer from "./userReducer";
 import supabase from "auth/supabase";

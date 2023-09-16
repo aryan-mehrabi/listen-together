@@ -17,11 +17,11 @@ const ChannelInfo = ({ role }) => {
     setSelectedChannel("")
   }
 
-  const deleteButton = (
-    <Button type="danger" className="w-full">
-      Delete Channel
-    </Button>
-  );
+  // const deleteButton = (
+  //   <Button type="danger" className="w-full">
+  //     Delete Channel
+  //   </Button>
+  // );
   const leaveButton = (
     <Button
       type="danger"

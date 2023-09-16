@@ -48,14 +48,14 @@ export const MemberProvider = ({ children }) => {
   };
 
   const changeRole = async (userId, role) => {
-    const { error } = await supabase
+    await supabase
       .from("members")
       .update({ role })
       .eq("user_id", userId);
   };
 
   const removeMember = async userId => {
-    const { error } = await supabase
+    await supabase
       .from("members")
       .delete()
       .eq("user_id", userId)
