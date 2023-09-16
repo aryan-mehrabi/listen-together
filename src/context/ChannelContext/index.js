@@ -110,17 +110,6 @@ export const ChannelProvider = ({ children }) => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
 
-  const changeRole = async (userId, role) => {
-    const update = {
-      [`roles.${userId}`]: role,
-    };
-    try {
-      await updateData(update, "channels", selectedChannel);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   const playTrack = async position => {
     try {
       await updateData(
@@ -176,7 +165,6 @@ export const ChannelProvider = ({ children }) => {
     removeChannel,
     sendMessage,
     removeMember,
-    changeRole,
     playTrack,
     pauseTrack,
     updateTrack,

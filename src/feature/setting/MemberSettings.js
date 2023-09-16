@@ -8,9 +8,9 @@ import useMember from "context/MemberContext";
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
-  const { removeMember, changeRole } = useChannel();
+  const { removeMember } = useChannel();
   const { userId: authUserId } = useAuth();
-  const { members } = useMember();
+  const { members, changeRole } = useMember();
 
   const { role: userRole } = Object.values(members).find(
     member => member.user_id === userId

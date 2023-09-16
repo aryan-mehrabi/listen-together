@@ -19,19 +19,19 @@ export const MemberProvider = ({ children }) => {
     channels,
     removeChannel,
     selectedChannel,
-    setStatus
+    setStatus,
   } = useChannel();
   const { setUsers, fetchUser, users } = useUser();
   const { setModal } = useModal();
 
   // ACTIONS
   const addMember = async email => {
-    setStatus("loading")
-    const { data : user } = await supabase
-    .from("users")
-    .select("*")
-    .eq("email", email)
-    .maybeSingle();
+    setStatus("loading");
+    const { data: user } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", email)
+      .maybeSingle();
     if (!user) {
       setModal(
         <Alert>We couldn't find any user with this email address.</Alert>
@@ -44,7 +44,14 @@ export const MemberProvider = ({ children }) => {
       };
       await supabase.from("members").insert(memberData);
     }
-    setStatus("idle")
+    setStatus("idle");
+  };
+
+  const changeRole = async (userId, role) => {
+    const { error } = await supabase
+      .from("members")
+      .update({ role })
+      .eq("user_id", userId)
   };
 
   const fetchUsersMember = async () => {
@@ -140,6 +147,7 @@ export const MemberProvider = ({ children }) => {
   const value = {
     members: state,
     addMember,
+    changeRole,
     fetchUsersMember,
     subscribeUsersMember,
     fetchChannelsMember,
