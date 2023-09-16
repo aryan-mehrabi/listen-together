@@ -7,7 +7,7 @@ import ChannelMembers from "./ChannelMembers";
 import useMember from "context/MemberContext";
 
 const ChannelSettings = () => {
-  const { selectedChannel, channels } = useChannel();
+  const { selectedChannel } = useChannel();
   const { userId } = useAuth();
   const { members } = useMember();
   const { role } =

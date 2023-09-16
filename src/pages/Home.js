@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import Channel from "feature/Channel";
 import Sidebar from "feature/Sidebar";
 import useChannel from "context/ChannelContext";

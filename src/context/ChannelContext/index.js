@@ -73,8 +73,6 @@ export const ChannelProvider = ({ children }) => {
     };
   };
 
-
-
   const removeChannel = async channelId => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };

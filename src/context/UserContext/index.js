@@ -1,5 +1,4 @@
 import React, { createContext, useReducer, useContext, useState } from "react";
-import {  listenQuery, queryCollection } from "apis/firebase";
 import useAuth from "context/AuthContext";
 import userReducer from "./userReducer";
 import supabase from "auth/supabase";
@@ -13,14 +12,7 @@ export const UserProvider = ({ children }) => {
   const [status, setStatus] = useState("idle");
   const { userId, email } = useAuth();
 
-  // ACTION CREATORS
-  const listenChannelMembers = channelId => {
-    listenQuery(
-      data => dispatch({ type: "FETCH_USERS", payload: data }),
-      queryCollection("users", `channels.${channelId}`, "!=", null)
-    );
-  };
-
+  // ACTIONS
   const createUser = async (name, avatarSeed) => {
     const data = {
       id: userId,
@@ -66,9 +58,8 @@ export const UserProvider = ({ children }) => {
     error,
     setError,
     createUser,
-    listenChannelMembers,
     fetchUser,
-    setUsers
+    setUsers,
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
 };
