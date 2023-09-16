@@ -14,7 +14,6 @@ const memberReducer = (state, { type, payload }) => {
     case "INSERT_MEMBER":
       return { ...state, [payload.id]: payload };
     case "UPDATE_MEMBER":
-      console.log(payload)
       return { ...state, [payload.id]: payload };
     case "DELETE_MEMBER":
       const { [payload.id]: deletedMember, ...remaining } = state;
