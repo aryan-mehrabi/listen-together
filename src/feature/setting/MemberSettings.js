@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import useAuth from "context/AuthContext";
-import useChannel from "context/ChannelContext";
 import DropDown from "components/DropDown";
 import Button from "components/Button";
 import useMember from "context/MemberContext";
@@ -8,9 +7,8 @@ import useMember from "context/MemberContext";
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
-  const { removeMember } = useChannel();
   const { userId: authUserId } = useAuth();
-  const { members, changeRole } = useMember();
+  const { members, changeRole, removeMember } = useMember();
 
   const { role: userRole } = Object.values(members).find(
     member => member.user_id === userId

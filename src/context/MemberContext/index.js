@@ -51,7 +51,15 @@ export const MemberProvider = ({ children }) => {
     const { error } = await supabase
       .from("members")
       .update({ role })
+      .eq("user_id", userId);
+  };
+
+  const removeMember = async userId => {
+    const { error } = await supabase
+      .from("members")
+      .delete()
       .eq("user_id", userId)
+      .eq("channel_id", selectedChannel);
   };
 
   const fetchUsersMember = async () => {
@@ -148,6 +156,7 @@ export const MemberProvider = ({ children }) => {
     members: state,
     addMember,
     changeRole,
+    removeMember,
     fetchUsersMember,
     subscribeUsersMember,
     fetchChannelsMember,

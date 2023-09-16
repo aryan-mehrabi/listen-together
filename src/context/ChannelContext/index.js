@@ -98,14 +98,6 @@ export const ChannelProvider = ({ children }) => {
       .select();
   };
 
-  const removeMember = async userId => {
-    try {
-      await removeMemberFromChannel(userId, selectedChannel);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   const removeChannel = async channelId => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
@@ -164,7 +156,6 @@ export const ChannelProvider = ({ children }) => {
     listenChannel,
     removeChannel,
     sendMessage,
-    removeMember,
     playTrack,
     pauseTrack,
     updateTrack,
