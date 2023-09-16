@@ -10,9 +10,11 @@ const MusicItem = ({ track }) => {
   const { userId } = useAuth();
   const { members } = useMember();
   const { sendMessage } = useMessage();
-  const { role } = Object.values(members).find(
-    member => member.user_id === userId && member.channel_id === selectedChannel
-  );
+  const { role } =
+    Object.values(members).find(
+      member =>
+        member.user_id === userId && member.channel_id === selectedChannel
+    ) || {};
 
   const onClickItem = () => {
     if (role === "member") {

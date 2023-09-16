@@ -10,9 +10,11 @@ const ChannelSettings = () => {
   const { selectedChannel, channels } = useChannel();
   const { userId } = useAuth();
   const { members } = useMember();
-  const { role } = Object.values(members).find(
-    member => member.user_id === userId
-  );
+  const { role } =
+    Object.values(members).find(
+      member =>
+        member.user_id === userId && member.channel_id === selectedChannel
+    ) || {};
 
   return (
     <div className="w-full sm:border-l sm:border-neutral-700 sm:w-[37%] sm:min-w-[200px] sm:max-w-sm px-5 py-3 overflow-auto">

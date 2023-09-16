@@ -25,7 +25,7 @@ const Player = () => {
     <div className="mt-auto">
       <iframe
         className={
-          ["admin", "creator"].includes(userMembership.role)
+          ["admin", "creator"].includes(userMembership?.role)
             ? ""
             : "pointer-events-none"
         }

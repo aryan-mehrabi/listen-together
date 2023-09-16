@@ -12,10 +12,10 @@ const ChannelInfo = ({ role }) => {
   const { setRightSidebar } = useRightSidebar();
   const channel = channels[selectedChannel];
 
-  const leaveChannel = async() => {
+  const leaveChannel = async () => {
     await removeMember(userId);
-    setSelectedChannel("")
-  }
+    // setSelectedChannel("")
+  };
 
   // const deleteButton = (
   //   <Button type="danger" className="w-full">
@@ -23,11 +23,7 @@ const ChannelInfo = ({ role }) => {
   //   </Button>
   // );
   const leaveButton = (
-    <Button
-      type="danger"
-      onClick={leaveChannel}
-      className="w-full"
-    >
+    <Button type="danger" onClick={leaveChannel} className="w-full">
       Leave Channel
     </Button>
   );
