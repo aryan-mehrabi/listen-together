@@ -27,7 +27,6 @@ export const ChannelProvider = ({ children }) => {
 
     const channelData = {
       name,
-      track: "54kTO17-j_0",
       is_playing: false,
       position: 0,
     };
