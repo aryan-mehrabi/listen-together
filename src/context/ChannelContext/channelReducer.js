@@ -26,6 +26,8 @@ const channelReducer = (state, { type, payload }) => {
         channels[channel.id] = channel;
       });
       return { ...state, ...channels };
+    case "UPDATE_CHANNEL":
+      return { ...state, [payload.id]: payload };
     default:
       return state;
   }

@@ -12,7 +12,7 @@ export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
   const { setUsers, fetchUser, users } = useUser();
   const { userId } = useAuth();
-  const { selectedChannel } = useChannel();
+  const { selectedChannel, updateChannel } = useChannel();
 
   // ACTIONS
   const fetchMessages = async channelId => {
@@ -65,7 +65,7 @@ export const MessageProvider = ({ children }) => {
           filter: `id=eq.${channelId}`,
         },
         payload => {
-          console.log("Change received!", payload);
+          updateChannel(payload.new);
         }
       )
       .subscribe();
@@ -78,10 +78,7 @@ export const MessageProvider = ({ children }) => {
       user_id: userId,
       channel_id: selectedChannel,
     };
-    await supabase
-      .from("messages")
-      .insert([message])
-      .select();
+    await supabase.from("messages").insert([message]).select();
   };
 
   const value = {

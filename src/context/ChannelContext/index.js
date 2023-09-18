@@ -78,35 +78,29 @@ export const ChannelProvider = ({ children }) => {
   };
 
   const playTrack = async position => {
-    try {
-      await updateData(
-        { isPlaying: true, position },
-        "channels",
-        selectedChannel
-      );
-    } catch (error) {
-      throw error;
-    }
+    await supabase
+      .from("channels")
+      .update({ is_playing: true, position })
+      .eq("id", selectedChannel);
   };
 
   const pauseTrack = async () => {
-    try {
-      await updateData({ isPlaying: false }, "channels", selectedChannel);
-    } catch (error) {
-      throw error;
-    }
+    await supabase
+      .from("channels")
+      .update({ is_playing: false })
+      .eq("id", selectedChannel);
   };
 
   const updateTrack = async track => {
-    try {
-      await updateData({ track }, "channels", selectedChannel);
-    } catch (error) {
-      throw error;
-    }
+    await supabase.from("channels").update({ track }).eq("id", selectedChannel);
   };
 
   const setChannels = channels => {
     dispatch({ type: "FETCH_CHANNELS", payload: channels });
+  };
+
+  const updateChannel = payload => {
+    dispatch({ type: "UPDATE_CHANNEL", payload });
   };
 
   const fetchChannel = async channelId => {
@@ -135,6 +129,7 @@ export const ChannelProvider = ({ children }) => {
     updateTrack,
     setChannels,
     fetchChannel,
+    updateChannel,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>
