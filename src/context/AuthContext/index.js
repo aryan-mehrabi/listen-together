@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import authReducer from "./authReducer";
 import supabase from "auth/supabase";
+import { randomHash } from "helpers";
 
 const initValue = { userId: null, email: null, error: "" };
 const AuthContext = createContext(initValue);
@@ -23,13 +24,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   //ACTIONS
-  // const logInAnonymous = async () => {
-  //   try {
-  //     await tryLogInAnonymous();
-  //   } catch (error) {
-  //     dispatch({ type: "AUTH_ERROR", payload: error });
-  //   }
-  // };
+  const logInAnonymous = async () => {
+    await supabase.auth.signUp({
+      email: `${randomHash(36)}@listen-together-aryan.netlify.app`,
+      password: "example-password",
+    });
+  };
   const logIn = async () => {
     try {
       await supabase.auth.signInWithOAuth({ provider: "google" });
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     ...state,
-    // logInAnonymous,
+    logInAnonymous,
     logIn,
     logOut,
     dismissError,

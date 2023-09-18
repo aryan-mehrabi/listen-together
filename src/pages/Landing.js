@@ -8,12 +8,14 @@ import Button from "components/Button";
 
 const Landing = () => {
   const isMobile = useMediaQuery("screen and (max-width: 640px");
-  const { logIn, error, dismissError } = useAuth();
+  const { logIn, error, dismissError, logInAnonymous } = useAuth();
   const errorComponent = useError(error, dismissError);
 
   return (
     <div
-      style={{ backgroundImage: `url('${isMobile ? heroImageMobile : heroImage}')` }}
+      style={{
+        backgroundImage: `url('${isMobile ? heroImageMobile : heroImage}')`,
+      }}
       className="bg-cover bg-blend-overlay bg-center h-full bg-primary 
       flex flex-col justify-center items-center text-center"
     >
@@ -34,8 +36,8 @@ const Landing = () => {
           </Button>
           <Button
             type="secondary"
-            disabled={true}
             className="font-semibold py-3"
+            onClick={logInAnonymous}
           >
             <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
           </Button>
