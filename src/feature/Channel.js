@@ -26,13 +26,9 @@ const Channel = () => {
     let unsubscribe;
     if (selectedChannel) {
       fetchMessages(selectedChannel);
-      subscribeMessagesChannel(selectedChannel).then(
-        res => (unsubscribe = res)
-      );
-      if (unsubscribe) {
-        return () => unsubscribe();
-      }
+      unsubscribe = subscribeMessagesChannel(selectedChannel);
     }
+    return () => unsubscribe();
   }, [selectedChannel]);
 
   if (!channels[selectedChannel]) {

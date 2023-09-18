@@ -38,7 +38,7 @@ export const MessageProvider = ({ children }) => {
     }
   };
 
-  const subscribeMessagesChannel = async channelId => {
+  const subscribeMessagesChannel = channelId => {
     const messagesChannel = supabase
       .channel("messages-channel-channel")
       .on(

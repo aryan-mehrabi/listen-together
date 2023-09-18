@@ -48,10 +48,7 @@ export const MemberProvider = ({ children }) => {
   };
 
   const changeRole = async (userId, role) => {
-    await supabase
-      .from("members")
-      .update({ role })
-      .eq("user_id", userId);
+    await supabase.from("members").update({ role }).eq("user_id", userId);
   };
 
   const removeMember = async userId => {
@@ -79,7 +76,7 @@ export const MemberProvider = ({ children }) => {
       setChannels(data.map(member => member.channels));
     }
   };
-  const subscribeUsersMember = async () => {
+  const subscribeUsersMember = () => {
     const tableDetail = {
       schema: "public",
       table: "members",
