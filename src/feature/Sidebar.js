@@ -20,16 +20,16 @@ const Sidebar = () => {
 
   const renderChatList = () => {
     const memberArr = Object.values(members);
-      return memberArr
-        .filter(
-          member => member.user_id === userId && channels[member.channel_id]
-        )
-        .map(member => (
-          <ChatItem
-            key={member.channel_id}
-            channel={channels[member.channel_id]}
-          />
-        ));
+    return memberArr
+      .filter(
+        member => member.user_id === userId && channels[member.channel_id]
+      )
+      .map(member => (
+        <ChatItem
+          key={member.channel_id}
+          channel={channels[member.channel_id]}
+        />
+      ));
   };
 
   return (
@@ -45,7 +45,7 @@ const Sidebar = () => {
             <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
           </div>
           <DropDown {...{ dropdown, setDropdown, dropdownRef }}>
-            <Button type="danger" onClick={logOut}>
+            <Button type="danger" onClick={logOut} className="w-full">
               Log Out
             </Button>
           </DropDown>
