@@ -7,12 +7,17 @@ const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
   const { createChannel, status } = useChannel();
 
+  const onFormSubmit = e => {
+    e.preventDefault();
+    createChannel(channelName.trim());
+  };
+
   return (
     <div className="bg-primary text-secondary w-[350px] rounded flex flex-col p-8">
       <h2 className="text-center text-xl mb-10 font-semibold">
         Create a Channel
       </h2>
-      <div className="flex flex-col gap-7 flex-grow">
+      <form onSubmit={onFormSubmit} className="flex flex-col gap-7 flex-grow">
         <div>
           <label>Channel Name:</label>
           <Input
@@ -23,14 +28,10 @@ const CreateChannel = () => {
             className="mt-1"
           />
         </div>
-        <Button
-          type="cta"
-          disabled={!channelName || status === "loading"}
-          onClick={() => createChannel(channelName.trim())}
-        >
+        <Button type="cta" disabled={!channelName || status === "loading"}>
           Create Channel
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
