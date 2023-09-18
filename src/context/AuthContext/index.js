@@ -1,8 +1,5 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import authReducer from "./authReducer";
-import {
-  tryLogInAnonymous,
-} from "auth/firebase";
 import supabase from "auth/supabase";
 
 const initValue = { userId: null, email: null, error: "" };
@@ -26,13 +23,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   //ACTIONS
-  const logInAnonymous = async () => {
-    try {
-      await tryLogInAnonymous();
-    } catch (error) {
-      dispatch({ type: "AUTH_ERROR", payload: error });
-    }
-  };
+  // const logInAnonymous = async () => {
+  //   try {
+  //     await tryLogInAnonymous();
+  //   } catch (error) {
+  //     dispatch({ type: "AUTH_ERROR", payload: error });
+  //   }
+  // };
   const logIn = async () => {
     try {
       await supabase.auth.signInWithOAuth({ provider: "google" });
@@ -53,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     ...state,
-    logInAnonymous,
+    // logInAnonymous,
     logIn,
     logOut,
     dismissError,

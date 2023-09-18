@@ -1,10 +1,4 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
-import {
-  listenDocument,
-  listenQuery,
-  queryByOrder,
-  updateData,
-} from "apis/firebase";
 import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
 import useAuth from "context/AuthContext";
@@ -53,24 +47,6 @@ export const ChannelProvider = ({ children }) => {
 
     setModal(null);
     setStatus("idle");
-  };
-
-  const listenChannel = async channelId => {
-    const docUnsub = listenDocument(
-      data => dispatch({ type: "FETCH_CHANNEL", payload: data }),
-      error => console.log(error),
-      "channels",
-      channelId
-    );
-    const colUnsub = listenQuery(
-      data =>
-        dispatch({ type: "FETCH_MESSAGES", payload: { channelId, data } }),
-      queryByOrder("createdAt", "channels", channelId, "messages")
-    );
-    return () => {
-      docUnsub();
-      colUnsub();
-    };
   };
 
   const removeChannel = async channelId => {
@@ -122,7 +98,6 @@ export const ChannelProvider = ({ children }) => {
     setSelectedChannel,
     setStatus,
     createChannel,
-    listenChannel,
     removeChannel,
     playTrack,
     pauseTrack,
