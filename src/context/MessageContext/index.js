@@ -4,6 +4,7 @@ import supabase from "auth/supabase";
 import useUser from "context/UserContext";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
+import { v4 as uuidv4 } from "uuid";
 
 const initVal = {};
 const MessageContext = createContext(initVal);
@@ -77,7 +78,9 @@ export const MessageProvider = ({ children }) => {
       content,
       user_id: userId,
       channel_id: selectedChannel,
+      client_id: uuidv4(),
     };
+    dispatch({ type: "INSERT_MESSAGE", payload: message });
     await supabase.from("messages").insert([message]).select();
   };
 

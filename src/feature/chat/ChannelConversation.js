@@ -7,7 +7,7 @@ const ChannelConversation = () => {
   const { selectedChannel } = useChannel();
   const scrollBottom = useRef(null);
   const { messages } = useMessage();
-  const channelMessages = messages[selectedChannel]
+  const channelMessages = Object.values(messages[selectedChannel] || {});
 
   useEffect(() => {
     scrollBottom.current.scrollIntoView({ behavior: "smooth" });
