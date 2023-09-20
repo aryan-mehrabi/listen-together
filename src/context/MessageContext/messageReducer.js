@@ -9,13 +9,11 @@ const messageReducer = (state, { type, payload }) => {
       return { ...state, [payload.channelId]: messages };
     case "INSERT_MESSAGE":
       const { id, channel_id, client_id } = payload;
-      if (client_id in state[channel_id]) {
-        delete state[channel_id][client_id];
-      }
+      const { [client_id]: _, ...otherMessages } = state[channel_id];
       return {
         ...state,
         [channel_id]: {
-          ...state[channel_id],
+          ...otherMessages,
           [id || client_id]: payload,
         },
       };
