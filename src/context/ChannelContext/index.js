@@ -24,13 +24,13 @@ export const ChannelProvider = ({ children }) => {
       is_playing: false,
       position: 0,
     };
-    const { data, channelError } = await supabase
+    const { data, error: channelError } = await supabase
       .from("channels")
       .insert(channelData)
       .select()
       .single();
     if (channelError) {
-      setStatus("error");
+      setStatus("idle");
       return;
     }
 
@@ -39,9 +39,11 @@ export const ChannelProvider = ({ children }) => {
       channel_id: data.id,
       role: "creator",
     };
-    const { memberError } = await supabase.from("members").insert(memberData);
+    const { error: memberError } = await supabase
+      .from("members")
+      .insert(memberData);
     if (memberError) {
-      setStatus("error");
+      setStatus("idle");
       return;
     }
 
