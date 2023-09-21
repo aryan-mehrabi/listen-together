@@ -10,9 +10,11 @@ const ChannelMessage = ({ message }) => {
   const { users } = useUser();
   const { members } = useMember();
   const { created_at, user_id, content } = message;
-  const { role } = Object.values(members).find(
-    member => member.channel_id === selectedChannel && member.user_id === userId
-  );
+  const { role } =
+    Object.values(members).find(
+      member =>
+        member.channel_id === selectedChannel && member.user_id === userId
+    ) || {};
 
   const getMessageTime = () => {
     if (!created_at) return <i className="fa-solid fa-clock text-[11px]"></i>;
