@@ -17,6 +17,9 @@ module.exports = {
       animation: {
         progressbar: "progressbar 7.5s linear",
       },
+      height: {
+        screen: ["100vh /* fallback for Opera, IE and etc. */", "100dvh"],
+      },
     },
   },
   plugins: [],
