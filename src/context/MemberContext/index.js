@@ -6,6 +6,7 @@ import supabase from "auth/supabase";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
 import useModal from "context/ModalContext";
+import useEventCallback from "hooks/useEventCallback";
 
 const initVal = {};
 const MemberContext = createContext(initVal);
@@ -76,6 +77,16 @@ export const MemberProvider = ({ children }) => {
       setChannels(data.map(member => member.channels));
     }
   };
+  const onDeleteUsersMember = useEventCallback(
+    payload => {
+      const deleted = state[payload.old.id] || {};
+      if (deleted.user_id === userId) {
+        dispatch({ type: "DELETE_MEMBER", payload: deleted });
+        removeChannel(deleted.channel_id);
+      }
+    },
+    [state]
+  );
   const subscribeUsersMember = () => {
     const tableDetail = {
       schema: "public",
@@ -93,12 +104,11 @@ export const MemberProvider = ({ children }) => {
       .on("postgres_changes", { event: "UPDATE", ...tableDetail }, payload => {
         dispatch({ type: "UPDATE_MEMBER", payload: payload.new });
       })
-      .on("postgres_changes", { event: "DELETE", ...tableDetail }, payload => {
-        if (payload.old.user_id === userId) {
-          dispatch({ type: "DELETE_MEMBER", payload: payload.old });
-          removeChannel(payload.old.channel_id);
-        }
-      })
+      .on(
+        "postgres_changes",
+        { event: "DELETE", ...tableDetail },
+        onDeleteUsersMember
+      )
       .subscribe();
     return () => supabase.removeChannel(usersMemberChannel);
   };
