@@ -37,6 +37,7 @@ const MusicItem = ({ track }) => {
         src={track.snippet.thumbnails.default.url}
         className="w-20 mr-4"
         alt="track thumbnail"
+        loading="lazy"
       />
       <p className="my-1 text-sm">{decode(track.snippet.title)}</p>
     </div>
