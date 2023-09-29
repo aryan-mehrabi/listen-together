@@ -23,7 +23,7 @@ const Landing = () => {
       <div>
         <h1 className="text-5xl md:text-6xl m-3">LET'S LISTEN TOGETHER</h1>
         <p className="text-base md:text-lg mx-3">
-          Listen to your favorite music synchornously and discuss it with your
+          Listen to your favorite music synchronously and discuss it with your
           friends.
         </p>
         <div className="flex sm:items-center justify-center flex-col sm:flex-row gap-5 text-primary md:text-lg m-10">
