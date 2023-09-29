@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+<p align="center" style="margin-top: 120px">
+  <a href="https://listen-together-aryan.netlify.app">
+   <img src="./public/listen-together-logo.png" width="100px" alt="Listen Together Logo">
+  </a>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <p align="center">
+  A real-time chat app that allows you to listen to music synchronously with your friends.
+  <br>
+    <a href="https://listen-together-aryan.netlify.app"><strong>Demo</strong></a>
+  </p>
 
-## Available Scripts
+<img width="1040" alt="Cover" src="./public/listen-together-cover.png">
 
-In the project directory, you can run:
+## 💾 Database Schema
 
-### `npm start`
+### Database schema: [here](./schema.sql)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<img width="992" alt="Screenshot of database schema" src="./public/database-schema.png">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📚 Tech Stacks
 
-### `npm test`
+- React.js
+- PostgeSQL managed by [Supabase](https://supabase.io/)
+- Styled using [Tailwind CSS](https://tailwindcss.com/)
+- Data Fetching, Infinite Scroll [React Query](https://tanstack.com/query/v3/)
+- Context API + Reducer hook
+- Bundle analyzer using webpack bundle analyzer
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# ⚙️ Getting Started
 
-### `npm run build`
+## Requirements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run this app locally you need
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [Node.js (Version: >=18.x)](https://nodejs.org/en/download/)
+- Node Package Manager NPM - included in Node.js
+- [PostgreSQL (local or remote)](https://www.postgresql.org/download/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Developer Quickstart
 
-### `npm run eject`
+Want to get up and running quickly? Follow these steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [Clone the repository](https://help.github.com/articles/cloning-a-repository/) to your local device.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  ```sh
+  git clone https://github.com/aryan-mehrabi/listen-together
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Set up your [Supabase Database](https://supabase.com/docs/guides/database) and Auth wit with [Social Logins](https://supabase.com/docs/guides/auth/social-login)
+- Set up your `.env` file using the recommendations in the `.env.example` file.
+- Run `npm install` in the root directory
+  ```sh
+  npm install
+  ```
+- Run `npm start` in the root directory
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+That's it! You should now be able to access the app at http://localhost:3000
 
-## Learn More
+## 🙇 Author
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [Aryan](https://www.linkedin.com/in/aryan-mehrabi/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Licensed under the [MIT license](https://github.com/shadcn/taxonomy/blob/main/LICENSE.md).
