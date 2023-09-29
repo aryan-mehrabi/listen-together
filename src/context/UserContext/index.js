@@ -13,12 +13,12 @@ export const UserProvider = ({ children }) => {
   const { userId, email } = useAuth();
 
   // ACTIONS
-  const createUser = async (name, avatarSeed) => {
+  const createUser = async (name, avatar) => {
     const data = {
       id: userId,
       name,
       email,
-      avatar: `https://avatars.dicebear.com/api/human/${avatarSeed}.svg`,
+      avatar,
     };
     setStatus("loading");
     const { error } = await supabase.from("users").insert(data);

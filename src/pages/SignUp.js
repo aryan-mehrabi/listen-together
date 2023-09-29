@@ -12,9 +12,12 @@ const SignUp = () => {
     e.preventDefault();
     const trimedName = name.trim();
     if (trimedName) {
-      createUser(trimedName, seed);
+      createUser(trimedName, generateAvatar(seed));
     }
   };
+
+  const generateAvatar = seed =>
+    `https://api.dicebear.com/7.x/pixel-art/svg?seed=${seed}`;
 
   return (
     <div className=" flex items-center justify-center h-full">
@@ -22,7 +25,7 @@ const SignUp = () => {
         <div className="w-3/4 mx-auto mb-6">
           <img
             className="min-h-[216px]"
-            src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${seed}`}
+            src={generateAvatar(seed)}
             alt="avatar"
           />
           <div className="w-full flex justify-around mt-3">
