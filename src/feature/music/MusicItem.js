@@ -35,7 +35,7 @@ const MusicItem = ({ track }) => {
     >
       <img
         src={track.snippet.thumbnails.default.url}
-        className="w-20 mr-4"
+        className="min-w-[5rem] w-20 mr-4"
         alt="track thumbnail"
         loading="lazy"
       />
