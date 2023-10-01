@@ -67,7 +67,7 @@ const SearchMusic = () => {
         />
       </div>
       <div className="overflow-y-auto overflow-x-hidden">
-        {renderMusicItems()}
+        <ul>{renderMusicItems()}</ul>
       </div>
     </>
   );

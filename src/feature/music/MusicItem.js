@@ -29,7 +29,7 @@ const MusicItem = ({ track }) => {
   };
 
   return (
-    <div
+    <li
       onClick={onClickItem}
       className="flex items-center border-b border-neutral-700 p-4 cursor-pointer hover:bg-neutral-700"
     >
@@ -40,7 +40,7 @@ const MusicItem = ({ track }) => {
         loading="lazy"
       />
       <p className="my-1 text-sm">{decode(track.snippet.title)}</p>
-    </div>
+    </li>
   );
 };
 
