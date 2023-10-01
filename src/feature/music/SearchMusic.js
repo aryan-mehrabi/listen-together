@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { fetchTracks } from "apis/youtube";
 import useDebouncing from "hooks/useDebouncing";
@@ -10,8 +10,8 @@ import Input from "components/Input";
 
 const SearchMusic = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [spinner, setSpinner] = useState(null);
-  const isVisible = useIntersection(spinner);
+  const ref = useRef(null);
+  const isVisible = useIntersection(ref);
   const debouncedTerm = useDebouncing(searchTerm, 1000);
   const { setRightSidebar } = useRightSidebar();
 
@@ -34,18 +34,9 @@ const SearchMusic = () => {
   const renderMusicItems = () => {
     if (isLoading || isError || isIdle) return;
 
-    const tracks = []
+    return []
       .concat(...data.pages.map(res => res.items))
       .map(track => <MusicItem key={track.id.videoId} {...{ track }} />);
-
-    return (
-      <>
-        {tracks}
-        <div className="p-4 flex items-center justify-center" ref={setSpinner}>
-          <Spinner className="w-8 h-8" />
-        </div>
-      </>
-    );
   };
 
   return (
@@ -68,6 +59,9 @@ const SearchMusic = () => {
       </div>
       <div className="overflow-y-auto overflow-x-hidden">
         <ul>{renderMusicItems()}</ul>
+        <div className="p-4 flex items-center justify-center" ref={ref}>
+          <Spinner className="w-8 h-8" />
+        </div>
       </div>
     </>
   );
