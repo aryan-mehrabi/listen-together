@@ -9,10 +9,10 @@ const MusicItem = ({ track }) => {
   const { updateTrack, selectedChannel } = useChannel();
   const { userId } = useAuth();
   const { members } = useMember();
-  const { sendMessage } = useMessage();
+  const { sendMessage, setReply } = useMessage();
   const { role } =
     Object.values(members).find(
-      member =>
+      (member) =>
         member.user_id === userId && member.channel_id === selectedChannel
     ) || {};
 
@@ -23,6 +23,7 @@ const MusicItem = ({ track }) => {
         thumbnail: track.snippet.thumbnails.default.url,
         track_id: track.id.videoId,
       });
+      setReply(null);
     } else {
       updateTrack(track.id.videoId);
     }

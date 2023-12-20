@@ -31,5 +31,6 @@ create table public.messages (
   user_id uuid references public.users on delete set null default auth.uid(),
   channel_id int8 references public.channels on delete cascade not null,
   client_id uuid,
+  reply_id int8 references public.messages on delete set null,
   content jsonb not null
 )

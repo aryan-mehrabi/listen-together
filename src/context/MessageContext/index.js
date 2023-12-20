@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import messageReducer from "./messageReducer";
 import supabase from "auth/supabase";
 import useUser from "context/UserContext";
@@ -11,12 +11,13 @@ const MessageContext = createContext(initVal);
 
 export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
+  const [reply, setReply] = useState(null);
   const { setUsers, fetchUser, users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
 
   // ACTIONS
-  const fetchMessages = async channelId => {
+  const fetchMessages = async (channelId) => {
     const { data: messages, error } = await supabase
       .from("messages")
       .select(
@@ -25,6 +26,7 @@ export const MessageProvider = ({ children }) => {
       created_at,
       channel_id,
       content,
+      reply_id,
       users (
         id,
         name,
@@ -39,7 +41,7 @@ export const MessageProvider = ({ children }) => {
     }
   };
 
-  const subscribeMessagesChannel = channelId => {
+  const subscribeMessagesChannel = (channelId) => {
     const messagesChannel = supabase
       .channel("messages-channel-channel")
       .on(
@@ -50,7 +52,7 @@ export const MessageProvider = ({ children }) => {
           table: "messages",
           filter: `channel_id=eq.${channelId}`,
         },
-        payload => {
+        (payload) => {
           dispatch({ type: "INSERT_MESSAGE", payload: payload.new });
           if (!(payload.new.user_id in users)) {
             fetchUser(payload.new.user_id);
@@ -65,7 +67,7 @@ export const MessageProvider = ({ children }) => {
           table: "channels",
           filter: `id=eq.${channelId}`,
         },
-        payload => {
+        (payload) => {
           updateChannel(payload.new);
         }
       )
@@ -73,12 +75,13 @@ export const MessageProvider = ({ children }) => {
     return () => supabase.removeChannel(messagesChannel);
   };
 
-  const sendMessage = async content => {
+  const sendMessage = async (content) => {
     const message = {
       content,
       user_id: userId,
       channel_id: selectedChannel,
       client_id: uuidv4(),
+      reply_id: reply,
     };
     dispatch({ type: "INSERT_MESSAGE", payload: message });
     await supabase.from("messages").insert([message]).select();
@@ -86,6 +89,8 @@ export const MessageProvider = ({ children }) => {
 
   const value = {
     messages: state,
+    reply,
+    setReply,
     sendMessage,
     fetchMessages,
     subscribeMessagesChannel,
