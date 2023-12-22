@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import authReducer from "./authReducer";
-import { tryLogInAnonymous, tryLogIn, tryLogOut, authStateChanged } from "auth/firebase";
+import supabase from "auth/supabase";
+import { randomHash } from "helpers";
 
 const initValue = { userId: null, email: null, error: "" };
 const AuthContext = createContext(initValue);
@@ -9,11 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initValue);
 
   useEffect(() => {
-    authStateChanged(user => {
-      if (user) {
+    supabase.auth.onAuthStateChange((_, session) => {
+      if (session) {
+        const { id, email } = session.user;
         dispatch({
           type: "LOG_IN",
-          payload: { userId: user.uid, email: user.email || user.uid },
+          payload: { userId: id, email },
         });
       } else {
         dispatch({ type: "LOG_OUT" });
@@ -23,24 +25,21 @@ export const AuthProvider = ({ children }) => {
 
   //ACTIONS
   const logInAnonymous = async () => {
-    try {
-      await tryLogInAnonymous();
-    } catch (error) {
-      console.log(error.message);
-      dispatch({ type: "AUTH_ERROR", payload: error });
-    }
+    await supabase.auth.signUp({
+      email: `${randomHash(36)}@listen-together-aryan.netlify.app`,
+      password: "example-password",
+    });
   };
   const logIn = async () => {
     try {
-      await tryLogIn();
+      await supabase.auth.signInWithOAuth({ provider: "google" });
     } catch (error) {
-      console.log(error.message);
       dispatch({ type: "AUTH_ERROR", payload: error });
     }
   };
   const logOut = async () => {
     try {
-      await tryLogOut();
+      await supabase.auth.signOut();
     } catch (error) {
       dispatch({ type: "AUTH_ERROR", payload: error });
     }

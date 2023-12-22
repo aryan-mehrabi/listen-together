@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Channel from "feature/Channel";
 import Sidebar from "feature/Sidebar";
 import useChannel from "context/ChannelContext";
 import useMediaQuery from "hooks/useMediaQuery";
 import { RightSidebarProvider } from "context/RightSidebarContext";
+import useMember from "context/MemberContext";
+import useAuth from "context/AuthContext";
+import useMessage from "context/MessageContext";
 
 const Chat = () => {
-  const { selectedChannel } = useChannel();
+  const { fetchUsersMember, subscribeUsersMember } = useMember();
+  const { selectedChannel, setSelectedChannel } = useChannel();
+  const { members } = useMember();
+  const { userId } = useAuth();
+  const { setReply } = useMessage();
   const isMobile = useMediaQuery("screen and (max-width: 640px");
+
+  useEffect(() => {
+    fetchUsersMember();
+    const unsubscribe = subscribeUsersMember();
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const memberShip = Object.values(members).find(
+      (member) =>
+        member.user_id === userId && member.channel_id === selectedChannel
+    );
+    if (!memberShip) {
+      setSelectedChannel("");
+      setReply(null);
+    }
+  }, [selectedChannel, members, userId]);
 
   const mobile = selectedChannel ? <Channel /> : <Sidebar />;
 
   const desktop = (
     <>
       <Sidebar />
-      <main className="bg-blend-multiply bg-repeat bg-primary w-3/4">
+      <main className="bg-blend-multiply bg-repeat bg-primary w-full">
         {selectedChannel ? (
           <Channel />
         ) : (

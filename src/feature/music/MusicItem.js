@@ -2,36 +2,46 @@ import React from "react";
 import useChannel from "context/ChannelContext";
 import { decode } from "he";
 import useAuth from "context/AuthContext";
+import useMember from "context/MemberContext";
+import useMessage from "context/MessageContext";
 
 const MusicItem = ({ track }) => {
-  const { updateTrack, selectedChannel, channels, sendMessage } = useChannel();
+  const { updateTrack, selectedChannel } = useChannel();
   const { userId } = useAuth();
-  const { roles } = channels[selectedChannel];
+  const { members } = useMember();
+  const { sendMessage, setReply } = useMessage();
+  const { role } =
+    Object.values(members).find(
+      (member) =>
+        member.user_id === userId && member.channel_id === selectedChannel
+    ) || {};
 
   const onClickItem = () => {
-    if (roles[userId] === "member") {
+    if (role === "member") {
       sendMessage({
         title: track.snippet.title,
         thumbnail: track.snippet.thumbnails.default.url,
-        trackId: track.id.videoId,
+        track_id: track.id.videoId,
       });
+      setReply(null);
     } else {
       updateTrack(track.id.videoId);
     }
   };
 
   return (
-    <div
+    <li
       onClick={onClickItem}
       className="flex items-center border-b border-neutral-700 p-4 cursor-pointer hover:bg-neutral-700"
     >
       <img
         src={track.snippet.thumbnails.default.url}
-        className="w-20 mr-4"
+        className="min-w-[5rem] w-20 mr-4"
         alt="track thumbnail"
+        loading="lazy"
       />
       <p className="my-1 text-sm">{decode(track.snippet.title)}</p>
-    </div>
+    </li>
   );
 };
 

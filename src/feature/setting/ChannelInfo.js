@@ -3,24 +3,26 @@ import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import Button from "components/Button";
+import useMember from "context/MemberContext";
 
-const ChannelInfo = () => {
+const ChannelInfo = ({ role }) => {
   const { userId } = useAuth();
-  const { channels, selectedChannel, leaveChannel } = useChannel();
+  const { channels, selectedChannel } = useChannel();
+  const { removeMember } = useMember();
   const { setRightSidebar } = useRightSidebar();
   const channel = channels[selectedChannel];
 
-  const deleteButton = (
-    <Button type="danger" className="w-full">
-      Delete Channel
-    </Button>
-  );
+  const leaveChannel = async () => {
+    await removeMember(userId);
+  };
+
+  // const deleteButton = (
+  //   <Button type="danger" className="w-full">
+  //     Delete Channel
+  //   </Button>
+  // );
   const leaveButton = (
-    <Button
-      type="danger"
-      onClick={() => leaveChannel(userId)}
-      className="w-full"
-    >
+    <Button type="danger" onClick={leaveChannel} className="w-full">
       Leave Channel
     </Button>
   );
@@ -36,9 +38,7 @@ const ChannelInfo = () => {
       </div>
       <div className="mt-3.5">
         <p className="text-xl my-3">{channel.name}</p>
-        {channel.roles[userId] === "creator"
-          ? null /* deleteButton */
-          : leaveButton}
+        {role === "creator" ? null /* deleteButton */ : leaveButton}
       </div>
     </div>
   );

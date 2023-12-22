@@ -1,15 +1,18 @@
 const userReducer = (state, { type, payload }) => {
   switch (type) {
     case "FETCH_USER":
-      return { ...state, [payload.userId]: payload };
-    case "CREATE_USER":
-      return { ...state, [payload.userId]: payload };
+      return {
+        ...state,
+        [payload.id]: { ...payload },
+      };
     case "FETCH_USERS":
       const users = {};
-      payload.forEach(user => {
-        users[user.data().userId] = { ...user.data() };
+      payload.forEach(message => {
+        users[message.users.id] = message.users;
       });
       return { ...state, ...users };
+    case "CREATE_USER":
+      return { ...state, [payload.id]: payload };
     case "USER_NOT_FOUND":
       return { ...state, [payload]: {} };
     default:

@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
+    "@popperjs/core": "^2.11.8",
+    "@supabase/supabase-js": "^2.26.0",
     "axios": "^0.27.2",
-    "firebase": "^9.6.11",
     "he": "^1.2.0",
     "react": "^18.0.2",
     "react-dom": "^18.0.2",
+    "react-popper": "^2.3.0",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "tailwind-override": "^0.6.1",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

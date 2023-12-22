@@ -5,7 +5,7 @@ import useEventCallback from "./useEventCallback";
 const useYTPlayer = () => {
   const [player, setPlayer] = useState(null);
   const { channels, selectedChannel, playTrack, pauseTrack } = useChannel();
-  const { position, isPlaying, track } = channels[selectedChannel];
+  const { position, is_playing, track } = channels[selectedChannel];
 
   // send server changes on player and prevent from resending
   const onPlayerStateChange = useEventCallback(
@@ -14,13 +14,13 @@ const useYTPlayer = () => {
       const playerTime = event.target.getCurrentTime();
       const pauseStates = [-1, 0, 2, 5];
 
-      if (event.data === playing && !isPlaying) {
+      if (event.data === playing && !is_playing) {
         playTrack(playerTime);
-      } else if (pauseStates.includes(event.data) && isPlaying) {
+      } else if (pauseStates.includes(event.data) && is_playing) {
         pauseTrack();
       }
     },
-    [isPlaying]
+    [is_playing]
   );
 
   const removeCallbacks = useEventCallback(() => {
@@ -32,7 +32,7 @@ const useYTPlayer = () => {
   // sync player with server on mount
   const onPlayerReady = event => {
     event.target.seekTo(position);
-    if (!isPlaying) {
+    if (!is_playing) {
       event.target.pauseVideo();
     }
   };
@@ -54,12 +54,12 @@ const useYTPlayer = () => {
 
   // receive status from server and take the appropriate action
   useEffect(() => {
-    if (!isPlaying) {
+    if (!is_playing) {
       player?.pauseVideo();
     } else {
       player?.playVideo();
     }
-  }, [isPlaying]);
+  }, [is_playing]);
 
   useEffect(() => {
     if (player?.seekTo) {

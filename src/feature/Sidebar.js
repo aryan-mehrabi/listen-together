@@ -6,20 +6,30 @@ import ChatItem from "feature/chat/ChatItem";
 import CreateChannel from "./CreateChannel";
 import DropDown from "components/DropDown";
 import Button from "components/Button";
+import useMember from "context/MemberContext";
+import useChannel from "context/ChannelContext";
 
 const Sidebar = () => {
   const { setModal } = useModal();
   const [dropdown, setDropdown] = useState(false);
   const { users } = useUser();
+  const { members } = useMember();
+  const { channels } = useChannel();
   const { userId, logOut } = useAuth();
-  const dropdownRef = useRef()
+  const [element, setElement] = useState(null);
 
   const renderChatList = () => {
-    if (users[userId]?.channels) {
-      return Object.values(users[userId].channels).map(channel => (
-        <ChatItem key={channel.id} {...{ channel }} />
+    const memberArr = Object.values(members);
+    return memberArr
+      .filter(
+        (member) => member.user_id === userId && channels[member.channel_id]
+      )
+      .map((member) => (
+        <ChatItem
+          key={member.channel_id}
+          channel={channels[member.channel_id]}
+        />
       ));
-    }
   };
 
   return (
@@ -27,15 +37,15 @@ const Sidebar = () => {
       <div className="flex items-center px-4 py-3 border-b border-neutral-700">
         <img className="w-11" src={users[userId]?.avatar} alt="avatar" />
         <p className="ml-2 font-semibold">{users[userId]?.name}</p>
-        <div className="ml-auto relative" ref={dropdownRef}>
+        <div className="ml-auto relative" ref={setElement}>
           <div
             onClick={() => setDropdown(!dropdown)}
             className="cursor-pointer"
           >
             <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
           </div>
-          <DropDown {...{ dropdown, setDropdown, dropdownRef }}>
-            <Button type="danger" onClick={logOut}>
+          <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
+            <Button type="danger" onClick={logOut} className="w-full">
               Log Out
             </Button>
           </DropDown>

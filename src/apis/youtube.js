@@ -7,7 +7,7 @@ export const fetchTracks = async ({ queryKey, pageParam = "" }) => {
       {
         params: {
           part: "snippet",
-          key: "AIzaSyAnaURZ2sKg6-raa9XGrAmndnMd4rqlR7c",
+          key: process.env.REACT_APP_YOUTUBE_API_KEY,
           q: queryKey[1],
           maxResults: 10,
           type: "video",

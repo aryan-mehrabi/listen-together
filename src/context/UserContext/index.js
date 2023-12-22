@@ -1,12 +1,7 @@
 import React, { createContext, useReducer, useContext, useState } from "react";
-import {
-  setData,
-  listenDocument,
-  listenQuery,
-  queryCollection,
-} from "apis/firebase";
 import useAuth from "context/AuthContext";
 import userReducer from "./userReducer";
+import supabase from "auth/supabase";
 
 const initValue = {};
 const UserContext = createContext(initValue);
@@ -17,47 +12,43 @@ export const UserProvider = ({ children }) => {
   const [status, setStatus] = useState("idle");
   const { userId, email } = useAuth();
 
-  // ACTION CREATORS
-  const listenChannelMembers = channelId => {
-    listenQuery(
-      data => dispatch({ type: "FETCH_USERS", payload: data }),
-      queryCollection("users", `channels.${channelId}`, "!=", null)
-    );
-  };
-
-  const listenUser = userId => {
-    listenDocument(
-      data => {
-        if (data) {
-          dispatch({ type: "FETCH_USER", payload: data });
-        } else {
-          dispatch({ type: "USER_NOT_FOUND", payload: userId });
-        }
-      },
-      error => {
-        setError(error.message)
-      },
-      "users",
-      userId
-    );
-  };
-
-  const createUser = async (name, seed) => {
+  // ACTIONS
+  const createUser = async (name, avatar) => {
     const data = {
+      id: userId,
       name,
       email,
-      userId,
-      avatar: `https://avatars.dicebear.com/api/human/${seed}.svg`,
+      avatar,
     };
-    try {
-      setStatus("loading")
-      await setData(data, "users", userId);
+    setStatus("loading");
+    const { error } = await supabase.from("users").insert(data);
+    if (!error) {
       dispatch({ type: "CREATE_USER", payload: data });
-      setStatus("idle")
-    } catch (error) {
-      setStatus("failed")
-      console.log("error4");
+      setStatus("idle");
+    } else {
+      setStatus("failed");
     }
+  };
+
+  const fetchUser = async userId => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", userId)
+      .maybeSingle();
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    if (data) {
+      dispatch({ type: "FETCH_USER", payload: data });
+    } else {
+      dispatch({ type: "USER_NOT_FOUND", payload: userId });
+    }
+  };
+
+  const setUsers = payload => {
+    dispatch({ type: "FETCH_USERS", payload });
   };
 
   // STORE
@@ -67,8 +58,8 @@ export const UserProvider = ({ children }) => {
     error,
     setError,
     createUser,
-    listenUser,
-    listenChannelMembers,
+    fetchUser,
+    setUsers,
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
 };
