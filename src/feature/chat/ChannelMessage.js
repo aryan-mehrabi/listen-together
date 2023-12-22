@@ -78,7 +78,7 @@ const ChannelMessage = ({ message }) => {
   if (userId === user_id) {
     return (
       <div className="flex flex-row-reverse items-center ml-auto my-1 min-w-[100px] max-w-[90%] md:max-w-[80%]">
-        <div className="bg-secondary rounded-sm p-2 ml-2">
+        <div className="bg-secondary rounded-sm p-2 ml-2 min-w-[150px]">
           <div className="bg-neutral-200 text-neutral-600">{renderReply()}</div>
           <div className="text-primary">{messageContent}</div>
           <p className="text-primary opacity-75 mt-1 -mb-1 text-sm text-right">
@@ -93,7 +93,7 @@ const ChannelMessage = ({ message }) => {
       <div className="flex items-start my-1 max-w-[90%] md:max-w-[80%]">
         <img className="w-10 mt-2" src={users[user_id]?.avatar} alt="avatar" />
         <div className="flex items-center">
-          <div className="bg-neutral-700 rounded-sm p-2 mx-2 min-w-[250px]">
+          <div className="bg-neutral-700 rounded-sm p-2 mx-2 min-w-[200px]">
             <h6 className="text-lg font-semibold text-cta">
               {users[user_id]?.name}
             </h6>
