@@ -1,30 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { overrideTailwindClasses } from "tailwind-override";
+import { usePopper } from "react-popper";
+import useEventCallback from "hooks/useEventCallback";
 
 const DropDown = ({
   children,
-  className,
+  position = "bottom-end",
+  className = "",
   dropdown,
   setDropdown,
   dropdownRef,
 }) => {
-  useEffect(() => {
-    const closeDropdown = (event) => {
-      if (!dropdownRef.current?.contains(event.target)) {
+  const [popper, setPopper] = useState(null);
+  const { styles, attributes, update } = usePopper(dropdownRef, popper, {
+    placement: position,
+  });
+
+  const closeDropdown = useEventCallback(
+    (event) => {
+      if (!dropdownRef.contains(event.target)) {
         setDropdown(false);
       }
-    };
+    },
+    [dropdownRef]
+  );
+
+  useEffect(() => {
     document.body.addEventListener("click", closeDropdown);
     return () => document.body.removeEventListener("click", closeDropdown);
   }, []);
 
+  useEffect(() => {
+    if (dropdown) {
+      update();
+    }
+  }, [dropdown]);
+
   return (
     <div
+      ref={setPopper}
       className={overrideTailwindClasses(
-        `absolute right-0 shadow-md shadow-primary bg-neutral-800 w-40 text-center z-10 rounded-sm ${
-          dropdown || "hidden"
+        `shadow-md shadow-primary bg-neutral-800 w-40 text-center rounded-sm ${
+          dropdown ? "" : "hidden"
         } ${className}`
       )}
+      {...attributes.popper}
+      style={styles.popper}
     >
       {children}
     </div>

@@ -2,11 +2,11 @@ import Button from "components/Button";
 import DropDown from "components/DropDown";
 import useAuth from "context/AuthContext";
 import useMessage from "context/MessageContext";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 const ChannelMessageMore = ({ message: { id, user_id } }) => {
   const [dropdown, setDropdown] = useState(false);
-  const dropdownRef = useRef();
+  const [element, setElement] = useState(null);
   const { userId } = useAuth();
   const { setReply } = useMessage();
 
@@ -16,7 +16,7 @@ const ChannelMessageMore = ({ message: { id, user_id } }) => {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative" ref={setElement}>
       <div
         className="cursor-pointer p-1"
         onClick={() => setDropdown((val) => !val)}
@@ -24,8 +24,9 @@ const ChannelMessageMore = ({ message: { id, user_id } }) => {
         <i className="fa-solid fa-ellipsis"></i>
       </div>
       <DropDown
-        className={userId !== user_id ? "left-0" : ""}
-        {...{ dropdown, setDropdown, dropdownRef }}
+        position={userId === user_id ? "bottom-end" : "bottom-start"}
+        {...{ dropdown, setDropdown }}
+        dropdownRef={element}
       >
         <Button className="w-full" onClick={onClickReply}>
           Reply

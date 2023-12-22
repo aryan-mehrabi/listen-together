@@ -16,15 +16,15 @@ const Sidebar = () => {
   const { members } = useMember();
   const { channels } = useChannel();
   const { userId, logOut } = useAuth();
-  const dropdownRef = useRef();
+  const [element, setElement] = useState(null);
 
   const renderChatList = () => {
     const memberArr = Object.values(members);
     return memberArr
       .filter(
-        member => member.user_id === userId && channels[member.channel_id]
+        (member) => member.user_id === userId && channels[member.channel_id]
       )
-      .map(member => (
+      .map((member) => (
         <ChatItem
           key={member.channel_id}
           channel={channels[member.channel_id]}
@@ -37,14 +37,14 @@ const Sidebar = () => {
       <div className="flex items-center px-4 py-3 border-b border-neutral-700">
         <img className="w-11" src={users[userId]?.avatar} alt="avatar" />
         <p className="ml-2 font-semibold">{users[userId]?.name}</p>
-        <div className="ml-auto relative" ref={dropdownRef}>
+        <div className="ml-auto relative" ref={setElement}>
           <div
             onClick={() => setDropdown(!dropdown)}
             className="cursor-pointer"
           >
             <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
           </div>
-          <DropDown {...{ dropdown, setDropdown, dropdownRef }}>
+          <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
             <Button type="danger" onClick={logOut} className="w-full">
               Log Out
             </Button>

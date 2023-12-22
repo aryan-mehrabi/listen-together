@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import useAuth from "context/AuthContext";
 import DropDown from "components/DropDown";
 import Button from "components/Button";
@@ -7,19 +7,19 @@ import useChannel from "context/ChannelContext";
 
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
-  const dropdownRef = useRef();
+  const [element, setElement] = useState(null);
   const { userId: authUserId } = useAuth();
   const { members, changeRole, removeMember } = useMember();
   const { selectedChannel } = useChannel();
 
   const { role: userRole } =
     Object.values(members).find(
-      member =>
+      (member) =>
         member.user_id === userId && member.channel_id === selectedChannel
     ) || {};
   const { role: authUserRole } =
     Object.values(members).find(
-      member =>
+      (member) =>
         member.user_id === authUserId && member.channel_id === selectedChannel
     ) || {};
 
@@ -76,11 +76,11 @@ const MemberSettings = ({ userId }) => {
   }
 
   return (
-    <div className=" ml-auto cursor-pointer relative" ref={dropdownRef}>
+    <div className=" ml-auto cursor-pointer relative" ref={setElement}>
       <div onClick={() => setDropdown(!dropdown)}>
         <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
       </div>
-      <DropDown {...{ dropdown, setDropdown, dropdownRef }}>
+      <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
         {renderedButtons}
       </DropDown>
     </div>
