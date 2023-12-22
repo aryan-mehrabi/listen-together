@@ -3,29 +3,31 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { PageProvider } from "context/PageContext";
 import { ModalProvider } from "context/ModalContext";
 import Spinner from "./Spinner";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorComponent from "./ErrorComponent";
 
 const AuthProvider = lazy(() =>
-  import("context/AuthContext").then(module => ({
+  import("context/AuthContext").then((module) => ({
     default: module.AuthProvider,
   }))
 );
 const UserProvider = lazy(() =>
-  import("context/UserContext").then(module => ({
+  import("context/UserContext").then((module) => ({
     default: module.UserProvider,
   }))
 );
 const ChannelProvider = lazy(() =>
-  import("context/ChannelContext").then(module => ({
+  import("context/ChannelContext").then((module) => ({
     default: module.ChannelProvider,
   }))
 );
 const MemberProvider = lazy(() =>
-  import("context/MemberContext").then(module => ({
+  import("context/MemberContext").then((module) => ({
     default: module.MemberProvider,
   }))
 );
 const MessageProvider = lazy(() =>
-  import("context/MessageContext").then(module => ({
+  import("context/MessageContext").then((module) => ({
     default: module.MessageProvider,
   }))
 );
@@ -42,25 +44,27 @@ const App = () => {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Suspense fallback={fallback}>
-        <ModalProvider>
-          <AuthProvider>
-            <UserProvider>
-              <PageProvider>
-                <ChannelProvider>
-                  <MemberProvider>
-                    <MessageProvider>
-                      <Router />
-                    </MessageProvider>
-                  </MemberProvider>
-                </ChannelProvider>
-              </PageProvider>
-            </UserProvider>
-          </AuthProvider>
-        </ModalProvider>
-      </Suspense>
-    </QueryClientProvider>
+    <ErrorBoundary FallbackComponent={ErrorComponent}>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={fallback}>
+          <ModalProvider>
+            <AuthProvider>
+              <UserProvider>
+                <PageProvider>
+                  <ChannelProvider>
+                    <MemberProvider>
+                      <MessageProvider>
+                        <Router />
+                      </MessageProvider>
+                    </MemberProvider>
+                  </ChannelProvider>
+                </PageProvider>
+              </UserProvider>
+            </AuthProvider>
+          </ModalProvider>
+        </Suspense>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 
