@@ -1,41 +1,70 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useEffect } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
-import useYTPlayer from "hooks/useYTPlayer";
 import useMember from "context/MemberContext";
+import YouTube from "react-youtube";
 
 const Player = () => {
-  useYTPlayer();
   const { userId } = useAuth();
-  const { channels, selectedChannel } = useChannel();
+  const { channels, selectedChannel, playTrack, pauseTrack } = useChannel();
   const { members } = useMember();
-  const { track } = channels[selectedChannel];
-  const loadTrack = useRef(track);
+  const player = useRef(null);
+  const { track, position, is_playing } = channels[selectedChannel];
 
-  const userMembership = useMemo(
-    () =>
-      Object.values(members).find(
-        member =>
-          member.user_id === userId && member.channel_id === selectedChannel
-      ),
-    [members, userId, selectedChannel]
+  const userMembership = Object.values(members).find(
+    (member) =>
+      member.user_id === userId && member.channel_id === selectedChannel
   );
+
+  const onReady = (e) => {
+    player.current = e.target;
+    e.target.seekTo(position);
+    if (!is_playing) {
+      e.target.pauseVideo();
+    }
+  };
+
+  const onStateChange = (e) => {
+    const playing = window.YT.PlayerState.PLAYING;
+    const playerTime = e.target.getCurrentTime();
+    const pauseStates = [-1, 0, 2, 5];
+
+    if (e.data === playing && !is_playing) {
+      playTrack(playerTime);
+    } else if (pauseStates.includes(e.data) && is_playing) {
+      pauseTrack();
+    }
+  };
+
+  useEffect(() => {
+    if (!is_playing) {
+      player.current?.pauseVideo();
+    } else {
+      player.current?.playVideo();
+    }
+  }, [is_playing]);
+
+  useEffect(() => {
+    player.current?.seekTo(position);
+  }, [position]);
 
   return (
     <div className="mt-auto">
-      <iframe
-        className={
+      <YouTube
+        videoId={track}
+        iframeClassName={
           ["admin", "creator"].includes(userMembership?.role)
             ? ""
             : "pointer-events-none"
         }
-        id="yt-player"
-        width="100%"
-        src={`https://www.youtube.com/embed/${loadTrack.current}?enablejsapi=1&disablekb=1`}
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      ></iframe>
+        opts={{
+          width: "100%",
+          height: "auto",
+          playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
+        }}
+        onReady={onReady}
+        onStateChange={onStateChange}
+      />
     </div>
   );
 };
