@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
 import MemberSettings from "./MemberSettings";
@@ -7,17 +7,11 @@ import useMember from "context/MemberContext";
 const ChannelMembers = () => {
   const { selectedChannel } = useChannel();
   const { users } = useUser();
-  const { members, fetchChannelsMember, subscribeChannelsMember } = useMember();
-
-  useEffect(() => {
-    fetchChannelsMember(selectedChannel);
-    const unsubscribe = subscribeChannelsMember(selectedChannel);
-    return () => unsubscribe();
-  }, [selectedChannel]);
+  const { members } = useMember();
 
   const renderMembers = () => {
     return Object.values(members)
-      .filter(member => {
+      .filter((member) => {
         return member.channel_id === selectedChannel;
       })
       .map(({ user_id }) => (

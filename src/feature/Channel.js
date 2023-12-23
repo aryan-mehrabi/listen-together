@@ -7,10 +7,12 @@ import ChannelSettings from "feature/setting/ChannelSettings";
 import MusicSettings from "feature/music/MusicSettings";
 import Spinner from "components/Spinner";
 import useMessage from "context/MessageContext";
+import useMember from "context/MemberContext";
 
 const Channel = () => {
   const { selectedChannel, channels } = useChannel();
   const { fetchMessages, subscribeMessagesChannel } = useMessage();
+  const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery("screen and (max-width: 640px)");
 
@@ -23,12 +25,18 @@ const Channel = () => {
   }, [isMobile]);
 
   useEffect(() => {
-    let unsubscribe;
+    let unsubscribeMessages;
+    let unsubscribeMembers;
     if (selectedChannel) {
       fetchMessages(selectedChannel);
-      unsubscribe = subscribeMessagesChannel(selectedChannel);
+      unsubscribeMessages = subscribeMessagesChannel(selectedChannel);
+      fetchChannelsMember(selectedChannel);
+      unsubscribeMembers = subscribeChannelsMember(selectedChannel);
     }
-    return () => unsubscribe();
+    return () => {
+      unsubscribeMembers();
+      unsubscribeMessages();
+    };
   }, [selectedChannel]);
 
   if (!channels[selectedChannel]) {
