@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { overrideTailwindClasses } from "tailwind-override";
 import { usePopper } from "react-popper";
 import useEventCallback from "hooks/useEventCallback";
@@ -14,6 +14,15 @@ const DropDown = ({
   const [popper, setPopper] = useState(null);
   const { styles, attributes, update } = usePopper(dropdownRef, popper, {
     placement: position,
+    modifiers: [
+      {
+        name: "eventListeners",
+        options: {
+          scroll: false,
+          resize: false,
+        },
+      },
+    ],
   });
 
   const closeDropdown = useEventCallback(
