@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
-const useMediaQuery = query => {
+const useMediaQuery = (query) => {
   const [matches, setMatches] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const media = window.matchMedia(query);
     if (media.matches !== matches) {
       setMatches(media.matches);
@@ -15,10 +15,9 @@ const useMediaQuery = query => {
     try {
       media.addEventListener("change", listener);
       return () => media.removeEventListener("change", listener);
-      
     } catch (error) {
-      media.addListener(listener)
-      return () => media.removeListener(listener)
+      media.addListener(listener);
+      return () => media.removeListener(listener);
     }
   }, [matches, query]);
 
