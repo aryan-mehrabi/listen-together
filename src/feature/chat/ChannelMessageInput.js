@@ -86,8 +86,8 @@ const ChannelMessageInput = () => {
     if (trimedMessage || attachments.length) {
       sendMessage(
         { body: trimedMessage },
-        attachments,
-        attachments.length ? "image" : "text"
+        attachments.length ? "image" : "text",
+        attachments
       );
       setMessage("");
       setReply(null);

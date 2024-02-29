@@ -24,7 +24,6 @@ const MusicItem = ({ track }) => {
           thumbnail: track.snippet.thumbnails.default.url,
           track_id: track.id.videoId,
         },
-        undefined,
         "track"
       );
       setReply(null);

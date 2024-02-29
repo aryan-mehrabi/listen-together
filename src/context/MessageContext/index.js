@@ -91,7 +91,11 @@ export const MessageProvider = ({ children }) => {
     return () => supabase.removeChannel(messagesChannel);
   };
 
-  const sendMessage = async (content, attachments, message_type = "text") => {
+  const sendMessage = async (
+    content,
+    message_type = "text",
+    attachments = []
+  ) => {
     const message = {
       content,
       user_id: userId,
