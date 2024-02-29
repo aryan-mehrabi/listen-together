@@ -18,11 +18,15 @@ const MusicItem = ({ track }) => {
 
   const onClickItem = () => {
     if (role === "member") {
-      sendMessage({
-        title: track.snippet.title,
-        thumbnail: track.snippet.thumbnails.default.url,
-        track_id: track.id.videoId,
-      });
+      sendMessage(
+        {
+          title: track.snippet.title,
+          thumbnail: track.snippet.thumbnails.default.url,
+          track_id: track.id.videoId,
+        },
+        undefined,
+        "track"
+      );
       setReply(null);
     } else {
       updateTrack(track.id.videoId);

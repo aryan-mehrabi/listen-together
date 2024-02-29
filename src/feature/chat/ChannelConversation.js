@@ -15,7 +15,7 @@ const ChannelConversation = () => {
 
   const renderMessages = () => {
     if (channelMessages) {
-      return channelMessages.map(message => (
+      return channelMessages.map((message) => (
         <ChannelMessage key={message.id} {...{ message }} />
       ));
     }

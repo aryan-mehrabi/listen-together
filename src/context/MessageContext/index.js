@@ -27,10 +27,15 @@ export const MessageProvider = ({ children }) => {
       channel_id,
       content,
       reply_id,
+      message_type,
       users (
         id,
         name,
         avatar
+      ),
+      attachments (
+        id,
+        url
       )
       `
       )
@@ -52,8 +57,19 @@ export const MessageProvider = ({ children }) => {
           table: "messages",
           filter: `channel_id=eq.${channelId}`,
         },
-        (payload) => {
-          dispatch({ type: "INSERT_MESSAGE", payload: payload.new });
+        async (payload) => {
+          if (payload.new.message_type === "image") {
+            const res = await supabase
+              .from("attachments")
+              .select("*")
+              .eq("message_id", payload.new.id);
+            dispatch({
+              type: "INSERT_MESSAGE",
+              payload: { ...payload.new, attachments: res.data },
+            });
+          } else {
+            dispatch({ type: "INSERT_MESSAGE", payload: payload.new });
+          }
           if (!(payload.new.user_id in users)) {
             fetchUser(payload.new.user_id);
           }
@@ -75,16 +91,42 @@ export const MessageProvider = ({ children }) => {
     return () => supabase.removeChannel(messagesChannel);
   };
 
-  const sendMessage = async (content) => {
+  const sendMessage = async (content, attachments, message_type = "text") => {
     const message = {
       content,
       user_id: userId,
       channel_id: selectedChannel,
       client_id: uuidv4(),
       reply_id: reply,
+      message_type,
     };
-    dispatch({ type: "INSERT_MESSAGE", payload: message });
-    await supabase.from("messages").insert([message]).select();
+    dispatch({ type: "INSERT_MESSAGE", payload: { ...message, attachments } });
+    let uploadedImages;
+    if (attachments.length) {
+      const promises = attachments.map((attachment) =>
+        supabase.storage
+          .from("images")
+          .upload(
+            `${selectedChannel}/${new Date().getTime()}${attachment.name}`,
+            attachment
+          )
+      );
+      uploadedImages = await Promise.all(promises);
+    }
+    const { data } = await supabase
+      .from("messages")
+      .insert(message)
+      .select()
+      .single();
+    if (attachments.length) {
+      await supabase.from("attachments").insert(
+        uploadedImages.map((image, i) => ({
+          url: `${process.env.REACT_APP_SUPABASE_URL}/storage/v1/object/authenticated/images/${image.data.path}`,
+          message_id: data.id,
+          mime_type: attachments[i].type,
+        }))
+      );
+    }
   };
 
   const value = {

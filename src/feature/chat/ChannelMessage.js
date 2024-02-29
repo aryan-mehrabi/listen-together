@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
 import useMember from "context/MemberContext";
 import ChannelMessageMore from "./ChannelMessageMore";
 import useMessage from "context/MessageContext";
+import supabase from "auth/supabase";
+
+const Image = ({ image }) => {
+  const [imageBlob, setImageBlob] = useState(null);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      const { data } = await supabase.auth.getSession();
+      const res = await fetch(image.url, {
+        headers: {
+          apiKey: process.env.REACT_APP_SUPABASE_API_KEY,
+          Authorization: `Bearer ${data.session.access_token}`,
+        },
+      });
+      const response = new Response(res.body);
+      setImageBlob(await response.blob());
+    };
+    if (image.url) {
+      fetchImage();
+    }
+  }, []);
+
+  const renderImageBlob = (blob) => (
+    <div className="max-w-[200px] lg:max-w-[350px]">
+      <img src={URL.createObjectURL(blob)} alt="" />
+    </div>
+  );
+
+  if (!image.url) {
+    return renderImageBlob(image);
+  }
+
+  return imageBlob && renderImageBlob(imageBlob);
+};
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
@@ -12,7 +46,7 @@ const ChannelMessage = ({ message }) => {
   const { users } = useUser();
   const { members } = useMember();
   const { messages } = useMessage();
-  const { created_at, user_id, content } = message;
+  const { created_at, user_id, content, message_type, attachments } = message;
   const { role } =
     Object.values(members).find(
       (member) =>
@@ -47,11 +81,13 @@ const ChannelMessage = ({ message }) => {
     const time = new Date(created_at);
     const hour = time.getHours().toString();
     const minute = time.getMinutes().toString();
-    return `${hour}:${minute.length === 1 ? "0" : ""}${minute}`;
+    return `${hour.length === 1 ? "0" : ""}${hour}:${
+      minute.length === 1 ? "0" : ""
+    }${minute}`;
   };
 
   const messageContent = (() => {
-    if (!content.body) {
+    if (message_type === "track") {
       return (
         <div className="flex items-center pt-2">
           <img
@@ -70,8 +106,16 @@ const ChannelMessage = ({ message }) => {
           )}
         </div>
       );
-    } else {
+    } else if (message_type === "text") {
       return <p>{content.body}</p>;
+    } else if (message_type === "image") {
+      return (
+        <div className="flex flex-col gap-2 overflow-hidden">
+          {attachments.map((image, i) => (
+            <Image key={i} image={image} />
+          ))}
+        </div>
+      );
     }
   })();
 
