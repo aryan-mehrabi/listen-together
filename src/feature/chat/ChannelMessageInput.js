@@ -3,6 +3,7 @@ import Button from "components/Button";
 import useMessage from "context/MessageContext";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
+import ChannelMessageImage from "./ChannelMessageImage";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
@@ -58,12 +59,20 @@ const ChannelMessageInput = () => {
         <div className="text-cta">
           <i className="fa fa-reply" aria-hidden="true"></i>
         </div>
-        {replyMessage.content.thumbnail && (
+        {replyMessage.message_type === "track" && (
           <div className="w-16">
             <img
               className="w-full h-full"
               src={replyMessage.content.thumbnail}
               alt=""
+            />
+          </div>
+        )}
+        {replyMessage.message_type === "image" && (
+          <div className="w-16 h-16">
+            <ChannelMessageImage
+              className="w-full h-full object-cover"
+              image={replyMessage.attachments[0]}
             />
           </div>
         )}

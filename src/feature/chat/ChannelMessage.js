@@ -1,42 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
 import useMember from "context/MemberContext";
 import ChannelMessageMore from "./ChannelMessageMore";
 import useMessage from "context/MessageContext";
-import supabase from "auth/supabase";
-
-const Image = ({ image }) => {
-  const [imageBlob, setImageBlob] = useState(null);
-
-  useEffect(() => {
-    const fetchImage = async () => {
-      const { data } = await supabase.auth.getSession();
-      const res = await fetch(image.url, {
-        headers: {
-          apiKey: process.env.REACT_APP_SUPABASE_API_KEY,
-          Authorization: `Bearer ${data.session.access_token}`,
-        },
-      });
-      const response = new Response(res.body);
-      setImageBlob(await response.blob());
-    };
-    if (image.url) {
-      fetchImage();
-    }
-  }, []);
-
-  const renderImageBlob = (blob) => (
-    <img src={URL.createObjectURL(blob)} alt="" />
-  );
-
-  if (!image.url) {
-    return renderImageBlob(image);
-  }
-
-  return imageBlob && renderImageBlob(imageBlob);
-};
+import ChannelMessageImage from "./ChannelMessageImage";
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
@@ -56,13 +25,21 @@ const ChannelMessage = ({ message }) => {
     const replyMessage = messages[selectedChannel][message.reply_id];
     const replyUser = users[replyMessage.user_id];
     return (
-      <div className="border-l-cta border-l-4  p-1 rounded-sm flex gap-1">
-        {replyMessage.content.thumbnail && (
+      <div className="border-l-cta border-l-4 mb-1 p-1 rounded-sm flex gap-1">
+        {replyMessage.message_type === "track" && (
           <div className="w-10">
             <img
               className="w-full h-full"
               src={replyMessage.content.thumbnail}
               alt=""
+            />
+          </div>
+        )}
+        {replyMessage.message_type === "image" && (
+          <div className="w-10 h-10">
+            <ChannelMessageImage
+              className="h-full object-cover"
+              image={replyMessage.attachments[0]}
             />
           </div>
         )}
@@ -111,7 +88,7 @@ const ChannelMessage = ({ message }) => {
         <div className="overflow-hidden max-w-[200px] lg:max-w-[350px]">
           <div className="flex flex-col gap-2">
             {attachments.map((image, i) => (
-              <Image key={i} image={image} />
+              <ChannelMessageImage key={i} image={image} />
             ))}
           </div>
           {content?.body && <p>{content.body}</p>}
