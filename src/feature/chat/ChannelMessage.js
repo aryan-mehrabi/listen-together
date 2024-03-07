@@ -28,9 +28,7 @@ const Image = ({ image }) => {
   }, []);
 
   const renderImageBlob = (blob) => (
-    <div className="max-w-[200px] lg:max-w-[350px]">
-      <img src={URL.createObjectURL(blob)} alt="" />
-    </div>
+    <img src={URL.createObjectURL(blob)} alt="" />
   );
 
   if (!image.url) {
@@ -110,10 +108,13 @@ const ChannelMessage = ({ message }) => {
       return <p>{content.body}</p>;
     } else if (message_type === "image") {
       return (
-        <div className="flex flex-col gap-2 overflow-hidden">
-          {attachments.map((image, i) => (
-            <Image key={i} image={image} />
-          ))}
+        <div className="overflow-hidden max-w-[200px] lg:max-w-[350px]">
+          <div className="flex flex-col gap-2">
+            {attachments.map((image, i) => (
+              <Image key={i} image={image} />
+            ))}
+          </div>
+          {content?.body && <p>{content.body}</p>}
         </div>
       );
     }
