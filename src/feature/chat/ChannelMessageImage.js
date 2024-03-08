@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import supabase from "auth/supabase";
+import { useQuery } from "react-query";
 
 const ChannelMessageImage = ({ image, className = "" }) => {
-  const [imageBlob, setImageBlob] = useState(null);
-
-  useEffect(() => {
-    const fetchImage = async () => {
-      const { data } = await supabase.auth.getSession();
-      const res = await fetch(image.url, {
-        headers: {
-          apiKey: process.env.REACT_APP_SUPABASE_API_KEY,
-          Authorization: `Bearer ${data.session.access_token}`,
-        },
-      });
-      const response = new Response(res.body);
-      setImageBlob(await response.blob());
-    };
-    if (image.url) {
-      fetchImage();
-    }
-  }, []);
+  const { data } = useQuery(["image", image.url], async () => {
+    if (!image.url) return image;
+    const { data } = await supabase.auth.getSession();
+    const res = await fetch(image.url, {
+      headers: {
+        apiKey: process.env.REACT_APP_SUPABASE_API_KEY,
+        Authorization: `Bearer ${data.session.access_token}`,
+      },
+    });
+    const response = new Response(res.body);
+    const blob = await response.blob();
+    return blob;
+  });
 
   const renderImageBlob = (blob) => (
     <img className={className} src={URL.createObjectURL(blob)} alt="" />
@@ -29,7 +25,7 @@ const ChannelMessageImage = ({ image, className = "" }) => {
     return renderImageBlob(image);
   }
 
-  return imageBlob && renderImageBlob(imageBlob);
+  return data && renderImageBlob(data);
 };
 
 export default ChannelMessageImage;
