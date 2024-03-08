@@ -6,6 +6,7 @@ import useMember from "context/MemberContext";
 import ChannelMessageMore from "./ChannelMessageMore";
 import useMessage from "context/MessageContext";
 import ChannelMessageImage from "./ChannelMessageImage";
+import useModal from "context/ModalContext";
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
@@ -13,6 +14,7 @@ const ChannelMessage = ({ message }) => {
   const { users } = useUser();
   const { members } = useMember();
   const { messages } = useMessage();
+  const { setModal } = useModal();
   const { created_at, user_id, content, message_type, attachments } = message;
   const { role } =
     Object.values(members).find(
@@ -96,7 +98,13 @@ const ChannelMessage = ({ message }) => {
         <div className="overflow-hidden max-w-[200px] lg:max-w-[350px]">
           <div className="flex flex-col gap-2">
             {attachments.map((image, i) => (
-              <ChannelMessageImage key={i} image={image} />
+              <div
+                key={i}
+                onClick={() => setModal(<ChannelMessageImage image={image} />)}
+                className="cursor-pointer"
+              >
+                <ChannelMessageImage image={image} />
+              </div>
             ))}
           </div>
           {content?.body && <p>{content.body}</p>}
