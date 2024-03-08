@@ -45,7 +45,15 @@ const ChannelMessage = ({ message }) => {
         )}
         <div className="text-sm">
           <p className="text-cta">{replyUser?.name}</p>
-          <p>{replyMessage.content.body || replyMessage.content.title}</p>
+          <p>
+            {replyMessage.message_type === "text"
+              ? replyMessage.content.body
+              : replyMessage.message_type === "track"
+              ? replyMessage.content.title
+              : replyMessage.message_type === "image"
+              ? replyMessage.content.body || "Photo"
+              : null}
+          </p>
         </div>
       </div>
     );
