@@ -15,6 +15,12 @@ const ChannelMessageInput = () => {
   const { users } = useUser();
 
   const FILE_SIZE_LIMIT = 5000000; // bytes - 5Mb
+  const FILE_TYPE_ALLOWED = [
+    "image/jpg",
+    "image/jpeg",
+    "image/png",
+    "image/svg",
+  ];
 
   const renderAttachments = () => {
     if (!attachments.length) return null;
@@ -113,7 +119,8 @@ const ChannelMessageInput = () => {
 
   const onChangeFileInput = (e) => {
     const files = Array.from(e.target.files).filter(
-      (file) => file.size <= FILE_SIZE_LIMIT
+      (file) =>
+        file.size <= FILE_SIZE_LIMIT && FILE_TYPE_ALLOWED.includes(file.type)
     );
     setAttachments(files);
   };
