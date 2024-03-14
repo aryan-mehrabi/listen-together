@@ -31,7 +31,7 @@ const ChannelMessage = ({ message }) => {
         {replyMessage.message_type === "track" && (
           <div className="w-10">
             <img
-              className="w-full h-full"
+              className="w-full h-full object-cover"
               src={replyMessage.content.thumbnail}
               alt=""
             />
@@ -95,15 +95,18 @@ const ChannelMessage = ({ message }) => {
       return <p>{content.body}</p>;
     } else if (message_type === "image") {
       return (
-        <div className="overflow-hidden max-w-[200px] lg:max-w-[350px]">
+        <div className="overflow-hidden max-w-[15rem] lg:max-w-[24rem]">
           <div className="flex flex-col gap-2">
             {attachments.map((image, i) => (
               <div
                 key={i}
                 onClick={() => setModal(<ChannelMessageImage image={image} />)}
-                className="cursor-pointer"
+                className="cursor-pointer w-60 md:w-96 aspect-square"
               >
-                <ChannelMessageImage image={image} />
+                <ChannelMessageImage
+                  image={image}
+                  className="object-cover w-full h-full"
+                />
               </div>
             ))}
           </div>
