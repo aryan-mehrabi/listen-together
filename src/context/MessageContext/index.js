@@ -12,6 +12,7 @@ const MessageContext = createContext(initVal);
 export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
   const [reply, setReply] = useState(null);
+  const [attachments, setAttachments] = useState([]);
   const { setUsers, fetchUser, users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
@@ -137,6 +138,8 @@ export const MessageProvider = ({ children }) => {
     messages: state,
     reply,
     setReply,
+    attachments,
+    setAttachments,
     sendMessage,
     fetchMessages,
     subscribeMessagesChannel,
