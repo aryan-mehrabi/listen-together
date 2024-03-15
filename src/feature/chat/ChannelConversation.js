@@ -10,9 +10,7 @@ const ChannelConversation = () => {
   const channelMessages = Object.values(messages[selectedChannel] || {});
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollBottom.current.scrollIntoView({ behavior: "smooth" });
-    }, 0);
+    scrollBottom.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const renderMessages = () => {
