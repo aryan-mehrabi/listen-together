@@ -125,6 +125,14 @@ const ChannelMessageInput = () => {
     setAttachments(files);
   };
 
+  const onPasteMessageInput = (e) => {
+    const files = Array.from(e.clipboardData.files).filter(
+      (file) =>
+        file.size <= FILE_SIZE_LIMIT && FILE_TYPE_ALLOWED.includes(file.type)
+    );
+    setAttachments(files);
+  };
+
   return (
     <div>
       {renderReply()}
@@ -144,6 +152,7 @@ const ChannelMessageInput = () => {
             ref={fileInputRef}
           />
           <textarea
+            onPaste={onPasteMessageInput}
             onKeyDown={onKeyPressEnter}
             onChange={(e) => setMessage(e.target.value.trimStart())}
             value={message}
