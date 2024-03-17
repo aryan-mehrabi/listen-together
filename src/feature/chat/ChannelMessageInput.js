@@ -3,9 +3,9 @@ import Button from "components/Button";
 import useMessage from "context/MessageContext";
 import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
-import ChannelMessageImage from "./ChannelMessageImage";
-import { FILE_SIZE_LIMIT, FILE_TYPE_ALLOWED } from "helpers/constants";
 import { filterImageFiles } from "helpers";
+import ChannelMessageImageReply from "./ChannelMessageImageReply";
+import ImageBlob from "components/ImageBlob";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
@@ -76,10 +76,11 @@ const ChannelMessageInput = () => {
         )}
         {replyMessage.message_type === "image" && (
           <div className="w-16 h-16">
-            <ChannelMessageImage
-              className="w-full h-full object-cover"
-              image={replyMessage.attachments[0]}
-            />
+            {replyMessage.attachments[0].url ? (
+              <ChannelMessageImageReply image={replyMessage.attachments[0]} />
+            ) : (
+              <ImageBlob blob={replyMessage.attachments[0]} />
+            )}
           </div>
         )}
         <div>

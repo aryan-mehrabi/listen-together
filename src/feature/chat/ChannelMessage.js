@@ -6,7 +6,8 @@ import useMember from "context/MemberContext";
 import ChannelMessageMore from "./ChannelMessageMore";
 import useMessage from "context/MessageContext";
 import ChannelMessageImage from "./ChannelMessageImage";
-import useModal from "context/ModalContext";
+import ChannelMessageImageReply from "./ChannelMessageImageReply";
+import ImageBlob from "components/ImageBlob";
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
@@ -14,7 +15,6 @@ const ChannelMessage = ({ message }) => {
   const { users } = useUser();
   const { members } = useMember();
   const { messages } = useMessage();
-  const { setModal } = useModal();
   const { created_at, user_id, content, message_type, attachments } = message;
   const { role } =
     Object.values(members).find(
@@ -39,10 +39,11 @@ const ChannelMessage = ({ message }) => {
         )}
         {replyMessage.message_type === "image" && (
           <div className="w-10 h-10">
-            <ChannelMessageImage
-              className="h-full object-cover"
-              image={replyMessage.attachments[0]}
-            />
+            {replyMessage.attachments[0].url ? (
+              <ChannelMessageImageReply image={replyMessage.attachments[0]} />
+            ) : (
+              <img src={URL.createObjectURL(replyMessage.attachments[0])} />
+            )}
           </div>
         )}
         <div className="text-sm">
@@ -95,20 +96,15 @@ const ChannelMessage = ({ message }) => {
       return <p>{content.body}</p>;
     } else if (message_type === "image") {
       return (
-        <div className="overflow-hidden max-w-[15rem] lg:max-w-[24rem]">
+        <div className="overflow-hidden max-w-[15rem]">
           <div className="flex flex-col gap-2">
-            {attachments.map((image, i) => (
-              <div
-                key={i}
-                onClick={() => setModal(<ChannelMessageImage image={image} />)}
-                className="cursor-pointer w-60 md:w-96 aspect-square"
-              >
-                <ChannelMessageImage
-                  image={image}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            ))}
+            {attachments.map((image) =>
+              image.url ? (
+                <ChannelMessageImage key={image.id} image={image} />
+              ) : (
+                <ImageBlob key={image.name} blob={image} />
+              )
+            )}
           </div>
           {content?.body && <p>{content.body}</p>}
         </div>
