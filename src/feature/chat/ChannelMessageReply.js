@@ -12,7 +12,9 @@ export default function ChannelMessageReply({ message }) {
   if (!message.reply_id) return;
 
   const replyMessage = messages[selectedChannel][message.reply_id];
-  const replyUser = users[replyMessage.user_id];
+  const replyUser = users?.[replyMessage?.user_id];
+
+  if (!replyMessage || !replyUser) return <p>not loaded</p>;
 
   return (
     <div className="border-l-cta border-l-4 mb-1 p-1 rounded-sm flex gap-1">

@@ -6,7 +6,10 @@ const messageReducer = (state, { type, payload }) => {
         const modMessage = { ...newMessage, user_id: users.id };
         return { ...acc, [modMessage.id]: modMessage };
       }, {});
-      return { ...state, [payload.channelId]: messages };
+      return {
+        ...state,
+        [payload.channelId]: { ...state[payload.channelId], ...messages },
+      };
     case "INSERT_MESSAGE":
       const { id, channel_id, client_id } = payload;
       const { [client_id]: _, ...otherMessages } = state[channel_id];

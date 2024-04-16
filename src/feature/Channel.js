@@ -11,7 +11,12 @@ import useMember from "context/MemberContext";
 
 const Channel = () => {
   const { selectedChannel, channels } = useChannel();
-  const { fetchMessages, subscribeMessagesChannel } = useMessage();
+  const {
+    fetchMessages,
+    subscribeMessagesChannel,
+    messages,
+    scrollDownElement,
+  } = useMessage();
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery("screen and (max-width: 640px)");
@@ -28,7 +33,14 @@ const Channel = () => {
     let unsubscribeMessages;
     let unsubscribeMembers;
     if (selectedChannel) {
-      fetchMessages(selectedChannel);
+      if (
+        !messages[selectedChannel] ||
+        !Object.keys(messages[selectedChannel]).length
+      ) {
+        fetchMessages(selectedChannel);
+      } else {
+        scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+      }
       unsubscribeMessages = subscribeMessagesChannel(selectedChannel);
       fetchChannelsMember(selectedChannel);
       unsubscribeMembers = subscribeChannelsMember(selectedChannel);

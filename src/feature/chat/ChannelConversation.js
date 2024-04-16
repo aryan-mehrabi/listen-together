@@ -1,17 +1,23 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import useChannel from "context/ChannelContext";
 import ChannelMessage from "./ChannelMessage";
 import useMessage from "context/MessageContext";
 
 const ChannelConversation = () => {
   const { selectedChannel } = useChannel();
-  const scrollBottom = useRef(null);
-  const { messages } = useMessage();
+  const {
+    messages,
+    fetchMessages,
+    scrollDownElement,
+    messageContainer,
+    pages,
+  } = useMessage();
   const channelMessages = Object.values(messages[selectedChannel] || {});
+  const page = pages[selectedChannel];
 
-  useEffect(() => {
-    scrollBottom.current.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  const onClickLoadMore = () => {
+    fetchMessages(selectedChannel);
+  };
 
   const renderMessages = () => {
     if (channelMessages) {
@@ -25,9 +31,20 @@ const ChannelConversation = () => {
   };
 
   return (
-    <section className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6">
+    <section
+      ref={messageContainer}
+      className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6"
+    >
+      {page && page.page * 10 < page.count && (
+        <button
+          className="border-cta border-[1px] rounded-full text-sm py-2 px-8 mx-auto bg-neutral-800 text-secondary"
+          onClick={onClickLoadMore}
+        >
+          Load More
+        </button>
+      )}
       {renderMessages()}
-      <div ref={scrollBottom}></div>
+      <div ref={scrollDownElement}></div>
     </section>
   );
 };
