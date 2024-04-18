@@ -36,11 +36,8 @@ const ChannelConversation = () => {
       className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6"
     >
       {page && page.page * 10 < page.count && (
-        <button
-          className="border-cta border-[1px] rounded-full text-sm py-2 px-8 mx-auto bg-neutral-800 text-secondary"
-          onClick={onClickLoadMore}
-        >
-          Load More
+        <button className="text-cta mx-auto" onClick={onClickLoadMore}>
+          Load More <i className="fa fa-arrow-up" />
         </button>
       )}
       {renderMessages()}
