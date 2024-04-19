@@ -73,10 +73,10 @@ const ChannelMessageInput = () => {
             />
             <button
               type="button"
-              className="text-xl"
+              className="text-lg"
               onClick={() => fileInputRef.current.click()}
             >
-              <i className="fa fa-file-image" aria-hidden="true"></i>
+              <i className="fa fa-paperclip" aria-hidden="true"></i>
             </button>
           </div>
         </div>
