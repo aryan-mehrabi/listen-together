@@ -16,7 +16,7 @@ export const MessageProvider = ({ children }) => {
   const [pages, setPages] = useState({});
   const messageContainer = useRef(null);
   const scrollDownElement = useRef(null);
-  const { setUsers, fetchUser, users } = useUser();
+  const { fetchUser, users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
 
@@ -36,7 +36,6 @@ export const MessageProvider = ({ children }) => {
       created_at,
       channel_id,
       content,
-      reply_id,
       message_type,
       users (
         id,
@@ -46,6 +45,16 @@ export const MessageProvider = ({ children }) => {
       attachments (
         id,
         url
+      ),
+      replied_message:reply_id(
+        id,
+        content,
+        message_type,
+        attachments (id, url),
+        users (
+          id,
+          name
+        )
       )
       `,
         {
@@ -57,7 +66,6 @@ export const MessageProvider = ({ children }) => {
       .range(page * RANGE, page * RANGE + RANGE - 1);
     if (!error) {
       dispatch({ type: "FETCH_MESSAGES", payload: { messages, channelId } });
-      setUsers(messages);
       setPages((pages) => ({
         ...pages,
         [channelId]: { page: page + 1, count },
@@ -85,20 +93,41 @@ export const MessageProvider = ({ children }) => {
           filter: `channel_id=eq.${channelId}`,
         },
         async (payload) => {
-          if (payload.new.message_type === "image") {
-            const res = await supabase
-              .from("attachments")
-              .select("*")
-              .eq("message_id", payload.new.id);
+          const { data, error } = await supabase
+            .from("messages")
+            .select(
+              `id,
+            replied_message:reply_id(
+              id,
+              content,
+              message_type,
+              attachments (id, url),
+              users (
+                id,
+                name
+              )
+            ),
+            users (
+              id,
+              name,
+              avatar
+            ),
+            attachments (
+              id,
+              url
+            )`
+            )
+            .eq("id", payload.new.id)
+            .single();
+          if (!error) {
+            console.log({ ...payload.new, ...data });
             dispatch({
               type: "INSERT_MESSAGE",
-              payload: { ...payload.new, attachments: res.data },
+              payload: { ...payload.new, ...data },
             });
-          } else {
-            dispatch({ type: "INSERT_MESSAGE", payload: payload.new });
-          }
-          if (!(payload.new.user_id in users)) {
-            fetchUser(payload.new.user_id);
+            setTimeout(() => {
+              scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+            }, 0);
           }
         }
       )
@@ -123,12 +152,23 @@ export const MessageProvider = ({ children }) => {
     message_type = "text",
     attachments = []
   ) => {
+    const client_id = uuidv4();
     const message = {
       content,
-      user_id: userId,
+      users: {
+        id: userId,
+        name: users[userId].name,
+        avatar: users[userId].avatar,
+      },
       channel_id: selectedChannel,
-      client_id: uuidv4(),
-      reply_id: reply,
+      client_id,
+      replied_message: reply
+        ? {
+            id: reply,
+            content: state[selectedChannel][reply].content,
+            message_type: state[selectedChannel][reply].message_type,
+          }
+        : undefined,
       message_type,
     };
     dispatch({ type: "INSERT_MESSAGE", payload: { ...message, attachments } });
@@ -146,7 +186,14 @@ export const MessageProvider = ({ children }) => {
     }
     const { data } = await supabase
       .from("messages")
-      .insert(message)
+      .insert({
+        user_id: userId,
+        reply_id: reply,
+        channel_id: selectedChannel,
+        client_id,
+        content,
+        message_type,
+      })
       .select()
       .single();
     if (attachments.length) {

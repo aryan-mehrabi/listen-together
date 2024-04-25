@@ -1,7 +1,6 @@
 import React from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
-import useUser from "context/UserContext";
 import useMember from "context/MemberContext";
 import ChannelMessageMore from "./ChannelMessageMore";
 import ChannelMessageImage from "./ChannelMessageImage";
@@ -11,9 +10,14 @@ import ChannelMessageReply from "./ChannelMessageReply";
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
   const { updateTrack, selectedChannel } = useChannel();
-  const { users } = useUser();
   const { members } = useMember();
-  const { created_at, user_id, content, message_type, attachments } = message;
+  const {
+    created_at,
+    users: user,
+    content,
+    message_type,
+    attachments,
+  } = message;
   const { role } =
     Object.values(members).find(
       (member) =>
@@ -72,7 +76,7 @@ const ChannelMessage = ({ message }) => {
     }
   })();
 
-  if (userId === user_id) {
+  if (userId === user.id) {
     return (
       <div className="flex flex-row-reverse items-center ml-auto my-1 min-w-[100px] max-w-[90%] md:max-w-[80%]">
         <div className="bg-secondary rounded-sm p-2 ml-2 min-w-[150px]">
@@ -90,12 +94,10 @@ const ChannelMessage = ({ message }) => {
   } else {
     return (
       <div className="flex items-start my-1 max-w-[90%] md:max-w-[80%]">
-        <img className="w-10 mt-2" src={users[user_id]?.avatar} alt="avatar" />
+        <img className="w-10 mt-2" src={user.avatar} alt="avatar" />
         <div className="flex items-center">
           <div className="bg-neutral-700 rounded-sm p-2 mx-2 min-w-[200px]">
-            <h6 className="text-lg font-semibold text-cta">
-              {users[user_id]?.name}
-            </h6>
+            <h6 className="text-lg font-semibold text-cta">{user.name}</h6>
             <div className="my-1 bg-neutral-800 text-neutral-400">
               <ChannelMessageReply message={message} />
             </div>
