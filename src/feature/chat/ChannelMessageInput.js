@@ -85,7 +85,7 @@ const ChannelMessageInput = () => {
           disabled={!message && !attachments.length}
           className="ml-2"
         >
-          SEND
+          <i className="fa-solid fa-paper-plane" />
         </Button>
       </form>
     </div>
