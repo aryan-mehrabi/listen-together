@@ -1,9 +1,8 @@
 import React from "react";
-import { overrideTailwindClasses } from 'tailwind-override';
+import { overrideTailwindClasses } from "tailwind-override";
 
 const Button = ({ type, className, children, disabled, onClick }) => {
-
-  const defaultClasses = "rounded-sm py-2 px-4 disabled:opacity-50";
+  const defaultClasses = "rounded-lg py-2 px-4 disabled:opacity-50";
 
   const buttonStyle = () => {
     if (type === "cta") {
@@ -18,12 +17,17 @@ const Button = ({ type, className, children, disabled, onClick }) => {
     if (type === "danger") {
       return "bg-neutral-800 text-red-500";
     }
+    if (type === "outlined") {
+      return "text-cta border-[1px] border-cta";
+    }
   };
 
   return (
     <button
       {...{ onClick, disabled }}
-      className={overrideTailwindClasses(`${defaultClasses} ${buttonStyle()} ${className}`)}
+      className={overrideTailwindClasses(
+        `${defaultClasses} ${buttonStyle()} ${className}`
+      )}
     >
       {children}
     </button>

@@ -49,7 +49,7 @@ const DropDown = ({
     <div
       ref={setPopper}
       className={overrideTailwindClasses(
-        `shadow-md shadow-primary bg-neutral-800 w-40 text-center rounded-sm ${
+        `shadow-md shadow-primary bg-neutral-800 w-40 text-center rounded ${
           dropdown ? "" : "hidden"
         } ${className}`
       )}

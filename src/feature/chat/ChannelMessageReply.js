@@ -53,7 +53,7 @@ export default function ChannelMessageReply({
   };
 
   return (
-    <div className="border-l-cta border-l-4 mb-1 p-1 rounded-sm flex gap-1">
+    <div className="border-l-cta border-l-4 mb-1 p-1 rounded flex gap-1">
       {renderReply()}
     </div>
   );
