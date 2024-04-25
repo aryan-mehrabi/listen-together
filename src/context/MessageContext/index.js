@@ -16,7 +16,7 @@ export const MessageProvider = ({ children }) => {
   const [pages, setPages] = useState({});
   const messageContainer = useRef(null);
   const scrollDownElement = useRef(null);
-  const { fetchUser, users } = useUser();
+  const { users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
 
@@ -120,7 +120,6 @@ export const MessageProvider = ({ children }) => {
             .eq("id", payload.new.id)
             .single();
           if (!error) {
-            console.log({ ...payload.new, ...data });
             dispatch({
               type: "INSERT_MESSAGE",
               payload: { ...payload.new, ...data },
@@ -167,6 +166,7 @@ export const MessageProvider = ({ children }) => {
             id: reply,
             content: state[selectedChannel][reply].content,
             message_type: state[selectedChannel][reply].message_type,
+            attachments: state[selectedChannel][reply].attachments,
           }
         : undefined,
       message_type,

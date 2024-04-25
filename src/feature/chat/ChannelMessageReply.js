@@ -1,16 +1,9 @@
-import useChannel from "context/ChannelContext";
-import useMessage from "context/MessageContext";
-import useUser from "context/UserContext";
 import ChannelMessageReplyImage from "./ChannelMessageReplyImage";
 import ImageBlob from "components/ImageBlob";
 
 export default function ChannelMessageReply({
   message: { replied_message, users: user },
 }) {
-  const { messages } = useMessage();
-  const { selectedChannel } = useChannel();
-  const { users } = useUser();
-
   if (!replied_message) return;
 
   const renderReply = () => {
