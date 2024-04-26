@@ -38,7 +38,7 @@ const ChannelConversation = () => {
     >
       {page && page.page * 10 < page.count && (
         <Button
-          className="mx-auto flex items-center gap-2"
+          className="mx-auto flex items-center gap-2 mb-6"
           type="outlined"
           onClick={onClickLoadMore}
         >
