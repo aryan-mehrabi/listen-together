@@ -26,7 +26,7 @@ const Landing = () => {
           Listen to your favorite music synchronously and discuss it with your
           friends.
         </p>
-        <div className="flex sm:items-center justify-center flex-col sm:flex-row gap-5 text-primary md:text-lg m-10">
+        <div className="flex sm:items-center justify-center flex-col sm:flex-row gap-2 text-primary md:text-lg m-10">
           <Button
             type="secondary"
             onClick={logIn}
