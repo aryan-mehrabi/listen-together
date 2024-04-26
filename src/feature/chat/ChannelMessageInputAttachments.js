@@ -11,9 +11,9 @@ export default function ChannelMessageInputAttachments() {
           key={attachment.name}
           className="flex items-center gap-2 px-3 py-1 border-t border-neutral-700 shadow-t-md shadow-neutral-900"
         >
-          <div className="w-16 flex-shrink-0">
+          <div className="w-16 h-16 flex-shrink-0">
             <img
-              className="w-full h-full"
+              className="w-full h-full object-cover"
               src={URL.createObjectURL(attachment)}
               alt=""
             />
