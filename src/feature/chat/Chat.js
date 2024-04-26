@@ -17,7 +17,7 @@ const Chat = () => {
 
   return (
     <DropZone onDrop={onDropFiles} onIsDraggedChange={setIsDragged}>
-      <div className="flex flex-col flex-grow relative">
+      <div className="flex flex-col flex-grow relative w-full">
         <div
           className={`bg-primary bg-opacity-70 inset-0 absolute z-10 flex items-center justify-center ${
             isDragged ? "block" : "hidden"
