@@ -4,8 +4,11 @@ import { decode } from "he";
 import useAuth from "context/AuthContext";
 import useMember from "context/MemberContext";
 import useMessage from "context/MessageContext";
+import useMediaQuery from "hooks/useMediaQuery";
+import useRightSidebar from "context/RightSidebarContext";
 
 const MusicItem = ({ track }) => {
+  const isMobile = useMediaQuery();
   const { updateTrack, selectedChannel } = useChannel();
   const { userId } = useAuth();
   const { members } = useMember();
@@ -15,6 +18,7 @@ const MusicItem = ({ track }) => {
       (member) =>
         member.user_id === userId && member.channel_id === selectedChannel
     ) || {};
+  const { setRightSidebar } = useRightSidebar();
 
   const onClickItem = () => {
     if (role === "member") {
@@ -26,6 +30,9 @@ const MusicItem = ({ track }) => {
         },
         "track"
       );
+      if (isMobile) {
+        setRightSidebar("");
+      }
       setReply(null);
     } else {
       updateTrack(track.id.videoId);

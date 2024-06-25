@@ -14,7 +14,7 @@ const Chat = () => {
   const { members } = useMember();
   const { userId } = useAuth();
   const { setReply } = useMessage();
-  const isMobile = useMediaQuery("screen and (max-width: 640px");
+  const isMobile = useMediaQuery();
 
   useEffect(() => {
     fetchUsersMember();

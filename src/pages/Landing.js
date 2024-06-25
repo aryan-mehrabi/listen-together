@@ -7,7 +7,7 @@ import useMediaQuery from "hooks/useMediaQuery";
 import Button from "components/Button";
 
 const Landing = () => {
-  const isMobile = useMediaQuery("screen and (max-width: 640px");
+  const isMobile = useMediaQuery();
   const { logIn, error, dismissError, logInAnonymous } = useAuth();
   const errorComponent = useError(error, dismissError);
 

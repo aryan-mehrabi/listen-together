@@ -1,9 +1,10 @@
 import { useState, useLayoutEffect } from "react";
 
-const useMediaQuery = (query) => {
+const useMediaQuery = (size = 640) => {
   const [matches, setMatches] = useState(false);
 
   useLayoutEffect(() => {
+    const query = `screen and (max-width: ${size}px)`;
     const media = window.matchMedia(query);
     if (media.matches !== matches) {
       setMatches(media.matches);
@@ -19,7 +20,7 @@ const useMediaQuery = (query) => {
       media.addListener(listener);
       return () => media.removeListener(listener);
     }
-  }, [matches, query]);
+  }, [matches, size]);
 
   return matches;
 };

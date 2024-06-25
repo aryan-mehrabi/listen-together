@@ -19,7 +19,7 @@ const Channel = () => {
   } = useMessage();
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
-  const isMobile = useMediaQuery("screen and (max-width: 640px)");
+  const isMobile = useMediaQuery();
 
   useEffect(() => {
     if (!isMobile) {
