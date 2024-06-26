@@ -32,7 +32,7 @@ const ChannelNav = () => {
         onClick={() =>
           setRightSidebar(rightSidebar === "setting" ? "" : "setting")
         }
-        className={`fa-solid fa-users-gear text-xl cursor-pointer ${
+        className={`fa-solid fa-gear text-xl cursor-pointer ${
           rightSidebar === "setting" ? "text-cta" : ""
         }`}
       ></i>
