@@ -31,8 +31,13 @@ export const AuthProvider = ({ children }) => {
     });
   };
   const logIn = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const invite = urlParams.get("invite");
     try {
-      await supabase.auth.signInWithOAuth({ provider: "google" });
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.href}` },
+      });
     } catch (error) {
       dispatch({ type: "AUTH_ERROR", payload: error });
     }

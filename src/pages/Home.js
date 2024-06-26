@@ -7,6 +7,7 @@ import { RightSidebarProvider } from "context/RightSidebarContext";
 import useMember from "context/MemberContext";
 import useAuth from "context/AuthContext";
 import useMessage from "context/MessageContext";
+import supabase from "auth/supabase";
 
 const Chat = () => {
   const { fetchUsersMember, subscribeUsersMember } = useMember();
@@ -19,6 +20,24 @@ const Chat = () => {
   useEffect(() => {
     fetchUsersMember();
     const unsubscribe = subscribeUsersMember();
+    const urlParams = new URLSearchParams(window.location.search);
+    const invite = urlParams.get("invite");
+    const handleInviteLink = async () => {
+      const { data, error } = await supabase.rpc("add_member_with_invite", {
+        link: invite,
+      });
+      if (data) {
+        setSelectedChannel(data);
+        window.history.pushState(
+          data,
+          "",
+          window.location.origin + window.location.pathname
+        );
+      }
+    };
+    if (invite) {
+      handleInviteLink();
+    }
     return () => unsubscribe();
   }, []);
 
@@ -28,7 +47,6 @@ const Chat = () => {
         member.user_id === userId && member.channel_id === selectedChannel
     );
     if (!memberShip) {
-      setSelectedChannel("");
       setReply(null);
     }
   }, [selectedChannel, members, userId]);
@@ -52,6 +70,13 @@ const Chat = () => {
       </main>
     </>
   );
+
+  const handleClick = async () => {
+    const { data, error } = await supabase.rpc("add_member_with_invite", {
+      link: "1253277e-ba45-4a68-a507-39fdaf4c88d2",
+    });
+    console.log(data, error);
+  };
 
   return (
     <RightSidebarProvider>

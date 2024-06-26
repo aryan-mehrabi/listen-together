@@ -7,13 +7,14 @@ import useMember from "context/MemberContext";
 
 const ChannelInfo = ({ role }) => {
   const { userId } = useAuth();
-  const { channels, selectedChannel } = useChannel();
+  const { channels, selectedChannel, setSelectedChannel } = useChannel();
   const { removeMember } = useMember();
   const { setRightSidebar } = useRightSidebar();
   const channel = channels[selectedChannel];
 
   const leaveChannel = async () => {
     await removeMember(userId);
+    setSelectedChannel("");
   };
 
   // const deleteButton = (
