@@ -71,13 +71,6 @@ const Chat = () => {
     </>
   );
 
-  const handleClick = async () => {
-    const { data, error } = await supabase.rpc("add_member_with_invite", {
-      link: "1253277e-ba45-4a68-a507-39fdaf4c88d2",
-    });
-    console.log(data, error);
-  };
-
   return (
     <RightSidebarProvider>
       <div className="overflow-hidden h-full flex">

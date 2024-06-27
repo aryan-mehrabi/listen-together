@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
 import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
-import useAuth from "context/AuthContext";
 import useModal from "context/ModalContext";
 
 const initValue = {};
@@ -10,52 +9,29 @@ const ChannelContext = createContext(initValue);
 
 export const ChannelProvider = ({ children }) => {
   const { setModal } = useModal();
-  const { userId } = useAuth();
   const [state, dispatch] = useReducer(channelReducer, initValue);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [status, setStatus] = useState(statusInitValue);
 
   //ACTIONS
-  const createChannel = async name => {
+  const createChannel = async (name) => {
     setStatus("loading");
 
     const channelData = {
       name,
-      is_playing: false,
-      position: 0,
     };
-    const { data, error: channelError } = await supabase
-      .from("channels")
-      .insert(channelData)
-      .select()
-      .single();
-    if (channelError) {
-      setStatus("idle");
-      return;
-    }
-
-    const memberData = {
-      user_id: userId,
-      channel_id: data.id,
-      role: "creator",
-    };
-    const { error: memberError } = await supabase
-      .from("members")
-      .insert(memberData);
-    if (memberError) {
-      setStatus("idle");
-      return;
-    }
+    const { data } = await supabase.rpc("create_channel", channelData);
 
     setModal(null);
     setStatus("idle");
+    setSelectedChannel(data.channels.id);
   };
 
-  const removeChannel = async channelId => {
+  const removeChannel = async (channelId) => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
 
-  const playTrack = async position => {
+  const playTrack = async (position) => {
     await supabase
       .from("channels")
       .update({ is_playing: true, position })
@@ -69,19 +45,19 @@ export const ChannelProvider = ({ children }) => {
       .eq("id", selectedChannel);
   };
 
-  const updateTrack = async track => {
+  const updateTrack = async (track) => {
     await supabase.from("channels").update({ track }).eq("id", selectedChannel);
   };
 
-  const setChannels = channels => {
+  const setChannels = (channels) => {
     dispatch({ type: "FETCH_CHANNELS", payload: channels });
   };
 
-  const updateChannel = payload => {
+  const updateChannel = (payload) => {
     dispatch({ type: "UPDATE_CHANNEL", payload });
   };
 
-  const fetchChannel = async channelId => {
+  const fetchChannel = async (channelId) => {
     const { data, error } = await supabase
       .from("channels")
       .select("*")
