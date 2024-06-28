@@ -20,7 +20,7 @@ const Chat = ({ loading }) => {
   const { styles, attributes } = usePopper(refElement, popperElement, {
     placement: "bottom",
   });
-  const [showAddMemberBanner, setShowAddMemberBanner] = useState(true);
+  const [showAddMemberBanner, setShowAddMemberBanner] = useState(false);
   const { setAttachments } = useMessage();
   const { members } = useMember();
   const { channels, selectedChannel } = useChannel();
