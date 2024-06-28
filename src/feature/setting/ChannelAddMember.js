@@ -3,26 +3,27 @@ import useChannel from "context/ChannelContext";
 import Button from "components/Button";
 import Input from "components/Input";
 import useMember from "context/MemberContext";
+import { overrideTailwindClasses } from "tailwind-override";
 
-const ChannelAddMember = () => {
+const ChannelAddMember = ({ className = "" }) => {
   const [email, setEmail] = useState("");
   const { status } = useChannel();
   const { addMember } = useMember();
 
-  const onSubmitForm = async event => {
+  const onSubmitForm = async (event) => {
     event.preventDefault();
     await addMember(email);
     setEmail("");
   };
 
   return (
-    <div className="my-11">
+    <div className={overrideTailwindClasses(`my-11 ${className}`)}>
       <h2 className="text-2xl font-semibold">Add a Member</h2>
       <form className="mt-3.5" onSubmit={onSubmitForm}>
         <label htmlFor="">User Email:</label>
         <Input
           value={email}
-          setValue={val => setEmail(val.toLowerCase())}
+          setValue={(val) => setEmail(val.toLowerCase())}
           className="my-2"
           type="email"
           placeholder="example@example.com"

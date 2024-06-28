@@ -69,7 +69,15 @@ export const MemberProvider = ({ children }) => {
     id,
     role,
     user_id,
-    channels (*)
+    channels (
+    id,
+    is_playing,
+    name,
+    track,
+    created_at,
+    position,
+    channel_invites(*)
+    )
     `
       )
       .eq("user_id", userId);

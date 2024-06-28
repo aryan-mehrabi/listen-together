@@ -60,7 +60,15 @@ export const ChannelProvider = ({ children }) => {
   const fetchChannel = async (channelId) => {
     const { data, error } = await supabase
       .from("channels")
-      .select("*")
+      .select(
+        `id,
+        created_at,
+        track,
+        position,
+        name,
+        is_playing,
+        channel_invites (*)`
+      )
       .eq("id", channelId)
       .single();
     if (!error) {

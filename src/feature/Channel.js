@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import useMediaQuery from "hooks/useMediaQuery";
@@ -20,6 +20,7 @@ const Channel = () => {
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isMobile) {
@@ -42,7 +43,12 @@ const Channel = () => {
         scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
       }
       unsubscribeMessages = subscribeMessagesChannel(selectedChannel);
-      fetchChannelsMember(selectedChannel);
+      const fetchChannelMember = async () => {
+        setLoading(true);
+        await fetchChannelsMember(selectedChannel);
+        setLoading(false);
+      };
+      fetchChannelMember();
       unsubscribeMembers = subscribeChannelsMember(selectedChannel);
     }
     return () => {
@@ -64,14 +70,14 @@ const Channel = () => {
       {rightSidebar === "setting" ? (
         <ChannelSettings />
       ) : rightSidebar === "" ? (
-        <Chat />
+        <Chat loading={loading} />
       ) : null}
     </>
   );
 
   const desktop = (
     <>
-      <Chat />
+      <Chat loading={loading} />
       {rightSidebar === "setting" && <ChannelSettings />}
     </>
   );
