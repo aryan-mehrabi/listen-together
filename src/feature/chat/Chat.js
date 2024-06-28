@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import ChannelNav from "./ChannelNav";
 import ChannelConversation from "./ChannelConversation";
 import ChannelMessageInput from "./ChannelMessageInput";
@@ -10,6 +10,11 @@ import useChannel from "context/ChannelContext";
 import ChannelAddMember from "feature/setting/ChannelAddMember";
 import { usePopper } from "react-popper";
 import Modal from "components/Modal";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
+
+const RWebShare = lazy(() =>
+  import("react-web-share").then((module) => ({ default: module.RWebShare }))
+);
 
 const Chat = ({ loading }) => {
   const [isDragged, setIsDragged] = useState(false);
@@ -17,10 +22,11 @@ const Chat = ({ loading }) => {
   const [popperElement, setPopperElement] = useState(null);
   const [showPopover, setShowPopover] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddMemberBanner, setShowAddMemberBanner] = useState(true);
+  const [, copyToClipboard] = useCopyToClipboard();
   const { styles, attributes } = usePopper(refElement, popperElement, {
     placement: "bottom",
   });
-  const [showAddMemberBanner, setShowAddMemberBanner] = useState(false);
   const { setAttachments } = useMessage();
   const { members } = useMember();
   const { channels, selectedChannel } = useChannel();
@@ -39,9 +45,7 @@ const Chat = ({ loading }) => {
     `${process.env.REACT_APP_BASE_URL}?invite=${url}`;
 
   const handleCopy = async () => {
-    await window.navigator.clipboard.writeText(
-      createInviteUrl(channel.channel_invites[0].url)
-    );
+    copyToClipboard(createInviteUrl(channel.channel_invites[0].url));
     setShowPopover(true);
     setTimeout(() => {
       setShowPopover(false);
@@ -120,9 +124,17 @@ const Chat = ({ loading }) => {
                       Copied
                     </div>
                   )}
-                  <button onClick={handleShare} type="button">
-                    <i className="fa-solid fa-share-nodes"></i>
-                  </button>
+                  <Suspense>
+                    <RWebShare
+                      data={{
+                        url: createInviteUrl(channel.channel_invites[0].url),
+                      }}
+                    >
+                      <button onClick={handleShare} type="button">
+                        <i className="fa-solid fa-share-nodes"></i>
+                      </button>
+                    </RWebShare>
+                  </Suspense>
                 </div>
               </div>
             </div>
