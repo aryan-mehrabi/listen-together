@@ -11,7 +11,7 @@ import supabase from "auth/supabase";
 
 const Chat = () => {
   const { fetchUsersMember, subscribeUsersMember } = useMember();
-  const { selectedChannel, setSelectedChannel } = useChannel();
+  const { selectedChannel, setSelectedChannel, setChannels } = useChannel();
   const { members } = useMember();
   const { userId } = useAuth();
   const { setReply } = useMessage();
@@ -23,11 +23,14 @@ const Chat = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const invite = urlParams.get("invite");
     const handleInviteLink = async () => {
-      const { data, error } = await supabase.rpc("add_member_with_invite", {
+      const { data } = await supabase.rpc("add_member_with_invite2", {
         link: invite,
       });
       if (data) {
-        setSelectedChannel(data);
+        setChannels([
+          { ...data.channels, channel_invites: [data.channel_invites] },
+        ]);
+        setSelectedChannel(data.channels.id);
         window.history.pushState(
           data,
           "",
@@ -71,8 +74,16 @@ const Chat = () => {
     </>
   );
 
+  const handleClick = async () => {
+    const { data, error } = await supabase.rpc("add_member_with_invite2", {
+      link: "afe8afed-db3f-4b79-a4a4-08f0249d04a4",
+    });
+    console.log(data);
+  };
+
   return (
     <RightSidebarProvider>
+      <button onClick={handleClick}>clock me</button>
       <div className="overflow-hidden h-full flex">
         {isMobile ? mobile : desktop}
       </div>
