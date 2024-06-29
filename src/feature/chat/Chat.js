@@ -11,6 +11,7 @@ import ChannelAddMember from "feature/setting/ChannelAddMember";
 import { usePopper } from "react-popper";
 import Modal from "components/Modal";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
+import useAuth from "context/AuthContext";
 
 const RWebShare = lazy(() =>
   import("react-web-share").then((module) => ({ default: module.RWebShare }))
@@ -74,23 +75,26 @@ const Chat = ({ loading }) => {
             <h2 className="text-2xl font-semibold">Drop Your Files</h2>
           </div>
           <ChannelNav />
-          {channelMembers.length === 1 && showAddMemberBanner && !loading && (
-            <div className="w-full flex items-center justify-center border-b-[1px] border-neutral-700 py-2 px-4">
-              <button
-                onClick={handleAddMember}
-                className="grow text-cta font-medium"
-              >
-                Add Members
-              </button>
-              <button
-                type="button"
-                className="ml-auto"
-                onClick={() => setShowAddMemberBanner(false)}
-              >
-                <i className="fa-solid fa-close" />
-              </button>
-            </div>
-          )}
+          {channelMembers.length === 1 &&
+            channelMembers[0].role !== "member" &&
+            showAddMemberBanner &&
+            !loading && (
+              <div className="w-full flex items-center justify-center border-b-[1px] border-neutral-700 py-2 px-4">
+                <button
+                  onClick={handleAddMember}
+                  className="grow text-cta font-medium"
+                >
+                  Add Members
+                </button>
+                <button
+                  type="button"
+                  className="ml-auto"
+                  onClick={() => setShowAddMemberBanner(false)}
+                >
+                  <i className="fa-solid fa-close" />
+                </button>
+              </div>
+            )}
           <ChannelConversation />
           <ChannelMessageInput />
         </div>
