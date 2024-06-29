@@ -74,16 +74,9 @@ const Chat = () => {
     </>
   );
 
-  const handleClick = async () => {
-    const { data, error } = await supabase.rpc("add_member_with_invite2", {
-      link: "afe8afed-db3f-4b79-a4a4-08f0249d04a4",
-    });
-    console.log(data);
-  };
 
   return (
     <RightSidebarProvider>
-      <button onClick={handleClick}>clock me</button>
       <div className="overflow-hidden h-full flex">
         {isMobile ? mobile : desktop}
       </div>
