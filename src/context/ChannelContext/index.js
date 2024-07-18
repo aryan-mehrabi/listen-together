@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useState } from "react";
 import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
 import useModal from "context/ModalContext";
+import { nanoid } from "nanoid";
 
 const initValue = {};
 const statusInitValue = "idle";
@@ -19,6 +20,7 @@ export const ChannelProvider = ({ children }) => {
 
     const channelData = {
       name,
+      url: nanoid(12),
     };
     const { data } = await supabase.rpc("create_channel", channelData);
 

@@ -23,7 +23,7 @@ const Chat = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const invite = urlParams.get("invite");
     const handleInviteLink = async () => {
-      const { data } = await supabase.rpc("add_member_with_invite2", {
+      const { data } = await supabase.rpc("add_member_with_invite", {
         link: invite,
       });
       if (data) {
@@ -73,7 +73,6 @@ const Chat = () => {
       </main>
     </>
   );
-
 
   return (
     <RightSidebarProvider>
