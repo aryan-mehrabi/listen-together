@@ -6,18 +6,11 @@ import Button from "components/Button";
 
 const ChannelConversation = () => {
   const { selectedChannel } = useChannel();
-  const {
-    messages,
-    fetchMessages,
-    scrollDownElement,
-    messageContainer,
-    pages,
-  } = useMessage();
+  const { messages, fetchMessages, scrollDownElement, hasNext } = useMessage();
   const channelMessages = Object.values(messages[selectedChannel] || {});
-  const page = pages[selectedChannel];
 
   const onClickLoadMore = () => {
-    fetchMessages(selectedChannel);
+    fetchMessages(selectedChannel, true);
   };
 
   const renderMessages = () => {
@@ -32,11 +25,8 @@ const ChannelConversation = () => {
   };
 
   return (
-    <section
-      ref={messageContainer}
-      className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6"
-    >
-      {page && page.page * 10 < page.count && (
+    <section className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6">
+      {hasNext && (
         <Button
           className="mx-auto flex items-center gap-2 mb-6"
           type="outlined"

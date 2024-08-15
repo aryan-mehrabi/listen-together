@@ -45,11 +45,11 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    const memberShip = Object.values(members).find(
+    const membership = Object.values(members).find(
       (member) =>
         member.user_id === userId && member.channel_id === selectedChannel
     );
-    if (!memberShip) {
+    if (!membership) {
       setReply(null);
     }
   }, [selectedChannel, members, userId]);

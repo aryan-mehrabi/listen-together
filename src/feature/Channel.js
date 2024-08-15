@@ -34,14 +34,14 @@ const Channel = () => {
     let unsubscribeMessages;
     let unsubscribeMembers;
     if (selectedChannel) {
-      if (
-        !messages[selectedChannel] ||
-        !Object.keys(messages[selectedChannel]).length
-      ) {
-        fetchMessages(selectedChannel);
-      } else {
-        scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
-      }
+      // if (
+      //   !messages[selectedChannel] ||
+      //   !Object.keys(messages[selectedChannel]).length
+      // ) {
+      fetchMessages(selectedChannel);
+      // } else {
+      //   scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+      // }
       unsubscribeMessages = subscribeMessagesChannel(selectedChannel);
       const fetchChannelMember = async () => {
         setLoading(true);
