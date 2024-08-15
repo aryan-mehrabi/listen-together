@@ -13,6 +13,7 @@ import Modal from "components/Modal";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
 import useAuth from "context/AuthContext";
 import ChannelInviteLink from "feature/setting/ChannelInviteLink";
+import ChannelAddMemberBanner from "./ChannelAddMemberBanner";
 
 const RWebShare = lazy(() =>
   import("react-web-share").then((module) => ({ default: module.RWebShare }))
@@ -54,21 +55,10 @@ const Chat = ({ loading }) => {
             channelMembers[0].role !== "member" &&
             showAddMemberBanner &&
             !loading && (
-              <div className="w-full flex items-center justify-center border-b-[1px] border-neutral-700 py-2 px-4">
-                <button
-                  onClick={handleAddMember}
-                  className="grow text-cta font-medium"
-                >
-                  Add Members
-                </button>
-                <button
-                  type="button"
-                  className="ml-auto"
-                  onClick={() => setShowAddMemberBanner(false)}
-                >
-                  <i className="fa-solid fa-close" />
-                </button>
-              </div>
+              <ChannelAddMemberBanner
+                onClick={handleAddMember}
+                onClose={() => setShowAddMemberBanner(false)}
+              />
             )}
           <ChannelConversation />
           <ChannelMessageInput />
