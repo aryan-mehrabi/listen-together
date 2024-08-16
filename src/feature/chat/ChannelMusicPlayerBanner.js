@@ -1,11 +1,22 @@
+import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
+import useMember from "context/MemberContext";
 import useRightSidebar from "context/RightSidebarContext";
+import useError from "hooks/useError";
+import { useState } from "react";
 
 export default function ChannelMusicPlayerBanner() {
   // const [time, setTime] = useState(0);
-  const { videoTitle, player, playerState } = useChannel();
+  const { userId } = useAuth();
+  const { members } = useMember();
+  const { videoTitle, player, playerState, selectedChannel } = useChannel();
   const { setRightSidebar } = useRightSidebar();
-
+  const userMembership = Object.values(members).find(
+    (member) =>
+      member.user_id === userId && member.channel_id === selectedChannel
+  );
+  const [error, setError] = useState("");
+  const errorComponent = useError(error, () => setError(""));
   // function secondsToMinutes(time) {
   //   return Math.floor(time / 60) + ":" + Math.floor(time % 60);
   // }
@@ -25,10 +36,14 @@ export default function ChannelMusicPlayerBanner() {
 
   const handleClickPlay = (e) => {
     e.stopPropagation();
-    if (pauseStates.includes(playerState)) {
-      player.current.playVideo();
+    if (userMembership?.role !== "member") {
+      if (pauseStates.includes(playerState)) {
+        player.current.playVideo();
+      } else {
+        player.current.pauseVideo();
+      }
     } else {
-      player.current.pauseVideo();
+      setError("You don't have permission to play song. Please ask admins.");
     }
   };
 
@@ -49,9 +64,12 @@ export default function ChannelMusicPlayerBanner() {
             <i className="fa-solid fa-pause"></i>
           )}
         </button>
-        <p>{videoTitle}</p>
+        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+          {videoTitle}
+        </p>
         {/* {secondsToMinutes(time)}/
         {secondsToMinutes(player.current?.getDuration())} */}
+        {errorComponent}
       </div>
     )
   );
