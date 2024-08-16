@@ -30,7 +30,7 @@ const MemberSettings = ({ userId }) => {
       type="primary"
       key="1"
       onClick={() => changeRole(userId, "admin")}
-      className="w-full border-t"
+      className="w-full border-t rounded-none"
     >
       Promote to Admin
     </Button>
@@ -40,7 +40,7 @@ const MemberSettings = ({ userId }) => {
       type="primary"
       key="2"
       onClick={() => changeRole(userId, "member")}
-      className="w-full border-t"
+      className="w-full border-t rounded-none"
     >
       Demote to Member
     </Button>
@@ -50,7 +50,7 @@ const MemberSettings = ({ userId }) => {
       type="primary"
       key="3"
       onClick={() => removeMember(userId)}
-      className="w-full"
+      className="w-full rounded-none"
     >
       Remove from Channel
     </Button>
