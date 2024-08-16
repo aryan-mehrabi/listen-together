@@ -42,7 +42,7 @@ export const MemberProvider = ({ children }) => {
       const memberData = {
         user_id: user.id,
         channel_id: selectedChannel,
-        role: "member",
+        role: "admin",
       };
       await supabase.from("members").insert(memberData);
     }
