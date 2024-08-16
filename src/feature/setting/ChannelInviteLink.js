@@ -2,12 +2,13 @@ import { useCopyToClipboard } from "@uidotdev/usehooks";
 import useChannel from "context/ChannelContext";
 import { lazy, Suspense, useState } from "react";
 import { usePopper } from "react-popper";
+import { overrideTailwindClasses } from "tailwind-override";
 
 const RWebShare = lazy(() =>
   import("react-web-share").then((module) => ({ default: module.RWebShare }))
 );
 
-export default function ChannelInviteLink() {
+export default function ChannelInviteLink({ className }) {
   const [refElement, setRefElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const [showPopover, setShowPopover] = useState(false);
@@ -34,8 +35,15 @@ export default function ChannelInviteLink() {
     });
   };
   return (
-    <div className="mb-6">
-      <h2 className="text-2xl  font-semibold">Invite Link</h2>
+    <div className={overrideTailwindClasses(`mb-6 ${className}`)}>
+      <h2 className="text-2xl font-semibold">Invite Link</h2>
+      <div className="rounded text-neutral-200 bg-yellow-400 bg-opacity-40 text-sm py-3 px-5 mt-3.5">
+        <p>
+          By default members that join channel will be admin(can change and play
+          songs).
+        </p>
+        <p>Creator can demote them to member.</p>
+      </div>
       <div className="mt-3.5 relative">
         <input
           readOnly
@@ -59,7 +67,7 @@ export default function ChannelInviteLink() {
           <Suspense>
             <RWebShare
               data={{
-                url: createInviteUrl(channel.channel_invites[0].url),
+                url: createInviteUrl(channel?.channel_invites[0].url),
               }}
             >
               <button onClick={handleShare} type="button">

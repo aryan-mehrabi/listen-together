@@ -22,8 +22,8 @@ const ChannelSettings = () => {
       <ChannelInfo {...{ role }} />
       {(role === "creator" || role === "admin") && (
         <>
-          <ChannelInviteLink />
-          <ChannelAddMember className="my-0" />
+          <ChannelInviteLink className="my-11" />
+          <ChannelAddMember />
         </>
       )}
       <ChannelMembers />
