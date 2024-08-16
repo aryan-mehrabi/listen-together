@@ -1,8 +1,11 @@
 import { useCopyToClipboard } from "@uidotdev/usehooks";
 import useChannel from "context/ChannelContext";
-import { Suspense, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { usePopper } from "react-popper";
-import { RWebShare } from "react-web-share";
+
+const RWebShare = lazy(() =>
+  import("react-web-share").then((module) => ({ default: module.RWebShare }))
+);
 
 export default function ChannelInviteLink() {
   const [refElement, setRefElement] = useState(null);

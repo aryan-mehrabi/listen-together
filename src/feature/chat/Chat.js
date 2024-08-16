@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState } from "react";
+import React, { useState } from "react";
 import ChannelNav from "./ChannelNav";
 import ChannelConversation from "./ChannelConversation";
 import ChannelMessageInput from "./ChannelMessageInput";
@@ -8,16 +8,10 @@ import { filterImageFiles } from "helpers";
 import useMember from "context/MemberContext";
 import useChannel from "context/ChannelContext";
 import ChannelAddMember from "feature/setting/ChannelAddMember";
-import { usePopper } from "react-popper";
 import Modal from "components/Modal";
-import { useCopyToClipboard } from "@uidotdev/usehooks";
-import useAuth from "context/AuthContext";
 import ChannelInviteLink from "feature/setting/ChannelInviteLink";
 import ChannelAddMemberBanner from "./ChannelAddMemberBanner";
-
-const RWebShare = lazy(() =>
-  import("react-web-share").then((module) => ({ default: module.RWebShare }))
-);
+import ChannelMusicPlayerBanner from "./ChannelMusicPlayerBanner";
 
 const Chat = ({ loading }) => {
   const [isDragged, setIsDragged] = useState(false);
@@ -51,6 +45,7 @@ const Chat = ({ loading }) => {
             <h2 className="text-2xl font-semibold">Drop Your Files</h2>
           </div>
           <ChannelNav />
+          <ChannelMusicPlayerBanner />
           {channelMembers.length === 1 &&
             channelMembers[0].role !== "member" &&
             showAddMemberBanner &&

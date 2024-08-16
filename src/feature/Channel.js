@@ -10,13 +10,8 @@ import useMessage from "context/MessageContext";
 import useMember from "context/MemberContext";
 
 const Channel = () => {
-  const { selectedChannel, channels } = useChannel();
-  const {
-    fetchMessages,
-    subscribeMessagesChannel,
-    messages,
-    scrollDownElement,
-  } = useMessage();
+  const { selectedChannel, channels, player } = useChannel();
+  const { fetchMessages, subscribeMessagesChannel } = useMessage();
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery();
@@ -52,6 +47,7 @@ const Channel = () => {
       unsubscribeMembers = subscribeChannelsMember(selectedChannel);
     }
     return () => {
+      player.current = null;
       unsubscribeMembers();
       unsubscribeMessages();
     };

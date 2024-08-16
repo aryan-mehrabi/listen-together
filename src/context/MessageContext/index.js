@@ -73,7 +73,7 @@ export const MessageProvider = ({ children }) => {
       setHasNext(messagesCurrentCount + messages.length < count);
       if (!next) {
         setTimeout(() => {
-          scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+          scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
         }, 0);
       }
     }
@@ -123,7 +123,7 @@ export const MessageProvider = ({ children }) => {
               payload: { ...payload.new, ...data },
             });
             setTimeout(() => {
-              scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+              scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
             }, 0);
           }
         }
@@ -203,7 +203,7 @@ export const MessageProvider = ({ children }) => {
         }))
       );
     }
-    scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+    scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
   };
   const value = {
     messages: state,
