@@ -3,11 +3,12 @@ import useChannel from "context/ChannelContext";
 import ChannelMessage from "./ChannelMessage";
 import useMessage from "context/MessageContext";
 import Button from "components/Button";
+import noMsg from "assets/no-message.png";
 
 const ChannelConversation = () => {
   const { selectedChannel } = useChannel();
   const { messages, fetchMessages, scrollDownElement, hasNext } = useMessage();
-  const channelMessages = Object.values(messages[selectedChannel] || {});
+  const channelMessages = messages[selectedChannel];
 
   const onClickLoadMore = () => {
     fetchMessages(selectedChannel, true);
@@ -15,12 +16,27 @@ const ChannelConversation = () => {
 
   const renderMessages = () => {
     if (channelMessages) {
-      return channelMessages.map((message) => (
+      const msgs = Object.values(messages[selectedChannel]);
+      if (!msgs.length) {
+        return (
+          <div className="w-full h-full grid justify-center content-center">
+            <div className="flex flex-col justify-center content-center bg-neutral-700 rounded bg-opacity-60 px-4 py-6">
+              <img src={noMsg} className="block w-16 mx-auto" />
+              <p className="text-secondary">No Message Yet!</p>
+            </div>
+          </div>
+        );
+      }
+
+      return msgs.map((message) => (
         <ChannelMessage
           key={message.id || message.client_id}
           {...{ message }}
         />
       ));
+    } else {
+      // loading
+      // return <p>loading</p>;
     }
   };
 

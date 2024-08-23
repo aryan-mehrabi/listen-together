@@ -67,7 +67,7 @@ const ChannelMessageInput = () => {
               onKeyDown={onKeyPressEnter}
               onChange={(e) => setMessage(e.target.value.trimStart())}
               value={message}
-              placeholder="Type a message"
+              placeholder="Message"
               className="bg-transparent w-full h-full outline-none resize-none"
               type="text"
             />
