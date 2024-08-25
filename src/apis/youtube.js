@@ -1,6 +1,12 @@
 import axios from "axios";
 
-let isQutoaExceedeed = false;
+let apiIndex = 0;
+
+const apiKeys = [
+  process.env.REACT_APP_YOUTUBE_API_KEY,
+  process.env.REACT_APP_LISTEN_TOGETHER_YOUTUBE_API_KEY,
+  process.env.REACT_APP_MY_PROJECT_API_KEY,
+];
 
 export const fetchTracks = async ({ queryKey, pageParam = "" }) => {
   try {
@@ -9,9 +15,7 @@ export const fetchTracks = async ({ queryKey, pageParam = "" }) => {
       {
         params: {
           part: "snippet",
-          key: isQutoaExceedeed
-            ? process.env.REACT_APP_LISTEN_TOGETHER_YOUTUBE_API_KEY
-            : process.env.REACT_APP_YOUTUBE_API_KEY,
+          key: apiKeys[apiIndex],
           q: queryKey[1],
           maxResults: 10,
           type: "video",
@@ -24,7 +28,7 @@ export const fetchTracks = async ({ queryKey, pageParam = "" }) => {
     return await result.data;
   } catch (error) {
     if (error.response.status === 403) {
-      isQutoaExceedeed = true;
+      apiIndex++;
     }
     if (error) throw error;
   }
