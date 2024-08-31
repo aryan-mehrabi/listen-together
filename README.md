@@ -35,7 +35,7 @@ To run this app locally you need
 
 - [Node.js (Version: >=18.x)](https://nodejs.org/en/download/)
 - Node Package Manager NPM - included in Node.js
-- [PostgreSQL (local or remote)](https://www.postgresql.org/download/)
+- [Docker installed on your system]([https://www.postgresql.org/download/](https://docs.docker.com/engine/install/))
 
 ## Developer Quickstart
 
@@ -47,12 +47,16 @@ Want to get up and running quickly? Follow these steps:
   git clone https://github.com/aryan-mehrabi/listen-together
   ```
 
-- Set up your [Supabase Database](https://supabase.com/docs/guides/database) and Auth with [Social Logins](https://supabase.com/docs/guides/auth/social-login)
-- Set up your `.env` file using the recommendations in the `.env.example` file.
 - Run `npm install` in the root directory
   ```sh
   npm install
   ```
+- Run `npx supabase start`
+  ```sh
+  npx supabase start
+  ```
+- Copy anon key from result and paste into `.env.example` file.
+- Rename `.env.example` to `.env` and add other env variables accordingly.
 - Run `npm start` in the root directory
 
 That's it! You should now be able to access the app at http://localhost:3000
