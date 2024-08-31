@@ -1,7 +1,14 @@
-import React, { createContext, useContext, useReducer, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
 import useModal from "context/ModalContext";
+import { nanoid } from "nanoid";
 
 const initValue = {};
 const statusInitValue = "idle";
@@ -12,6 +19,9 @@ export const ChannelProvider = ({ children }) => {
   const [state, dispatch] = useReducer(channelReducer, initValue);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [status, setStatus] = useState(statusInitValue);
+  const [videoTitle, setVideoTitle] = useState("");
+  const [playerState, setPlayerState] = useState(0);
+  const player = useRef(null);
 
   //ACTIONS
   const createChannel = async (name) => {
@@ -19,6 +29,7 @@ export const ChannelProvider = ({ children }) => {
 
     const channelData = {
       name,
+      url: nanoid(12),
     };
     const { data } = await supabase.rpc("create_channel", channelData);
 
@@ -91,6 +102,11 @@ export const ChannelProvider = ({ children }) => {
     setChannels,
     fetchChannel,
     updateChannel,
+    player,
+    videoTitle,
+    setVideoTitle,
+    playerState,
+    setPlayerState,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

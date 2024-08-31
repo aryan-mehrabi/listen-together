@@ -47,7 +47,7 @@ Want to get up and running quickly? Follow these steps:
   git clone https://github.com/aryan-mehrabi/listen-together
   ```
 
-- Set up your [Supabase Database](https://supabase.com/docs/guides/database) and Auth wit with [Social Logins](https://supabase.com/docs/guides/auth/social-login)
+- Set up your [Supabase Database](https://supabase.com/docs/guides/database) and Auth with [Social Logins](https://supabase.com/docs/guides/auth/social-login)
 - Set up your `.env` file using the recommendations in the `.env.example` file.
 - Run `npm install` in the root directory
   ```sh

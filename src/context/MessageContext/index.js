@@ -13,17 +13,18 @@ export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
   const [reply, setReply] = useState(null);
   const [attachments, setAttachments] = useState([]);
-  const [pages, setPages] = useState({});
-  const messageContainer = useRef(null);
+  const [hasNext, setHasNext] = useState(false);
   const scrollDownElement = useRef(null);
   const { users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
 
   // ACTIONS
-  const fetchMessages = async (channelId) => {
+  const fetchMessages = async (channelId, next = false) => {
     const RANGE = 10;
-    const page = pages[channelId]?.page || 0;
+    const messagesCurrentCount = Object.keys(
+      state[selectedChannel] || []
+    ).length;
     const {
       data: messages,
       error,
@@ -63,19 +64,16 @@ export const MessageProvider = ({ children }) => {
       )
       .eq("channel_id", channelId)
       .order("created_at", { ascending: false })
-      .range(page * RANGE, page * RANGE + RANGE - 1);
+      .range(
+        next ? messagesCurrentCount : 0,
+        (next ? messagesCurrentCount : 0) + RANGE
+      );
     if (!error) {
       dispatch({ type: "FETCH_MESSAGES", payload: { messages, channelId } });
-      setPages((pages) => ({
-        ...pages,
-        [channelId]: { page: page + 1, count },
-      }));
-      const MARGIN = 150;
-      const parent = messageContainer.current.getBoundingClientRect();
-      const child = scrollDownElement.current.getBoundingClientRect();
-      if (!page || child.bottom - parent.top - MARGIN <= parent.height) {
+      setHasNext(messagesCurrentCount + messages.length < count);
+      if (!next) {
         setTimeout(() => {
-          scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+          scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
         }, 0);
       }
     }
@@ -125,7 +123,7 @@ export const MessageProvider = ({ children }) => {
               payload: { ...payload.new, ...data },
             });
             setTimeout(() => {
-              scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+              scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
             }, 0);
           }
         }
@@ -205,7 +203,7 @@ export const MessageProvider = ({ children }) => {
         }))
       );
     }
-    scrollDownElement.current.scrollIntoView({ behavior: "smooth" });
+    scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
   };
   const value = {
     messages: state,
@@ -216,9 +214,8 @@ export const MessageProvider = ({ children }) => {
     sendMessage,
     fetchMessages,
     subscribeMessagesChannel,
-    messageContainer,
     scrollDownElement,
-    pages,
+    hasNext,
   };
   return (
     <MessageContext.Provider {...{ value }}>{children}</MessageContext.Provider>

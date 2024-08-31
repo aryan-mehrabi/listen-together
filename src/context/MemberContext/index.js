@@ -29,23 +29,18 @@ export const MemberProvider = ({ children }) => {
   // ACTIONS
   const addMember = async (email) => {
     setStatus("loading");
-    const { data: user } = await supabase
-      .from("users")
-      .select("*")
-      .eq("email", email)
-      .maybeSingle();
-    if (!user) {
-      setModal(
-        <Alert>We couldn't find any user with this email address.</Alert>
-      );
+
+    const { data, error } = await supabase.rpc("add_member", {
+      user_email: email,
+      target_channel_id: selectedChannel,
+    });
+
+    if (error) {
+      setModal(<Alert>{error.message}</Alert>);
     } else {
-      const memberData = {
-        user_id: user.id,
-        channel_id: selectedChannel,
-        role: "member",
-      };
-      await supabase.from("members").insert(memberData);
+      setModal(<Alert>{data}</Alert>);
     }
+
     setStatus("idle");
   };
 

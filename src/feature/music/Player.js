@@ -6,9 +6,16 @@ import YouTube from "react-youtube";
 
 const Player = () => {
   const { userId } = useAuth();
-  const { channels, selectedChannel, playTrack, pauseTrack } = useChannel();
+  const {
+    channels,
+    selectedChannel,
+    playTrack,
+    pauseTrack,
+    player,
+    setVideoTitle,
+    setPlayerState,
+  } = useChannel();
   const { members } = useMember();
-  const player = useRef(null);
   const { track, position, is_playing } = channels[selectedChannel];
 
   const userMembership = Object.values(members).find(
@@ -18,6 +25,7 @@ const Player = () => {
 
   const onReady = (e) => {
     player.current = e.target;
+    setVideoTitle(e.target.videoTitle);
     e.target.seekTo(position);
     if (!is_playing) {
       e.target.pauseVideo();
@@ -28,6 +36,8 @@ const Player = () => {
     const playing = window.YT.PlayerState.PLAYING;
     const playerTime = e.target.getCurrentTime();
     const pauseStates = [-1, 0, 2, 5];
+
+    setPlayerState(e.data);
 
     if (e.data === playing && !is_playing) {
       playTrack(playerTime);

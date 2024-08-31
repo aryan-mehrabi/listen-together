@@ -20,7 +20,7 @@ const ChannelAddMember = ({ className = "" }) => {
     <div className={overrideTailwindClasses(`my-11 ${className}`)}>
       <h2 className="text-2xl font-semibold">Add a Member</h2>
       <form className="mt-3.5" onSubmit={onSubmitForm}>
-        <label htmlFor="">User Email:</label>
+        <label htmlFor="">Email:</label>
         <Input
           value={email}
           setValue={(val) => setEmail(val.toLowerCase())}

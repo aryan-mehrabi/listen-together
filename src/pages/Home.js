@@ -11,7 +11,7 @@ import supabase from "auth/supabase";
 
 const Chat = () => {
   const { fetchUsersMember, subscribeUsersMember } = useMember();
-  const { selectedChannel, setSelectedChannel } = useChannel();
+  const { selectedChannel, setSelectedChannel, setChannels } = useChannel();
   const { members } = useMember();
   const { userId } = useAuth();
   const { setReply } = useMessage();
@@ -23,11 +23,14 @@ const Chat = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const invite = urlParams.get("invite");
     const handleInviteLink = async () => {
-      const { data, error } = await supabase.rpc("add_member_with_invite", {
+      const { data } = await supabase.rpc("add_member_with_invite", {
         link: invite,
       });
       if (data) {
-        setSelectedChannel(data);
+        setChannels([
+          { ...data.channels, channel_invites: [data.channel_invites] },
+        ]);
+        setSelectedChannel(data.channels.id);
         window.history.pushState(
           data,
           "",
@@ -42,11 +45,11 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    const memberShip = Object.values(members).find(
+    const membership = Object.values(members).find(
       (member) =>
         member.user_id === userId && member.channel_id === selectedChannel
     );
-    if (!memberShip) {
+    if (!membership) {
       setReply(null);
     }
   }, [selectedChannel, members, userId]);

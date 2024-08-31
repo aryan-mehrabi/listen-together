@@ -14,14 +14,17 @@ const ChannelMembers = () => {
       .filter((member) => {
         return member.channel_id === selectedChannel;
       })
-      .map(({ user_id }) => (
+      .map(({ user_id, role }) => (
         <div key={user_id} className="flex items-center my-2.5">
           <img
             src={users[user_id]?.avatar}
             alt="avatar"
             className="w-11 sm:w-12"
           />
-          <p className="text-lg ml-2">{users[user_id]?.name}</p>
+          <p className="text-lg ml-2">
+            {users[user_id]?.name}{" "}
+            <span className="text-xs text-neutral-500">({role})</span>
+          </p>
           <MemberSettings userId={user_id} />
         </div>
       ));

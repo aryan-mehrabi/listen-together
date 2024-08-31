@@ -9,7 +9,7 @@ const channelReducer = (state, { type, payload }) => {
       });
       return { ...state, ...channels };
     case "UPDATE_CHANNEL":
-      return { ...state, [payload.id]: payload };
+      return { ...state, [payload.id]: { ...state[payload.id], ...payload } };
     case "DELETE_CHANNEL":
       const { [payload]: a, ...newChannels } = state;
       return {

@@ -9,6 +9,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^0.27.2",
     "he": "^1.2.0",
+    "nanoid": "^5.0.7",
     "react": "^18.0.2",
     "react-dom": "^18.0.2",
     "react-error-boundary": "^4.0.12",
@@ -51,6 +52,7 @@
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
     "react-app-rewired": "^2.2.1",
+    "supabase": "^1.190.0",
     "tailwindcss": "^3.0.24",
     "webpack-bundle-analyzer": "^4.6.1"
   }
