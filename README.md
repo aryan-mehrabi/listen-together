@@ -35,7 +35,7 @@ To run this app locally you need
 
 - [Node.js (Version: >=18.x)](https://nodejs.org/en/download/)
 - Node Package Manager NPM - included in Node.js
-- [Docker installed on your system]([https://www.postgresql.org/download/](https://docs.docker.com/engine/install/))
+- [Docker installed on your system](https://docs.docker.com/engine/install/)
 
 ## Developer Quickstart
 
