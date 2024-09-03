@@ -20,12 +20,12 @@
 
 ## 📚 Tech Stacks
 
-- React.js
+- [React.js](react.dev)
 - PostgeSQL managed by [Supabase](https://supabase.io/)
 - Styled using [Tailwind CSS](https://tailwindcss.com/)
 - Data Fetching, Infinite Scroll [React Query](https://tanstack.com/query/v3/)
 - Context API + Reducer hook
-- Bundle analyzer using webpack bundle analyzer
+- Bundle analyzer using [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
 
 # ⚙️ Getting Started
 
@@ -34,7 +34,6 @@
 To run this app locally you need
 
 - [Node.js (Version: >=18.x)](https://nodejs.org/en/download/)
-- Node Package Manager NPM - included in Node.js
 - [Docker installed on your system](https://docs.docker.com/engine/install/)
 
 ## Developer Quickstart
@@ -51,15 +50,16 @@ Want to get up and running quickly? Follow these steps:
   ```sh
   npm install
   ```
-- Run `npx supabase start`
+- Run `npx supabase start` and copy `anon key` from output to `.env.example` file
   ```sh
   npx supabase start
   ```
-- Copy anon key from result and paste into `.env.example` file.
 - Rename `.env.example` to `.env` and add other env variables accordingly.
 - Run `npm start` in the root directory
 
-That's it! You should now be able to access the app at http://localhost:3000
+That's it! You should now be able to access the app at http://localhost:3000.
+
+Also You can visit Supabase Dashboard at http://localhost:54323/
 
 ## 🙇 Author
 
