@@ -22,7 +22,7 @@ const ChannelConversation = () => {
           <div className="w-full h-full grid justify-center content-center">
             <div className="flex flex-col justify-center content-center bg-neutral-700 rounded bg-opacity-60 px-4 py-6">
               <img src={noMsg} className="block w-16 mx-auto" />
-              <p className="text-secondary">No Message Yet!</p>
+              <p className="text-secondary">No Messages Yet!</p>
             </div>
           </div>
         );
