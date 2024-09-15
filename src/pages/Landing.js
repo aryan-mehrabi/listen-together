@@ -8,7 +8,7 @@ import Button from "components/Button";
 
 const Landing = () => {
   const isMobile = useMediaQuery();
-  const { logIn, error, dismissError, logInAnonymous } = useAuth();
+  const { logIn, error, dismissError, logInAnonymous, isLoading } = useAuth();
   const errorComponent = useError(error, dismissError);
 
   return (
@@ -31,6 +31,7 @@ const Landing = () => {
             type="secondary"
             onClick={logIn}
             className="font-semibold py-3"
+            disabled={isLoading}
           >
             <i className="fa-brands fa-google pr-3"></i>Sign in with Google
           </Button>
@@ -38,6 +39,7 @@ const Landing = () => {
             type="secondary"
             className="font-semibold py-3"
             onClick={logInAnonymous}
+            disabled={isLoading}
           >
             <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
           </Button>

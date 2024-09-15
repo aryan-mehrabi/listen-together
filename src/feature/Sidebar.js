@@ -15,7 +15,7 @@ const Sidebar = () => {
   const { users } = useUser();
   const { members } = useMember();
   const { channels } = useChannel();
-  const { userId, logOut } = useAuth();
+  const { userId, logOut, isLoading } = useAuth();
   const [element, setElement] = useState(null);
 
   const renderChatList = () => {
@@ -45,7 +45,12 @@ const Sidebar = () => {
             <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
           </div>
           <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
-            <Button type="danger" onClick={logOut} className="w-full">
+            <Button
+              type="danger"
+              onClick={logOut}
+              className="w-full"
+              disabled={isLoading}
+            >
               Log Out
             </Button>
           </DropDown>

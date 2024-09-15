@@ -1,4 +1,10 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import authReducer from "./authReducer";
 import supabase from "auth/supabase";
 import { randomHash } from "helpers";
@@ -8,6 +14,7 @@ const AuthContext = createContext(initValue);
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initValue);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_, session) => {
@@ -20,17 +27,20 @@ export const AuthProvider = ({ children }) => {
       } else {
         dispatch({ type: "LOG_OUT" });
       }
+      setIsLoading(false);
     });
   }, []);
 
   //ACTIONS
   const logInAnonymous = async () => {
+    setIsLoading(true);
     await supabase.auth.signUp({
       email: `${randomHash(36)}@listen-together-aryan.netlify.app`,
       password: "example-password",
     });
   };
   const logIn = async () => {
+    setIsLoading(true);
     const urlParams = new URLSearchParams(window.location.search);
     const invite = urlParams.get("invite");
     try {
@@ -43,6 +53,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const logOut = async () => {
+    setIsLoading(true);
     try {
       await supabase.auth.signOut();
     } catch (error) {
@@ -59,6 +70,8 @@ export const AuthProvider = ({ children }) => {
     logIn,
     logOut,
     dismissError,
+    isLoading,
+    setIsLoading,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
