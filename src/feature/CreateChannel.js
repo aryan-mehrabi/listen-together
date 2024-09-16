@@ -7,7 +7,7 @@ const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
   const { createChannel, status } = useChannel();
 
-  const onFormSubmit = e => {
+  const onFormSubmit = (e) => {
     e.preventDefault();
     createChannel(channelName.trim());
   };
@@ -21,7 +21,8 @@ const CreateChannel = () => {
         <div>
           <label>Channel Name:</label>
           <Input
-            setValue={val => setChannelName(val.trimStart())}
+            autoFocus
+            setValue={(val) => setChannelName(val.trimStart())}
             value={channelName}
             type="text"
             placeholder="Type Channel Name"

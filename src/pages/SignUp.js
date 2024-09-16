@@ -8,7 +8,7 @@ const SignUp = () => {
   const [seed, setSeed] = useState(Math.random());
   const { createUser, status } = useUser();
 
-  const onFormSubmit = e => {
+  const onFormSubmit = (e) => {
     e.preventDefault();
     const trimedName = name.trim();
     if (trimedName) {
@@ -16,7 +16,7 @@ const SignUp = () => {
     }
   };
 
-  const generateAvatar = seed =>
+  const generateAvatar = (seed) =>
     `https://api.dicebear.com/7.x/pixel-art/svg?seed=${seed}`;
 
   return (
@@ -40,7 +40,8 @@ const SignUp = () => {
         </div>
         <div>
           <Input
-            setValue={val => setName(val.trimStart())}
+            autoFocus
+            setValue={(val) => setName(val.trimStart())}
             value={name}
             placeholder="Enter Your Name"
             className={`h-10 border-b-2 ${name ? "border-cta" : ""}`}
