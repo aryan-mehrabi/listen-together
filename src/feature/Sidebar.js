@@ -14,9 +14,14 @@ const Sidebar = () => {
   const [dropdown, setDropdown] = useState(false);
   const { users } = useUser();
   const { members } = useMember();
-  const { channels } = useChannel();
+  const { channels, setSelectedChannel } = useChannel();
   const { userId, logOut, isLoading } = useAuth();
   const [element, setElement] = useState(null);
+
+  const handleClickLogout = async () => {
+    await logOut();
+    setSelectedChannel("");
+  };
 
   const renderChatList = () => {
     const memberArr = Object.values(members);
@@ -47,7 +52,7 @@ const Sidebar = () => {
           <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
             <Button
               type="danger"
-              onClick={logOut}
+              onClick={handleClickLogout}
               className="w-full"
               disabled={isLoading}
             >
