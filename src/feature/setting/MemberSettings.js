@@ -25,11 +25,21 @@ const MemberSettings = ({ userId }) => {
 
   const rolesRules = { creator: 3, admin: 2, member: 1 };
 
+  const handleChangeRole = (role) => {
+    changeRole(userId, role);
+    setDropdown(false);
+  };
+
+  const handleRemoveMember = () => {
+    removeMember(userId);
+    setDropdown(false);
+  };
+
   const promoteButton = (
     <Button
       type="primary"
       key="1"
-      onClick={() => changeRole(userId, "admin")}
+      onClick={() => handleChangeRole("admin")}
       className="w-full border-t rounded-none"
     >
       Promote to Admin
@@ -39,7 +49,7 @@ const MemberSettings = ({ userId }) => {
     <Button
       type="primary"
       key="2"
-      onClick={() => changeRole(userId, "member")}
+      onClick={() => handleChangeRole("member")}
       className="w-full border-t rounded-none"
     >
       Demote to Member
@@ -49,7 +59,7 @@ const MemberSettings = ({ userId }) => {
     <Button
       type="primary"
       key="3"
-      onClick={() => removeMember(userId)}
+      onClick={handleRemoveMember}
       className="w-full rounded-none"
     >
       Remove from Channel
