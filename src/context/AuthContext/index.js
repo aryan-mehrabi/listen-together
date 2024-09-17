@@ -33,14 +33,14 @@ export const AuthProvider = ({ children }) => {
 
   //ACTIONS
   const logInAnonymous = async () => {
-    setIsLoading(true);
+    setIsLoading("anon");
     await supabase.auth.signUp({
       email: `${randomHash(36)}@listen-together-aryan.netlify.app`,
       password: "example-password",
     });
   };
   const logIn = async () => {
-    setIsLoading(true);
+    setIsLoading("google");
     const urlParams = new URLSearchParams(window.location.search);
     const invite = urlParams.get("invite");
     try {

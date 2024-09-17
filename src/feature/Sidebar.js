@@ -19,6 +19,7 @@ const Sidebar = () => {
   const [element, setElement] = useState(null);
 
   const handleClickLogout = async () => {
+    setDropdown(false);
     await logOut();
     setSelectedChannel("");
   };

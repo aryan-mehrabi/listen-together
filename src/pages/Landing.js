@@ -31,7 +31,7 @@ const Landing = () => {
             type="secondary"
             onClick={logIn}
             className="font-semibold py-3"
-            disabled={isLoading}
+            disabled={isLoading === "google"}
           >
             <i className="fa-brands fa-google pr-3"></i>Sign in with Google
           </Button>
@@ -39,7 +39,7 @@ const Landing = () => {
             type="secondary"
             className="font-semibold py-3"
             onClick={logInAnonymous}
-            disabled={isLoading}
+            disabled={isLoading === "anon"}
           >
             <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
           </Button>
