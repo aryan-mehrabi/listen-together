@@ -27,11 +27,11 @@ export const MemberProvider = ({ children }) => {
   const { setModal } = useModal();
 
   // ACTIONS
-  const addMember = async (email) => {
+  const addMember = async (username) => {
     setStatus("loading");
 
     const { data, error } = await supabase.rpc("add_member", {
-      user_email: email,
+      user_email: username,
       target_channel_id: selectedChannel,
     });
 
@@ -139,7 +139,8 @@ export const MemberProvider = ({ children }) => {
       users (
         id,
         name,
-        avatar
+        avatar,
+        username
       )
       `
       )

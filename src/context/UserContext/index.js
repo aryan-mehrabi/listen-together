@@ -10,27 +10,32 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initValue);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle");
-  const { userId, email } = useAuth();
+  const { userId } = useAuth();
 
   // ACTIONS
   const createUser = async (name, avatar) => {
-    const data = {
+    const userData = {
       id: userId,
       name,
-      email,
       avatar,
     };
     setStatus("loading");
-    const { error } = await supabase.from("users").insert(data);
-    if (!error) {
-      dispatch({ type: "CREATE_USER", payload: data });
+    const { data } = await supabase.rpc("create_user", {
+      user_name: name,
+      user_avatar: avatar,
+    });
+    if (data && data.status === "success") {
+      dispatch({
+        type: "CREATE_USER",
+        payload: { ...userData, username: data.username },
+      });
       setStatus("idle");
     } else {
       setStatus("failed");
     }
   };
 
-  const fetchUser = async userId => {
+  const fetchUser = async (userId) => {
     const { data, error } = await supabase
       .from("users")
       .select("*")
@@ -47,7 +52,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const setUsers = payload => {
+  const setUsers = (payload) => {
     dispatch({ type: "FETCH_USERS", payload });
   };
 

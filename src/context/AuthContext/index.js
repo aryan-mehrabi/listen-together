@@ -9,7 +9,7 @@ import authReducer from "./authReducer";
 import supabase from "auth/supabase";
 import { randomHash } from "helpers";
 
-const initValue = { userId: null, email: null, error: "" };
+const initValue = { userId: null, error: "" };
 const AuthContext = createContext(initValue);
 
 export const AuthProvider = ({ children }) => {
@@ -19,10 +19,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     supabase.auth.onAuthStateChange((_, session) => {
       if (session) {
-        const { id, email } = session.user;
+        const { id } = session.user;
         dispatch({
           type: "LOG_IN",
-          payload: { userId: id, email },
+          payload: { userId: id },
         });
       } else {
         dispatch({ type: "LOG_OUT" });

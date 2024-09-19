@@ -1,9 +1,9 @@
 const authReducer = (state, { type, payload }) => {
   switch (type) {
     case "LOG_IN":
-      return { ...state, userId: payload.userId, email: payload.email };
+      return { ...state, userId: payload.userId };
     case "LOG_OUT":
-      return { ...state, userId: "", email: "" };
+      return { ...state, userId: "" };
     case "AUTH_ERROR":
       let error = payload.code;
       if (payload.code === "auth/network-request-failed") {

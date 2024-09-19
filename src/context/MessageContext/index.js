@@ -41,7 +41,8 @@ export const MessageProvider = ({ children }) => {
       users (
         id,
         name,
-        avatar
+        avatar,
+        username
       ),
       attachments (
         id,
@@ -108,7 +109,8 @@ export const MessageProvider = ({ children }) => {
             users (
               id,
               name,
-              avatar
+              avatar,
+              username
             ),
             attachments (
               id,
