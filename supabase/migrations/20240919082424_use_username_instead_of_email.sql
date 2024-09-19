@@ -1,18 +1,5 @@
 alter table "public"."users" alter column "email" drop not null; 
 
-WITH NumberedUsers AS (
-  SELECT 
-    id, 
-    name, 
-    ROW_NUMBER() OVER (ORDER BY created_at) AS row_value
-  FROM 
-    users
-)
-UPDATE users
-SET username = LOWER(CONCAT(REPLACE(users.name, ' ', '-'), '-', NU.row_value + 1000))
-FROM NumberedUsers NU
-WHERE users.id = NU.id;
-
 set check_function_bodies = off;
 
 CREATE OR REPLACE FUNCTION public.create_user(user_name text, user_avatar text)
