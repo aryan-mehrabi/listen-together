@@ -37,6 +37,15 @@ const Player = () => {
     const playerTime = e.target.getCurrentTime();
     const pauseStates = [-1, 0, 2, 5];
 
+    if (document.hidden) {
+      if (e.data === playing && !is_playing) {
+        e.target.pauseVideo();
+      } else if (pauseStates.includes(e.data) && is_playing) {
+        e.target.playVideo();
+      }
+      return;
+    }
+
     setPlayerState(e.data);
 
     if (e.data === playing && !is_playing) {
