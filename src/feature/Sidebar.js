@@ -44,8 +44,8 @@ const Sidebar = () => {
         <img className="w-11" src={users[userId]?.avatar} alt="avatar" />
         <p className="ml-2 font-semibold text-lg flex flex-col">
           <span>{users[userId]?.name}</span>
-          <span className="text-xs font-normal text-neutral-300">
-            {users[userId]?.username}
+          <span className="text-xs font-normal text-neutral-400">
+            @{users[userId]?.username}
           </span>
         </p>
         <div className="ml-auto relative" ref={setElement}>

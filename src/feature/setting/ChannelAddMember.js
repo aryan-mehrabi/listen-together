@@ -21,13 +21,18 @@ const ChannelAddMember = ({ className = "" }) => {
       <h2 className="text-2xl font-semibold">Add a Member</h2>
       <form className="mt-3.5" onSubmit={onSubmitForm}>
         <label htmlFor="">Username</label>
-        <Input
-          value={username}
-          setValue={(val) => setUsername(val.toLowerCase())}
-          className="my-1"
-          type="text"
-          placeholder="name-0000"
-        />
+        <div className="relative">
+          <p className="absolute top-[calc(50%+1px)] left-2 -translate-y-1/2">
+            @
+          </p>
+          <Input
+            value={username}
+            setValue={(val) => setUsername(val.toLowerCase().replace(" ", ""))}
+            className="my-1 pl-[calc(1.5rem+1px)]"
+            type="text"
+            placeholder="name-0000"
+          />
+        </div>
         <Button
           type="cta"
           disabled={status === "loading"}
