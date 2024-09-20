@@ -22,13 +22,11 @@ const ChannelAddMember = ({ className = "" }) => {
       <form className="mt-3.5" onSubmit={onSubmitForm}>
         <label htmlFor="">Username</label>
         <div className="relative">
-          <p className="absolute top-[calc(50%+1px)] left-2 -translate-y-1/2">
-            @
-          </p>
+          <p className="absolute top-1/2 left-2 -translate-y-1/2">@</p>
           <Input
             value={username}
             setValue={(val) => setUsername(val.toLowerCase().replace(" ", ""))}
-            className="my-1 pl-[calc(1.5rem+1px)]"
+            className="my-1 pl-6"
             type="text"
             placeholder="name-0000"
           />
