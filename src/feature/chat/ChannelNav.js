@@ -6,11 +6,13 @@ import useMessage from "context/MessageContext";
 const ChannelNav = () => {
   const { channels, selectedChannel, setSelectedChannel } = useChannel();
   const { rightSidebar, setRightSidebar } = useRightSidebar();
-  const { setReply } = useMessage();
+  const { setReply, setTrack, setAttachments } = useMessage();
 
   const onClickBack = () => {
     setSelectedChannel("");
     setReply(null);
+    setTrack(null);
+    setAttachments([]);
   };
 
   return (

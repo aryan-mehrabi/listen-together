@@ -4,25 +4,37 @@ import useMessage from "context/MessageContext";
 import { filterImageFiles } from "helpers";
 import ChannelMessageInputReply from "./ChannelMessageInputReply";
 import ChannelMessageInputAttachments from "./ChannelMessageInputAttachments";
+import ChannelMessageInputVideo from "./ChannelMessageInputVideo";
+import { getVideos } from "apis/youtube";
+import { useDebouncedCallback } from "use-debounce";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
   const formRef = useRef(null);
   const fileInputRef = useRef(null);
-  const { sendMessage, setReply, setAttachments, attachments } = useMessage();
+  const {
+    sendMessage,
+    setReply,
+    setAttachments,
+    attachments,
+    track,
+    setTrack,
+  } = useMessage();
 
   const onSubmitForm = (e) => {
     e.preventDefault();
     const trimedMessage = message.trim();
-    if (trimedMessage || attachments.length) {
+
+    if (trimedMessage || attachments.length || track) {
       sendMessage(
-        { body: trimedMessage },
-        attachments.length ? "image" : "text",
+        track || { body: trimedMessage },
+        track ? "track" : attachments.length ? "image" : "text",
         attachments
       );
       setMessage("");
       setReply(null);
       setAttachments([]);
+      setTrack(null);
     }
   };
 
@@ -43,10 +55,45 @@ const ChannelMessageInput = () => {
     setAttachments(files);
   };
 
+  const handleChangeMessageInput = (e) => {
+    const message = e.target.value.trimStart();
+    setMessage(message);
+
+    handleVideoUrl(message);
+  };
+
+  const handleVideoUrl = useDebouncedCallback(async (msg) => {
+    const regex =
+      /(?:youtube(?:-nocookie)?\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/gi;
+
+    const array = [...msg.matchAll(regex)];
+
+    if (array[0] && array[0][1]) {
+      const videoId = array[0][1];
+      const res = await getVideos(videoId);
+
+      if (res.items.length) {
+        setTrack({
+          title: res.items[0].snippet.title,
+          track_id: videoId,
+          thumbnail: res.items[0].snippet.thumbnails.default.url,
+        });
+      } else {
+        setTrack(null);
+      }
+    } else {
+      setTrack(null);
+    }
+  }, 500);
+
   return (
     <div>
       <ChannelMessageInputReply />
-      <ChannelMessageInputAttachments />
+      {track ? (
+        <ChannelMessageInputVideo track={track} />
+      ) : (
+        <ChannelMessageInputAttachments />
+      )}
       <form
         ref={formRef}
         onSubmit={onSubmitForm}
@@ -65,7 +112,7 @@ const ChannelMessageInput = () => {
             <textarea
               onPaste={onPasteMessageInput}
               onKeyDown={onKeyPressEnter}
-              onChange={(e) => setMessage(e.target.value.trimStart())}
+              onChange={handleChangeMessageInput}
               value={message}
               placeholder="Message"
               className="bg-transparent w-full h-full outline-none resize-none"
@@ -82,7 +129,7 @@ const ChannelMessageInput = () => {
         </div>
         <Button
           type="cta"
-          disabled={!message && !attachments.length}
+          disabled={!(message || attachments.length || track)}
           className="ml-2"
         >
           <i className="fa-solid fa-paper-plane" />

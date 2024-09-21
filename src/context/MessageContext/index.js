@@ -13,6 +13,7 @@ export const MessageProvider = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, initVal);
   const [reply, setReply] = useState(null);
   const [attachments, setAttachments] = useState([]);
+  const [track, setTrack] = useState(null);
   const [hasNext, setHasNext] = useState(false);
   const scrollDownElement = useRef(null);
   const { users } = useUser();
@@ -213,6 +214,8 @@ export const MessageProvider = ({ children }) => {
     setReply,
     attachments,
     setAttachments,
+    track,
+    setTrack,
     sendMessage,
     fetchMessages,
     subscribeMessagesChannel,

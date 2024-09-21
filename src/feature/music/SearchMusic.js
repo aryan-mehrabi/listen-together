@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
-import { fetchTracks } from "apis/youtube";
+import { searchVideos } from "apis/youtube";
 import useDebouncing from "hooks/useDebouncing";
 import useIntersection from "hooks/useIntersection";
 import useRightSidebar from "context/RightSidebarContext";
@@ -17,11 +17,11 @@ const SearchMusic = () => {
 
   const { data, isLoading, isError, isIdle, fetchNextPage } = useInfiniteQuery(
     ["tracks", debouncedTerm],
-    fetchTracks,
+    searchVideos,
     {
       refetchOnMount: false,
       staleTime: Infinity,
-      getNextPageParam: lastPage => lastPage.nextPageToken,
+      getNextPageParam: (lastPage) => lastPage.nextPageToken,
     }
   );
 
@@ -35,8 +35,8 @@ const SearchMusic = () => {
     if (isLoading || isError || isIdle) return;
 
     return []
-      .concat(...data.pages.map(res => res.items))
-      .map(track => <MusicItem key={track.id.videoId} {...{ track }} />);
+      .concat(...data.pages.map((res) => res.items))
+      .map((track) => <MusicItem key={track.id.videoId} {...{ track }} />);
   };
 
   return (

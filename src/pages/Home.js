@@ -14,7 +14,7 @@ const Chat = () => {
   const { selectedChannel, setSelectedChannel, setChannels } = useChannel();
   const { members } = useMember();
   const { userId } = useAuth();
-  const { setReply } = useMessage();
+  const { setReply, setAttachments, setTrack } = useMessage();
   const isMobile = useMediaQuery();
 
   useEffect(() => {
@@ -51,6 +51,8 @@ const Chat = () => {
     );
     if (!membership) {
       setReply(null);
+      setTrack(null);
+      setAttachments([]);
     }
   }, [selectedChannel, members, userId]);
 

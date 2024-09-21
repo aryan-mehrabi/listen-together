@@ -20,6 +20,7 @@
     "react-web-share": "^2.0.2",
     "react-youtube": "^10.1.0",
     "tailwind-override": "^0.6.1",
+    "use-debounce": "^10.0.3",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },

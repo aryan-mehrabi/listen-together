@@ -8,7 +8,7 @@ const apiKeys = [
   process.env.REACT_APP_MY_PROJECT_API_KEY,
 ];
 
-export const fetchTracks = async ({ queryKey, pageParam = "" }) => {
+export const searchVideos = async ({ queryKey, pageParam = "" }) => {
   try {
     const result = await axios.get(
       "https://www.googleapis.com/youtube/v3/search",
@@ -32,4 +32,19 @@ export const fetchTracks = async ({ queryKey, pageParam = "" }) => {
     }
     if (error) throw error;
   }
+};
+
+export const getVideos = async (videoId) => {
+  const result = await axios.get(
+    "https://www.googleapis.com/youtube/v3/videos",
+    {
+      params: {
+        key: apiKeys[apiKeys.length - 1],
+        part: "snippet,contentDetails",
+        id: videoId,
+      },
+    }
+  );
+
+  return result.data;
 };
