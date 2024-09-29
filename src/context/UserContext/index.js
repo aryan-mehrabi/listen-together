@@ -56,6 +56,13 @@ export const UserProvider = ({ children }) => {
     dispatch({ type: "FETCH_USERS", payload });
   };
 
+  const searchUser = async (searchString) => {
+    const result = await supabase
+      .from("users")
+      .select("*")
+      .like("username", `%${searchString}%`);
+  };
+
   // STORE
   const value = {
     users: state,
@@ -65,6 +72,7 @@ export const UserProvider = ({ children }) => {
     createUser,
     fetchUser,
     setUsers,
+    searchUser,
   };
   return <UserContext.Provider {...{ value }}>{children}</UserContext.Provider>;
 };

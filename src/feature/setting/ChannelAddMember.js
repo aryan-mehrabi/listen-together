@@ -4,16 +4,29 @@ import Button from "components/Button";
 import Input from "components/Input";
 import useMember from "context/MemberContext";
 import { overrideTailwindClasses } from "tailwind-override";
+import { useDebouncedCallback } from "use-debounce";
+import useUser from "context/UserContext";
 
 const ChannelAddMember = ({ className = "" }) => {
   const [username, setUsername] = useState("");
   const { status } = useChannel();
   const { addMember } = useMember();
+  const { searchUser } = useUser();
 
   const onSubmitForm = async (event) => {
     event.preventDefault();
     await addMember(username);
     setUsername("");
+  };
+
+  const handleSearchUser = useDebouncedCallback((val) => {
+    searchUser(val);
+  }, 300);
+
+  const handleOnChange = (val) => {
+    const newVal = val.toLowerCase().replace(" ", "");
+    setUsername(newVal);
+    // handleSearchUser(newVal);
   };
 
   return (
@@ -25,7 +38,7 @@ const ChannelAddMember = ({ className = "" }) => {
           <p className="absolute top-1/2 left-2 -translate-y-1/2">@</p>
           <Input
             value={username}
-            setValue={(val) => setUsername(val.toLowerCase().replace(" ", ""))}
+            setValue={handleOnChange}
             className="my-1 pl-6"
             type="text"
             placeholder="name-0000"
