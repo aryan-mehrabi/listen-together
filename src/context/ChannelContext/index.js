@@ -38,6 +38,14 @@ export const ChannelProvider = ({ children }) => {
     setSelectedChannel(data.channels.id);
   };
 
+  const updateChannelName = async (name) => {
+    setStatus("loading");
+
+    await supabase.from("channels").update({ name }).eq("id", selectedChannel);
+
+    setStatus("idle");
+  };
+
   const removeChannel = async (channelId) => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
@@ -107,6 +115,7 @@ export const ChannelProvider = ({ children }) => {
     setVideoTitle,
     playerState,
     setPlayerState,
+    updateChannelName,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

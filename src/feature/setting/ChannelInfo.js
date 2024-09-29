@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import Button from "components/Button";
 import useMember from "context/MemberContext";
+import Input from "components/Input";
 
 const ChannelInfo = ({ role }) => {
+  const [isEditMode, setIsEditMode] = useState(false);
   const { userId } = useAuth();
-  const { channels, selectedChannel, setSelectedChannel } = useChannel();
+  const { channels, selectedChannel, setSelectedChannel, updateChannelName } =
+    useChannel();
   const { removeMember } = useMember();
   const { setRightSidebar } = useRightSidebar();
   const channel = channels[selectedChannel];
+  const [channelName, setChannelName] = useState(channel.name);
 
   const leaveChannel = async () => {
     await removeMember(userId);
     setSelectedChannel("");
+  };
+
+  const handleUpdateChannelName = async () => {
+    await updateChannelName(channelName);
+    setIsEditMode(false);
   };
 
   // const deleteButton = (
@@ -38,7 +47,34 @@ const ChannelInfo = ({ role }) => {
         ></i>
       </div>
       <div className="mt-3.5">
-        <p className="text-xl my-3">{channel.name}</p>
+        <div className="flex gap-2 items-center text-xl my-3">
+          {isEditMode ? (
+            <div className="w-full flex gap-2">
+              <Input
+                className="w-full"
+                value={channelName}
+                setValue={setChannelName}
+              />
+              <Button
+                type="cta"
+                className="text-base"
+                onClick={handleUpdateChannelName}
+              >
+                submit
+              </Button>
+            </div>
+          ) : (
+            <>
+              <p>{channel.name}</p>
+              {role !== "member" && (
+                <i
+                  onClick={() => setIsEditMode(true)}
+                  className="mt-1 fa-solid fa-pen text-xs cursor-pointer text-cta"
+                ></i>
+              )}
+            </>
+          )}
+        </div>
         {role === "creator" ? null /* deleteButton */ : leaveButton}
       </div>
     </div>
