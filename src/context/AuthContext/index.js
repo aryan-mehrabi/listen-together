@@ -34,10 +34,7 @@ export const AuthProvider = ({ children }) => {
   //ACTIONS
   const logInAnonymous = async () => {
     setIsLoading("anon");
-    await supabase.auth.signUp({
-      email: `${randomHash(36)}@listen-together-aryan.netlify.app`,
-      password: "example-password",
-    });
+    await supabase.auth.signInAnonymously();
   };
   const logIn = async () => {
     setIsLoading("google");
