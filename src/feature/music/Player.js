@@ -77,6 +77,7 @@ const Player = () => {
             : "pointer-events-none"
         }
         opts={{
+          origin: process.env.REACT_APP_BASE_URL,
           width: "100%",
           height: "auto",
           playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
