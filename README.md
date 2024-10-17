@@ -1,5 +1,5 @@
 <p align="center" style="margin-top: 120px">
-  <a href="https://listen-together-aryan.netlify.app">
+  <a href="https://listen-together.app">
    <img src="./public/listen-together-logo.png" width="100px" alt="Listen Together Logo">
   </a>
 </p>
@@ -7,7 +7,7 @@
   <p align="center">
   A real-time chat app that allows you to listen to music synchronously with your friends.
   <br>
-    <a href="https://listen-together-aryan.netlify.app"><strong>Demo</strong></a>
+    <a href="https://listen-together.app"><strong>Demo</strong></a>
   </p>
 
 <img width="1040" alt="Cover" src="./public/listen-together-cover.png">
