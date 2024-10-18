@@ -21,7 +21,12 @@ const ChannelNav = () => {
         onClick={onClickBack}
         className="fa-solid fa-arrow-left text-xl mr-4 cursor-pointer"
       ></i>
-      <h2 className="text-2xl">{channels[selectedChannel].name}</h2>
+      <h2
+        title={channels[selectedChannel].name}
+        className="text-2xl overflow-hidden text-ellipsis whitespace-nowrap"
+      >
+        {channels[selectedChannel].name}
+      </h2>
       <i
         onClick={() =>
           setRightSidebar(rightSidebar === "player" ? "" : "player")
