@@ -7,7 +7,8 @@ import noMsg from "assets/no-message.png";
 
 const ChannelConversation = () => {
   const { selectedChannel } = useChannel();
-  const { messages, fetchMessages, scrollDownElement, hasNext } = useMessage();
+  const { messages, fetchMessages, conversionContainerElement, hasNext } =
+    useMessage();
   const channelMessages = messages[selectedChannel];
 
   const onClickLoadMore = () => {
@@ -28,12 +29,14 @@ const ChannelConversation = () => {
         );
       }
 
-      return msgs.map((message) => (
-        <ChannelMessage
-          key={message.id || message.client_id}
-          {...{ message }}
-        />
-      ));
+      return msgs
+        .reverse()
+        .map((message) => (
+          <ChannelMessage
+            key={message.id || message.client_id}
+            {...{ message }}
+          />
+        ));
     } else {
       // loading
       // return <p>loading</p>;
@@ -41,7 +44,11 @@ const ChannelConversation = () => {
   };
 
   return (
-    <section className="overflow-y-auto overflow-x-hidden flex flex-col items-start flex-grow p-6">
+    <section
+      ref={conversionContainerElement}
+      className="overflow-y-auto overflow-x-hidden flex flex-col-reverse items-start flex-grow p-6"
+    >
+      {renderMessages()}
       {hasNext && (
         <Button
           className="mx-auto flex items-center gap-2 mb-6"
@@ -52,8 +59,6 @@ const ChannelConversation = () => {
           <i className="fa fa-arrow-up" />
         </Button>
       )}
-      {renderMessages()}
-      <div ref={scrollDownElement}></div>
     </section>
   );
 };

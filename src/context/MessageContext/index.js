@@ -15,7 +15,7 @@ export const MessageProvider = ({ children }) => {
   const [attachments, setAttachments] = useState([]);
   const [track, setTrack] = useState(null);
   const [hasNext, setHasNext] = useState(false);
-  const scrollDownElement = useRef(null);
+  const conversionContainerElement = useRef(null);
   const { users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
@@ -74,9 +74,6 @@ export const MessageProvider = ({ children }) => {
       dispatch({ type: "FETCH_MESSAGES", payload: { messages, channelId } });
       setHasNext(messagesCurrentCount + messages.length < count);
       if (!next) {
-        setTimeout(() => {
-          scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
-        }, 0);
       }
     }
   };
@@ -125,9 +122,6 @@ export const MessageProvider = ({ children }) => {
               type: "INSERT_MESSAGE",
               payload: { ...payload.new, ...data },
             });
-            setTimeout(() => {
-              scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
-            }, 0);
           }
         }
       )
@@ -173,6 +167,12 @@ export const MessageProvider = ({ children }) => {
       message_type,
     };
     dispatch({ type: "INSERT_MESSAGE", payload: { ...message, attachments } });
+    setTimeout(() => {
+      conversionContainerElement.current?.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 0);
     let uploadedImages;
     if (attachments.length) {
       const promises = attachments.map((attachment) =>
@@ -206,7 +206,6 @@ export const MessageProvider = ({ children }) => {
         }))
       );
     }
-    scrollDownElement.current?.scrollIntoView({ behavior: "smooth" });
   };
   const value = {
     messages: state,
@@ -219,7 +218,7 @@ export const MessageProvider = ({ children }) => {
     sendMessage,
     fetchMessages,
     subscribeMessagesChannel,
-    scrollDownElement,
+    conversionContainerElement,
     hasNext,
   };
   return (
