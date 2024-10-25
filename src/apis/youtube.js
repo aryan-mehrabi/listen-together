@@ -6,6 +6,7 @@ const apiKeys = [
   process.env.REACT_APP_YOUTUBE_API_KEY,
   process.env.REACT_APP_LISTEN_TOGETHER_YOUTUBE_API_KEY,
   process.env.REACT_APP_MY_PROJECT_API_KEY,
+  process.env.REACT_APP_TWITCH_API_KEY,
 ];
 
 export const searchVideos = async ({ queryKey, pageParam = "" }) => {
