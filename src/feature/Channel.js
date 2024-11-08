@@ -10,7 +10,7 @@ import useMessage from "context/MessageContext";
 import useMember from "context/MemberContext";
 
 const Channel = () => {
-  const { selectedChannel, channels, player } = useChannel();
+  const { selectedChannel, channels, player, fetchChannel } = useChannel();
   const { fetchMessages, subscribeMessagesChannel } = useMessage();
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
@@ -29,6 +29,7 @@ const Channel = () => {
     let unsubscribeMessages;
     let unsubscribeMembers;
     if (selectedChannel) {
+      fetchChannel(selectedChannel);
       fetchMessages(selectedChannel);
 
       unsubscribeMessages = subscribeMessagesChannel(selectedChannel);

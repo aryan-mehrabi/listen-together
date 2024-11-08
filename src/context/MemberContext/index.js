@@ -66,12 +66,7 @@ export const MemberProvider = ({ children }) => {
     user_id,
     channels (
     id,
-    is_playing,
-    name,
-    track,
-    created_at,
-    position,
-    channel_invites(*)
+    name
     )
     `
       )

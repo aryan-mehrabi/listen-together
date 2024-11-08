@@ -5,6 +5,8 @@ import { ModalProvider } from "context/ModalContext";
 import Spinner from "./Spinner";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorComponent from "./ErrorComponent";
+import { PlaylistProvider } from "context/PlaylistContex";
+import { TrackProvider } from "context/TrackContext";
 
 const AuthProvider = lazy(() =>
   import("context/AuthContext").then((module) => ({
@@ -51,13 +53,17 @@ const App = () => {
             <AuthProvider>
               <UserProvider>
                 <PageProvider>
-                  <ChannelProvider>
-                    <MemberProvider>
-                      <MessageProvider>
-                        <Router />
-                      </MessageProvider>
-                    </MemberProvider>
-                  </ChannelProvider>
+                  <PlaylistProvider>
+                    <TrackProvider>
+                      <ChannelProvider>
+                        <MemberProvider>
+                          <MessageProvider>
+                            <Router />
+                          </MessageProvider>
+                        </MemberProvider>
+                      </ChannelProvider>
+                    </TrackProvider>
+                  </PlaylistProvider>
                 </PageProvider>
               </UserProvider>
             </AuthProvider>

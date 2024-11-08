@@ -9,13 +9,19 @@ import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
 import useModal from "context/ModalContext";
 import { nanoid } from "nanoid";
+import useAuth from "context/AuthContext";
+import useTrack from "context/TrackContext";
+import usePlaylist from "context/PlaylistContex";
 
 const initValue = {};
 const statusInitValue = "idle";
 const ChannelContext = createContext(initValue);
 
 export const ChannelProvider = ({ children }) => {
+  const { userId } = useAuth();
   const { setModal } = useModal();
+  const { setTracks, tracks } = useTrack();
+  const { setPlaylists, playlists } = usePlaylist();
   const [state, dispatch] = useReducer(channelReducer, initValue);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [status, setStatus] = useState(statusInitValue);
@@ -64,8 +70,23 @@ export const ChannelProvider = ({ children }) => {
       .eq("id", selectedChannel);
   };
 
-  const updateTrack = async (track) => {
-    await supabase.from("channels").update({ track }).eq("id", selectedChannel);
+  const updateTrack = async (trackId) => {
+    const playlist = playlists[selectedChannel];
+    const track = tracks[selectedChannel];
+    const { data } = await supabase
+      .from("tracks")
+      .insert({
+        track_id: trackId,
+        user_id: userId,
+        playlist_id: playlist.id,
+        position: track.position + 1,
+      })
+      .select()
+      .single();
+    await supabase
+      .from("channels")
+      .update({ track_id: data.id })
+      .eq("id", selectedChannel);
   };
 
   const setChannels = (channels) => {
@@ -86,12 +107,17 @@ export const ChannelProvider = ({ children }) => {
         position,
         name,
         is_playing,
-        channel_invites (*)`
+        channel_invites (*),
+        tracks(*),
+        playlists!channels_playlist_id_fkey (*)
+        `
       )
       .eq("id", channelId)
       .single();
     if (!error) {
       dispatch({ type: "FETCH_CHANNEL", payload: data });
+      setPlaylists(data.playlists);
+      setTracks(selectedChannel, data.tracks);
     }
   };
 

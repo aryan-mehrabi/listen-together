@@ -3,9 +3,11 @@ import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useMember from "context/MemberContext";
 import YouTube from "react-youtube";
+import useTrack from "context/TrackContext";
 
 const Player = () => {
   const { userId } = useAuth();
+  const { tracks } = useTrack();
   const {
     channels,
     selectedChannel,
@@ -16,7 +18,8 @@ const Player = () => {
     setPlayerState,
   } = useChannel();
   const { members } = useMember();
-  const { track, position, is_playing } = channels[selectedChannel];
+  const { position, is_playing } = channels[selectedChannel];
+  const track = tracks[selectedChannel];
 
   const userMembership = Object.values(members).find(
     (member) =>
@@ -67,10 +70,12 @@ const Player = () => {
     player.current?.seekTo(position);
   }, [position]);
 
+  console.log(tracks, track);
+
   return (
     <div className="mt-auto">
       <YouTube
-        videoId={track}
+        videoId={track?.track_id}
         iframeClassName={
           ["admin", "creator"].includes(userMembership?.role)
             ? ""

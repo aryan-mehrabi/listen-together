@@ -5,6 +5,8 @@ import useUser from "context/UserContext";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import { v4 as uuidv4 } from "uuid";
+import useTrack from "context/TrackContext";
+import useEventCallback from "hooks/useEventCallback";
 
 const initVal = {};
 const MessageContext = createContext(initVal);
@@ -19,6 +21,7 @@ export const MessageProvider = ({ children }) => {
   const { users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
+  const { tracks, setTracks } = useTrack();
 
   // ACTIONS
   const fetchMessages = async (channelId, next = false) => {
@@ -78,6 +81,21 @@ export const MessageProvider = ({ children }) => {
     }
   };
 
+  const onUpdateChannel = useEventCallback(
+    async (payload) => {
+      updateChannel(payload.new);
+      if (tracks[selectedChannel].id !== payload.new.track_id) {
+        const { data } = await supabase
+          .from("tracks")
+          .select("*")
+          .eq("id", payload.new.track_id)
+          .single();
+        setTracks(selectedChannel, data);
+      }
+    },
+    [tracks, selectedChannel]
+  );
+
   const subscribeMessagesChannel = (channelId) => {
     const messagesChannel = supabase
       .channel("messages-channel-channel")
@@ -133,9 +151,7 @@ export const MessageProvider = ({ children }) => {
           table: "channels",
           filter: `id=eq.${channelId}`,
         },
-        (payload) => {
-          updateChannel(payload.new);
-        }
+        onUpdateChannel
       )
       .subscribe();
     return () => supabase.removeChannel(messagesChannel);
