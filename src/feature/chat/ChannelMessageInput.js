@@ -19,6 +19,7 @@ const ChannelMessageInput = () => {
     attachments,
     track,
     setTrack,
+    messageInputRef,
   } = useMessage();
 
   const onSubmitForm = (e) => {
@@ -110,6 +111,7 @@ const ChannelMessageInput = () => {
           />
           <div className="flex items-center gap-2 w-full h-full bg-neutral-700 rounded p-2 pr-3">
             <textarea
+              ref={messageInputRef}
               onPaste={onPasteMessageInput}
               onKeyDown={onKeyPressEnter}
               onChange={handleChangeMessageInput}

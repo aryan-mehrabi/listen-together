@@ -8,11 +8,12 @@ const ChannelMessageMore = ({ message: { id, user_id } }) => {
   const [dropdown, setDropdown] = useState(false);
   const [element, setElement] = useState(null);
   const { userId } = useAuth();
-  const { setReply } = useMessage();
+  const { setReply, messageInputRef } = useMessage();
 
   const onClickReply = () => {
     setReply(id);
     setDropdown(false);
+    messageInputRef.current.focus();
   };
 
   return (
