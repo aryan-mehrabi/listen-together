@@ -18,6 +18,7 @@ export const MessageProvider = ({ children }) => {
   const [track, setTrack] = useState(null);
   const [hasNext, setHasNext] = useState(false);
   const conversionContainerElement = useRef(null);
+  const messageInputRef = useRef(null);
   const { users } = useUser();
   const { userId } = useAuth();
   const { selectedChannel, updateChannel } = useChannel();
@@ -236,6 +237,7 @@ export const MessageProvider = ({ children }) => {
     subscribeMessagesChannel,
     conversionContainerElement,
     hasNext,
+    messageInputRef,
   };
   return (
     <MessageContext.Provider {...{ value }}>{children}</MessageContext.Provider>
