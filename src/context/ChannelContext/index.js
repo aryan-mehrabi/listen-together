@@ -56,10 +56,11 @@ export const ChannelProvider = ({ children }) => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
 
-  const playTrack = async (position) => {
+
+  const playTrack = async ({ position, duration }) => {
     await supabase
       .from("channels")
-      .update({ is_playing: true, position })
+      .update({ is_playing: true, position, duration })
       .eq("id", selectedChannel);
   };
 
@@ -103,10 +104,11 @@ export const ChannelProvider = ({ children }) => {
       .select(
         `id,
         created_at,
-        track,
-        position,
         name,
         is_playing,
+        start_at,
+        duration,
+        position,
         channel_invites (*),
         tracks(*),
         playlists!channels_playlist_id_fkey (*)
@@ -116,8 +118,12 @@ export const ChannelProvider = ({ children }) => {
       .single();
     if (!error) {
       dispatch({ type: "FETCH_CHANNEL", payload: data });
-      setPlaylists(data.playlists);
-      setTracks(selectedChannel, data.tracks);
+      if (data.playlists) {
+        setPlaylists(data.playlists);
+      }
+      if (data.tracks) {
+        setTracks(selectedChannel, data.tracks);
+      }
     }
   };
 

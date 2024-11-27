@@ -18,7 +18,7 @@ const Player = () => {
     setPlayerState,
   } = useChannel();
   const { members } = useMember();
-  const { position, is_playing } = channels[selectedChannel];
+  const { position, is_playing, start_at } = channels[selectedChannel];
   const track = tracks[selectedChannel];
 
   const userMembership = Object.values(members).find(
@@ -26,22 +26,37 @@ const Player = () => {
       member.user_id === userId && member.channel_id === selectedChannel
   );
 
+  const getCurrentTime = () => {
+    const now = Date.now();
+    const startAt = new Date(start_at);
+    return (now - startAt.getTime()) / 1000;
+  };
+
   const onReady = (e) => {
     player.current = e.target;
     setVideoTitle(e.target.videoTitle);
-    e.target.seekTo(position);
     if (!is_playing) {
+      e.target.seekTo(position);
       e.target.pauseVideo();
+    } else {
+      e.target.seekTo(position + getCurrentTime());
+      e.target.playVideo();
     }
   };
 
   const onStateChange = (e) => {
-    const playing = window.YT.PlayerState.PLAYING;
+    const UNSTARTED = window.YT.PlayerState.UNSTARTED; // -1
+    const ENDED = window.YT.PlayerState.ENDED; // 0
+    const PLAYING = window.YT.PlayerState.PLAYING; // 1
+    const PAUSED = window.YT.PlayerState.PAUSED; // 2
+    const BUFFERING = window.YT.PlayerState.BUFFERING; // 3
+    const CUED = window.YT.PlayerState.CUED; // 5
     const playerTime = e.target.getCurrentTime();
-    const pauseStates = [-1, 0, 2, 5];
+    const duration = e.target.getDuration();
+    const pauseStates = [PAUSED, ENDED];
 
     if (document.hidden) {
-      if (e.data === playing && !is_playing) {
+      if (e.data === PLAYING && !is_playing) {
         e.target.pauseVideo();
       } else if (pauseStates.includes(e.data) && is_playing) {
         e.target.playVideo();
@@ -51,8 +66,8 @@ const Player = () => {
 
     setPlayerState(e.data);
 
-    if (e.data === playing && !is_playing) {
-      playTrack(playerTime);
+    if (e.data === PLAYING && !is_playing) {
+      playTrack({ position: playerTime, duration });
     } else if (pauseStates.includes(e.data) && is_playing) {
       pauseTrack();
     }
@@ -69,8 +84,6 @@ const Player = () => {
   useEffect(() => {
     player.current?.seekTo(position);
   }, [position]);
-
-  console.log(tracks, track);
 
   return (
     <div className="mt-auto">
