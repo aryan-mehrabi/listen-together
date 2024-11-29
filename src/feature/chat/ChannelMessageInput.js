@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Button from "components/Button";
 import useMessage from "context/MessageContext";
-import { filterImageFiles } from "helpers";
+import { filterImageFiles, isMobileDevice } from "helpers";
 import ChannelMessageInputReply from "./ChannelMessageInputReply";
 import ChannelMessageInputAttachments from "./ChannelMessageInputAttachments";
 import ChannelMessageInputVideo from "./ChannelMessageInputVideo";
@@ -24,6 +24,7 @@ const ChannelMessageInput = () => {
 
   const onSubmitForm = (e) => {
     e.preventDefault();
+    messageInputRef.current.focus();
     const trimedMessage = message.trim();
 
     if (trimedMessage || attachments.length || track) {
@@ -40,7 +41,11 @@ const ChannelMessageInput = () => {
   };
 
   const onKeyPressEnter = (e) => {
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (
+      e.keyCode === 13 &&
+      !e.shiftKey &&
+      !isMobileDevice(navigator.userAgent)
+    ) {
       e.preventDefault();
       formRef.current.requestSubmit();
     }
@@ -98,9 +103,9 @@ const ChannelMessageInput = () => {
       <form
         ref={formRef}
         onSubmit={onSubmitForm}
-        className="flex p-3 border-t border-neutral-700"
+        className="flex items-end p-3 border-t border-neutral-700"
       >
-        <div className="flex-grow h-10">
+        <div className="flex-grow">
           <input
             onChange={onChangeFileInput}
             accept="image/jpeg, image/jpg, image/png, image/gif"
@@ -109,17 +114,25 @@ const ChannelMessageInput = () => {
             className="hidden"
             ref={fileInputRef}
           />
-          <div className="flex items-center gap-2 w-full h-full bg-neutral-700 rounded p-2 pr-3">
-            <textarea
-              ref={messageInputRef}
-              onPaste={onPasteMessageInput}
-              onKeyDown={onKeyPressEnter}
-              onChange={handleChangeMessageInput}
-              value={message}
-              placeholder="Message"
-              className="bg-transparent w-full h-full outline-none resize-none"
-              type="text"
-            />
+          <div className="flex items-end gap-2 w-full bg-neutral-700 rounded p-1.5 pr-3">
+            <div className="grid w-full">
+              <textarea
+                ref={messageInputRef}
+                onPaste={onPasteMessageInput}
+                onKeyDown={onKeyPressEnter}
+                onChange={handleChangeMessageInput}
+                value={message}
+                placeholder="Message"
+                className="resize-none min-h-[26px] max-h-[100px] overflow-y-auto bg-transparent outline-none col-start-1 row-start-1"
+                rows="1"
+              />
+              <div
+                className="invisible max-h-[100px] whitespace-pre-wrap break-words col-start-1 row-start-1 pointer-events-none"
+                aria-hidden="true"
+              >
+                {message + "\n"}
+              </div>
+            </div>
             <button
               type="button"
               className="text-lg"

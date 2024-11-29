@@ -15,3 +15,9 @@ export const randomHash = (length) => {
 
 export const filterImageFiles = (file) =>
   file.size <= FILE_SIZE_LIMIT && FILE_TYPE_ALLOWED.includes(file.type);
+
+export const isMobileDevice = (userAgent) => {
+  const mobileRegex =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  return mobileRegex.test(userAgent);
+};
