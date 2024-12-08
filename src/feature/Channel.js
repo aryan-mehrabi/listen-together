@@ -60,7 +60,7 @@ const Channel = () => {
     <>
       {rightSidebar === "setting" ? (
         <ChannelSettings />
-      ) : rightSidebar === "music" ? (
+      ) : rightSidebar === "search" ? (
         <SearchMusic />
       ) : rightSidebar === "" ? (
         <Chat loading={loading} />
