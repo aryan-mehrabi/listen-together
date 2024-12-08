@@ -8,6 +8,7 @@ import MusicSettings from "feature/music/MusicSettings";
 import Spinner from "components/Spinner";
 import useMessage from "context/MessageContext";
 import useMember from "context/MemberContext";
+import SearchMusic from "feature/music/SearchMusic";
 
 const Channel = () => {
   const { selectedChannel, channels, player } = useChannel();
@@ -59,6 +60,8 @@ const Channel = () => {
     <>
       {rightSidebar === "setting" ? (
         <ChannelSettings />
+      ) : rightSidebar === "music" ? (
+        <SearchMusic />
       ) : rightSidebar === "" ? (
         <Chat loading={loading} />
       ) : null}
@@ -69,6 +72,7 @@ const Channel = () => {
     <>
       <Chat loading={loading} />
       {rightSidebar === "setting" && <ChannelSettings />}
+      {rightSidebar === "search" && <SearchMusic />}
     </>
   );
 

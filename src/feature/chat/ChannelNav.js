@@ -31,8 +31,16 @@ const ChannelNav = () => {
         onClick={() =>
           setRightSidebar(rightSidebar === "player" ? "" : "player")
         }
-        className={`fa-solid fa-compact-disc cursor-pointer ml-auto mr-6 text-xl ${
+        className={`fa-solid fa-music cursor-pointer ml-auto mr-6 text-xl ${
           rightSidebar === "player" ? "text-cta" : ""
+        }`}
+      ></i>
+      <i
+        onClick={() =>
+          setRightSidebar(rightSidebar === "search" ? "" : "search")
+        }
+        className={`fa-solid fa-search cursor-pointer mr-6 text-xl ${
+          rightSidebar === "search" ? "text-cta" : ""
         }`}
       ></i>
       <i

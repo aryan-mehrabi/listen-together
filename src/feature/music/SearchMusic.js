@@ -40,7 +40,10 @@ const SearchMusic = () => {
   };
 
   return (
-    <>
+    <div
+      className={`w-full sm:border-l sm:border-neutral-700 sm:w-[37%] sm:min-w-[200px] sm:max-w-sm 
+        flex flex-col`}
+    >
       <div className="px-5 pt-5">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold">Search Music</h2>
@@ -63,7 +66,7 @@ const SearchMusic = () => {
           <Spinner className="w-8 h-8" />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -68,24 +68,22 @@ const Player = () => {
   }, [position]);
 
   return (
-    <div className="mt-auto">
-      <YouTube
-        videoId={track}
-        iframeClassName={
-          ["admin", "creator"].includes(userMembership?.role)
-            ? ""
-            : "pointer-events-none"
-        }
-        opts={{
-          origin: process.env.REACT_APP_BASE_URL,
-          width: "100%",
-          height: "auto",
-          playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
-        }}
-        onReady={onReady}
-        onStateChange={onStateChange}
-      />
-    </div>
+    <YouTube
+      videoId={track}
+      iframeClassName={
+        ["admin", "creator"].includes(userMembership?.role)
+          ? ""
+          : "pointer-events-none"
+      }
+      opts={{
+        origin: process.env.REACT_APP_BASE_URL,
+        width: "100%",
+        height: "auto",
+        playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
+      }}
+      onReady={onReady}
+      onStateChange={onStateChange}
+    />
   );
 };
 
