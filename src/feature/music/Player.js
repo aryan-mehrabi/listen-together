@@ -78,7 +78,7 @@ const Player = () => {
       opts={{
         origin: process.env.REACT_APP_BASE_URL,
         width: "100%",
-        height: "auto",
+        height: "250px",
         playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
       }}
       onReady={onReady}
