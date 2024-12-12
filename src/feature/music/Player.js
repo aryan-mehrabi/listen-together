@@ -44,21 +44,6 @@ const Player = () => {
         e.target.pauseVideo();
       } else if (pauseStates.includes(e.data) && is_playing) {
         e.target.playVideo();
-        if (!intervalId.current) {
-          intervalId.current = setInterval(() => {
-            retryCount.current++;
-            if (
-              player.current.getPlayerState() === YouTube.PlayerState.PAUSED
-            ) {
-              player.current.playVideo();
-            }
-            if (retryCount.current > 10) {
-              clearInterval(intervalId.current);
-              intervalId.current = null;
-              retryCount.current = 0;
-            }
-          }, 50);
-        }
       }
       return;
     }
