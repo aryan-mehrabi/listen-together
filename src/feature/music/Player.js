@@ -20,6 +20,8 @@ const Player = () => {
   const { members } = useMember();
   const { position, is_playing, start_at } = channels[selectedChannel];
   const track = tracks[selectedChannel];
+  const retryCount = useRef(0);
+  const intervalId = useRef();
 
   const userMembership = Object.values(members).find(
     (member) =>
@@ -94,10 +96,14 @@ const Player = () => {
           : "pointer-events-none"
       }
       opts={{
-        origin: process.env.REACT_APP_BASE_URL,
         width: "100%",
-        height: "auto",
-        playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
+        height: "250px",
+        playerVars: {
+          autoplay: 1,
+          enablejsapi: 1,
+          disablekb: 1,
+          origin: process.env.REACT_APP_BASE_URL,
+        },
       }}
       onReady={onReady}
       onStateChange={onStateChange}
