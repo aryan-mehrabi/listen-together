@@ -36,6 +36,7 @@ const MusicItem = ({ track }) => {
       setReply(null);
     } else {
       updateTrack(track.id.videoId);
+      setRightSidebar("player");
     }
   };
 
