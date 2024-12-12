@@ -37,13 +37,6 @@ export default function ChannelInviteLink({ className }) {
   return (
     <div className={overrideTailwindClasses(`mb-6 ${className}`)}>
       <h2 className="text-2xl font-semibold">Invite Link</h2>
-      <div className="rounded text-neutral-200 bg-yellow-400 bg-opacity-40 text-sm py-3 px-5 mt-3.5">
-        <p>
-          By default members that join channel will be admin(can change and play
-          songs).
-        </p>
-        <p>Creator can demote them to member.</p>
-      </div>
       <div className="mt-3.5 relative">
         <input
           readOnly

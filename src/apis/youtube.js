@@ -18,7 +18,7 @@ export const searchVideos = async ({ queryKey, pageParam = "" }) => {
           part: "snippet",
           key: apiKeys[apiIndex],
           q: queryKey[1],
-          maxResults: 10,
+          maxResults: 15,
           type: "video",
           videoEmbeddable: "true",
           pageToken: pageParam,

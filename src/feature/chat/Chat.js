@@ -61,7 +61,7 @@ const Chat = ({ loading }) => {
       </DropZone>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <div className="bg-primary px-6 sm:px-8 py-6 w-80 sm:w-auto max-w-md rounded-lg">
+          <div className="bg-primary px-6 sm:px-8 py-6 w-screen h-screen sm:h-auto sm:w-96 max-w-md rounded-lg">
             <ChannelInviteLink />
             <ChannelAddMember className="my-0" />
           </div>
