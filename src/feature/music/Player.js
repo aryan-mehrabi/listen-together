@@ -17,6 +17,8 @@ const Player = () => {
   } = useChannel();
   const { members } = useMember();
   const { track, position, is_playing } = channels[selectedChannel];
+  const retryCount = useRef(0);
+  const intervalId = useRef();
 
   const userMembership = Object.values(members).find(
     (member) =>
@@ -42,6 +44,21 @@ const Player = () => {
         e.target.pauseVideo();
       } else if (pauseStates.includes(e.data) && is_playing) {
         e.target.playVideo();
+        if (!intervalId.current) {
+          intervalId.current = setInterval(() => {
+            retryCount.current++;
+            if (
+              player.current.getPlayerState() === YouTube.PlayerState.PAUSED
+            ) {
+              player.current.playVideo();
+            }
+            if (retryCount.current > 10) {
+              clearInterval(intervalId.current);
+              intervalId.current = null;
+              retryCount.current = 0;
+            }
+          }, 50);
+        }
       }
       return;
     }
@@ -79,7 +96,12 @@ const Player = () => {
         origin: process.env.REACT_APP_BASE_URL,
         width: "100%",
         height: "250px",
-        playerVars: { autoplay: 1, enablejsapi: 1, disablekb: 1 },
+        playerVars: {
+          autoplay: 1,
+          enablejsapi: 1,
+          disablekb: 1,
+          origin: process.env.REACT_APP_BASE_URL,
+        },
       }}
       onReady={onReady}
       onStateChange={onStateChange}
