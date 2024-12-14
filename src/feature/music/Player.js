@@ -17,8 +17,6 @@ const Player = () => {
   } = useChannel();
   const { members } = useMember();
   const { track, position, is_playing } = channels[selectedChannel];
-  const retryCount = useRef(0);
-  const intervalId = useRef();
 
   const userMembership = Object.values(members).find(
     (member) =>
