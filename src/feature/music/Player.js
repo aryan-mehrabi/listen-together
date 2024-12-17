@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useMember from "context/MemberContext";
@@ -14,6 +14,7 @@ const Player = () => {
     player,
     setVideoTitle,
     setPlayerState,
+    setChannelPresenceState,
   } = useChannel();
   const { members } = useMember();
   const { track, position, is_playing } = channels[selectedChannel];
@@ -36,6 +37,12 @@ const Player = () => {
     const playing = window.YT.PlayerState.PLAYING;
     const playerTime = e.target.getCurrentTime();
     const pauseStates = [-1, 0, 2, 5];
+
+    if (e.data === window.YT.PlayerState.PLAYING) {
+      setChannelPresenceState(true);
+    } else {
+      setChannelPresenceState(false);
+    }
 
     if (document.hidden) {
       if (e.data === playing && !is_playing) {

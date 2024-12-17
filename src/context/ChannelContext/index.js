@@ -9,19 +9,32 @@ import supabase from "auth/supabase";
 import channelReducer from "./channelReducer";
 import useModal from "context/ModalContext";
 import { nanoid } from "nanoid";
+import useAuth from "context/AuthContext";
 
 const initValue = {};
 const statusInitValue = "idle";
 const ChannelContext = createContext(initValue);
 
+// const presenceObject = {
+//   user_id,
+//   playbackState,
+// };
+
+// const PLAYBACK_STATE = {
+//   PLAYING: "PLAYING",
+//   PAUSE: "PAUSE",
+// };
+
 export const ChannelProvider = ({ children }) => {
   const { setModal } = useModal();
+  const { userId } = useAuth();
   const [state, dispatch] = useReducer(channelReducer, initValue);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [status, setStatus] = useState(statusInitValue);
   const [videoTitle, setVideoTitle] = useState("");
   const [playerState, setPlayerState] = useState(0);
   const player = useRef(null);
+  const channelPresence = useRef(null);
 
   //ACTIONS
   const createChannel = async (name) => {
@@ -95,6 +108,29 @@ export const ChannelProvider = ({ children }) => {
     }
   };
 
+  const subscribePresenceChannel = (channelId) => {
+    channelPresence.current = supabase.channel(`room_${channelId}`);
+
+    channelPresence.current
+      .on("presence", { event: "sync" }, () => {
+        const newState = channelPresence.current.presenceState();
+        dispatch({
+          type: "SET_CHANNEL_PRESENCE",
+          payload: { id: selectedChannel, presence: newState },
+        });
+      })
+      .subscribe();
+  };
+
+  const setChannelPresenceState = async (state) => {
+    const presenceState = {
+      user_id: userId,
+      isListening: state,
+    };
+
+    return channelPresence.current.track(presenceState);
+  };
+
   // STORE
   const value = {
     channels: state,
@@ -116,6 +152,9 @@ export const ChannelProvider = ({ children }) => {
     playerState,
     setPlayerState,
     updateChannelName,
+    subscribePresenceChannel,
+    channelPresence,
+    setChannelPresenceState,
   };
   return (
     <ChannelContext.Provider {...{ value }}>{children}</ChannelContext.Provider>

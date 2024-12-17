@@ -3,11 +3,13 @@ import useChannel from "context/ChannelContext";
 import useUser from "context/UserContext";
 import MemberSettings from "./MemberSettings";
 import useMember from "context/MemberContext";
+import { Avatar } from "components/Avatar";
 
 const ChannelMembers = () => {
-  const { selectedChannel } = useChannel();
+  const { selectedChannel, channels } = useChannel();
   const { users } = useUser();
   const { members } = useMember();
+  const channel = channels[selectedChannel];
 
   const renderMembers = () => {
     return Object.values(members)
@@ -16,9 +18,11 @@ const ChannelMembers = () => {
       })
       .map(({ user_id, role }) => (
         <div key={user_id} className="flex items-center my-2.5">
-          <img
+          <Avatar
             src={users[user_id]?.avatar}
-            alt="avatar"
+            showListening={(channel.presence || []).some(
+              (item) => item.user_id === user_id && item.isListening
+            )}
             className="w-11 sm:w-12"
           />
           <p className="text-lg ml-2">

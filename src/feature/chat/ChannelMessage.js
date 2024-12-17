@@ -6,10 +6,11 @@ import ChannelMessageMore from "./ChannelMessageMore";
 import ChannelMessageImage from "./ChannelMessageImage";
 import ImageBlob from "components/ImageBlob";
 import ChannelMessageReply from "./ChannelMessageReply";
+import { Avatar } from "components/Avatar";
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
-  const { updateTrack, selectedChannel } = useChannel();
+  const { updateTrack, selectedChannel, channels } = useChannel();
   const { members } = useMember();
   const {
     created_at,
@@ -18,6 +19,10 @@ const ChannelMessage = ({ message }) => {
     message_type,
     attachments,
   } = message;
+  const channel = channels[selectedChannel];
+  const isListening = (channel.presence || []).some(
+    (item) => item.user_id === user.id && item.isListening
+  );
   const { role } =
     Object.values(members).find(
       (member) =>
@@ -94,7 +99,7 @@ const ChannelMessage = ({ message }) => {
   } else {
     return (
       <div className="flex items-start my-1 max-w-[90%] md:max-w-[80%]">
-        <img className="w-10 mt-2" src={user.avatar} alt="avatar" />
+        <Avatar src={user.avatar} showListening={isListening} />
         <div className="flex items-center">
           <div className="bg-neutral-700 rounded p-2 mx-2 min-w-[200px]">
             <h6 className="text-lg font-semibold text-cta">{user.name}</h6>

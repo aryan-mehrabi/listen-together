@@ -15,6 +15,15 @@ const channelReducer = (state, { type, payload }) => {
       return {
         ...newChannels,
       };
+    case "SET_CHANNEL_PRESENCE":
+      const { id, presence } = payload;
+      return {
+        ...state,
+        [id]: {
+          ...state[id],
+          presence: Object.values(presence).flat(),
+        },
+      };
     default:
       return state;
   }
