@@ -5,6 +5,7 @@ import useRightSidebar from "context/RightSidebarContext";
 import Button from "components/Button";
 import useMember from "context/MemberContext";
 import Input from "components/Input";
+import { BiSolidPencil, BiX } from "react-icons/bi";
 
 const ChannelInfo = ({ role }) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -41,10 +42,9 @@ const ChannelInfo = ({ role }) => {
     <div className="mt-2">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Info</h2>
-        <i
-          onClick={() => setRightSidebar("")}
-          className="fa-solid fa-xmark text-3xl cursor-pointer"
-        ></i>
+        <button type="button" onClick={() => setRightSidebar("")}>
+          <BiX className="text-3xl" />
+        </button>
       </div>
       <div className="mt-3.5">
         <div className="flex gap-2 items-center text-xl my-3">
@@ -67,10 +67,9 @@ const ChannelInfo = ({ role }) => {
             <>
               <p>{channel.name}</p>
               {role !== "member" && (
-                <i
-                  onClick={() => setIsEditMode(true)}
-                  className="mt-1 fa-solid fa-pen text-xs cursor-pointer text-cta"
-                ></i>
+                <button type="button" onClick={() => setRightSidebar("edit")}>
+                  <BiSolidPencil className="text-sm text-cta mt-1" />
+                </button>
               )}
             </>
           )}

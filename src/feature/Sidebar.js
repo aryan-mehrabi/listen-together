@@ -8,6 +8,7 @@ import DropDown from "components/DropDown";
 import Button from "components/Button";
 import useMember from "context/MemberContext";
 import useChannel from "context/ChannelContext";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 const Sidebar = () => {
   const { setModal } = useModal();
@@ -53,7 +54,7 @@ const Sidebar = () => {
             onClick={() => setDropdown(!dropdown)}
             className="cursor-pointer"
           >
-            <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
+            <BiDotsHorizontalRounded className="text-2xl" />
           </div>
           <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
             <Button

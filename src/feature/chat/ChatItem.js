@@ -1,5 +1,6 @@
 import React from "react";
 import useChannel from "context/ChannelContext";
+import { BiHeadphone } from "react-icons/bi";
 
 const ChatItem = ({ channel }) => {
   const { setSelectedChannel, selectedChannel } = useChannel();
@@ -12,8 +13,8 @@ const ChatItem = ({ channel }) => {
               }`}
       onClick={() => setSelectedChannel(channel.id)}
     >
-      <i className="fa-solid fa-headphones text-xl sm:text-xl"></i>
-      <p className="ml-4 sm:text-lg text-ellipsis overflow-hidden whitespace-nowrap">
+      <BiHeadphone className="text-2xl" />
+      <p className="ml-3 sm:text-lg text-ellipsis overflow-hidden whitespace-nowrap">
         {channel.name}
       </p>
     </div>

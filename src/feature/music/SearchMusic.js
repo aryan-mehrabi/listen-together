@@ -7,6 +7,7 @@ import useRightSidebar from "context/RightSidebarContext";
 import MusicItem from "./MusicItem";
 import Spinner from "components/Spinner";
 import Input from "components/Input";
+import { BiX } from "react-icons/bi";
 
 const SearchMusic = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -47,10 +48,10 @@ const SearchMusic = () => {
       <div className="px-5 pt-5">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold">Search Music</h2>
-          <i
-            onClick={() => setRightSidebar("")}
-            className="fa-solid fa-xmark text-3xl cursor-pointer"
-          ></i>
+
+          <button type="button" onClick={() => setRightSidebar("")}>
+            <BiX className="text-3xl" />
+          </button>
         </div>
         <Input
           setValue={setSearchTerm}

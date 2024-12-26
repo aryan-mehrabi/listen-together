@@ -5,6 +5,13 @@ import useAuth from "context/AuthContext";
 import useError from "hooks/useError";
 import useMediaQuery from "hooks/useMediaQuery";
 import Button from "components/Button";
+import {
+  BiLogoGithub,
+  BiLogoGoogle,
+  BiLogoLinkedinSquare,
+  BiSolidEnvelope,
+  BiSolidUser,
+} from "react-icons/bi";
 
 const Landing = () => {
   const isMobile = useMediaQuery();
@@ -30,18 +37,20 @@ const Landing = () => {
           <Button
             type="secondary"
             onClick={logIn}
-            className="font-semibold py-3"
+            className="font-semibold py-3 flex gap-3 items-center"
             disabled={isLoading === "google"}
           >
-            <i className="fa-brands fa-google pr-3"></i>Sign in with Google
+            <BiLogoGoogle className="text-2xl" />
+            Sign in with Google
           </Button>
           <Button
             type="secondary"
-            className="font-semibold py-3"
+            className="font-semibold py-3 flex gap-3 items-center"
             onClick={logInAnonymous}
             disabled={isLoading === "anon"}
           >
-            <i className="fa-solid fa-user pr-2"></i> Sign in Anonymously
+            <BiSolidUser className="text-2xl" />
+            Sign in Anonymously
           </Button>
         </div>
       </div>
@@ -50,20 +59,23 @@ const Landing = () => {
           target="_blank"
           href="https://github.com/aryan-mehrabi/listen-together"
           rel="noreferrer"
-          className="text-xl mx-4 my-4 p-1"
+          className="text-2xl mx-4 my-4 p-1"
         >
-          <i className="fa-brands fa-github"></i>
+          <BiLogoGithub />
         </a>
         <a
           target="_blank"
           href="https://www.linkedin.com/in/aryan-mehrabi/"
           rel="noreferrer"
-          className="text-xl mx-4 my-4 p-1"
+          className="text-2xl mx-4 my-4 p-1"
         >
-          <i className="fa-brands fa-linkedin"></i>
+          <BiLogoLinkedinSquare />
         </a>
-        <a href="mailto:aryan.me77@yahoo.com" className="text-xl mx-4 my-4 p-1">
-          <i className="fa-solid fa-envelope"></i>
+        <a
+          href="mailto:aryan.me77@yahoo.com"
+          className="text-2xl mx-4 my-4 p-1"
+        >
+          <BiSolidEnvelope />
         </a>
       </footer>
     </div>

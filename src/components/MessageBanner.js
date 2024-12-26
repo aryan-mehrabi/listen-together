@@ -1,3 +1,5 @@
+import { BiX } from "react-icons/bi";
+
 const MessageBanner = ({ icon, image, title, subtitle, onClose }) => {
   return (
     <div className="flex items-center gap-2 px-3 py-1 border-t border-neutral-700 shadow-t-md shadow-neutral-900">
@@ -7,9 +9,13 @@ const MessageBanner = ({ icon, image, title, subtitle, onClose }) => {
         <p className="text-cta">{title}</p>
         <p className="text-neutral-400">{subtitle}</p>
       </div>
-      <div className="ml-auto cursor-pointer" onClick={onClose}>
-        <i className="fa-solid fa-xmark" aria-hidden="true"></i>
-      </div>
+      <button
+        type="button"
+        className="ml-auto cursor-pointer text-lg"
+        onClick={onClose}
+      >
+        <BiX />
+      </button>
     </div>
   );
 };

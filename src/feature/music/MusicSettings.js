@@ -2,6 +2,7 @@ import React from "react";
 import useRightSidebar from "context/RightSidebarContext";
 import SearchMusic from "./SearchMusic";
 import Player from "./Player";
+import { BiX } from "react-icons/bi";
 
 const MusicSettings = () => {
   const { rightSidebar, setRightSidebar } = useRightSidebar();
@@ -17,10 +18,9 @@ const MusicSettings = () => {
       <div className="p-5">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold">Music Playback</h2>
-          <i
-            onClick={() => setRightSidebar("")}
-            className="fa-solid fa-xmark text-3xl cursor-pointer"
-          ></i>
+          <button type="button" onClick={() => setRightSidebar("")}>
+            <BiX className="text-3xl" />
+          </button>
         </div>
       </div>
       <Player />

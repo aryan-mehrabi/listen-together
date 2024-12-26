@@ -7,6 +7,7 @@ import ChannelMessageImage from "./ChannelMessageImage";
 import ImageBlob from "components/ImageBlob";
 import ChannelMessageReply from "./ChannelMessageReply";
 import { Avatar } from "components/Avatar";
+import { BiPlay, BiSolidTime } from "react-icons/bi";
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
@@ -30,7 +31,7 @@ const ChannelMessage = ({ message }) => {
     ) || {};
 
   const getMessageTime = () => {
-    if (!created_at) return <i className="fa-solid fa-clock text-[11px]"></i>;
+    if (!created_at) return <BiSolidTime className="inline-block" />;
     const time = new Date(created_at);
     const hour = time.getHours().toString();
     const minute = time.getMinutes().toString();
@@ -49,13 +50,13 @@ const ChannelMessage = ({ message }) => {
             alt="track thumbnail"
           />
           <p className="mx-3">{content.title}</p>
-          {role === "member" || (
-            <div
+          {role !== "member" && (
+            <button
               onClick={() => updateTrack(content.track_id)}
-              className="ml-auto text-2xl mr-4 cursor-pointer p-2"
+              className="ml-auto text-4xl mr-4 cursor-pointer p-2"
             >
-              <i className="fa-solid fa-play"></i>
-            </div>
+              <BiPlay />
+            </button>
           )}
         </div>
       );

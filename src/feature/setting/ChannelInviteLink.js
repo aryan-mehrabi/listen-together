@@ -1,6 +1,7 @@
 import { useCopyToClipboard } from "@uidotdev/usehooks";
 import useChannel from "context/ChannelContext";
 import { lazy, Suspense, useState } from "react";
+import { BiSolidCopy, BiSolidShareAlt } from "react-icons/bi";
 import { usePopper } from "react-popper";
 import { overrideTailwindClasses } from "tailwind-override";
 
@@ -45,7 +46,7 @@ export default function ChannelInviteLink({ className }) {
         />
         <div className="absolute flex gap-2 top-0 right-2 h-full">
           <button ref={setRefElement} onClick={handleCopy} type="button">
-            <i className="fa-solid fa-copy"></i>
+            <BiSolidCopy />
           </button>
           {showPopover && (
             <div
@@ -64,7 +65,7 @@ export default function ChannelInviteLink({ className }) {
               }}
             >
               <button onClick={handleShare} type="button">
-                <i className="fa-solid fa-share-nodes"></i>
+                <BiSolidShareAlt />
               </button>
             </RWebShare>
           </Suspense>

@@ -90,7 +90,6 @@ const Player = () => {
       //     position + getCurrentTime() - player.current?.getCurrentTime()
       //   ) > 1
       // ) {
-      //   console.log("hi");
       //   player.current?.seekTo(position + getCurrentTime());
       // }
       player.current?.playVideo();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useUser from "context/UserContext";
 import Button from "components/Button";
 import Input from "components/Input";
+import { BiRefresh } from "react-icons/bi";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -34,7 +35,7 @@ const SignUp = () => {
               title="reload"
               onClick={() => setSeed(Math.random())}
             >
-              <i className="fa-solid fa-arrows-rotate text-2xl "></i>
+              <BiRefresh className="text-3xl" />
             </div>
           </div>
         </div>

@@ -2,6 +2,13 @@ import React from "react";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import useMessage from "context/MessageContext";
+import {
+  BiLeftArrowAlt,
+  BiSearch,
+  BiSolidCog,
+  BiSolidMusic,
+  BiSolidSearch,
+} from "react-icons/bi";
 
 const ChannelNav = () => {
   const { channels, selectedChannel, setSelectedChannel } = useChannel();
@@ -16,41 +23,49 @@ const ChannelNav = () => {
   };
 
   return (
-    <nav className="flex items-center border-b border-neutral-700 py-4 px-7">
-      <i
-        onClick={onClickBack}
-        className="fa-solid fa-arrow-left text-xl mr-4 cursor-pointer"
-      ></i>
+    <nav className="flex gap-3 items-center border-b border-neutral-700 py-4 px-7">
+      <button type="button" className="text-2xl p-1" onClick={onClickBack}>
+        <BiLeftArrowAlt />
+      </button>
       <h2
         title={channels[selectedChannel].name}
         className="text-2xl overflow-hidden text-ellipsis whitespace-nowrap"
       >
         {channels[selectedChannel].name}
       </h2>
-      <i
+      <button
+        type="button"
+        className={`ml-auto  text-2xl  p-1 ${
+          rightSidebar === "player" ? "text-cta" : ""
+        }`}
         onClick={() =>
           setRightSidebar(rightSidebar === "player" ? "" : "player")
         }
-        className={`fa-solid fa-music cursor-pointer ml-auto mr-6 text-xl ${
-          rightSidebar === "player" ? "text-cta" : ""
+      >
+        <BiSolidMusic />
+      </button>
+      <button
+        type="button"
+        className={` p-1 text-2xl ${
+          rightSidebar === "search" ? "text-cta" : ""
         }`}
-      ></i>
-      <i
         onClick={() =>
           setRightSidebar(rightSidebar === "search" ? "" : "search")
         }
-        className={`fa-solid fa-search cursor-pointer mr-6 text-xl ${
-          rightSidebar === "search" ? "text-cta" : ""
+      >
+        <BiSearch />
+      </button>
+      <button
+        type="button"
+        className={` p-1 text-2xl ${
+          rightSidebar === "setting" ? "text-cta" : ""
         }`}
-      ></i>
-      <i
         onClick={() =>
           setRightSidebar(rightSidebar === "setting" ? "" : "setting")
         }
-        className={`fa-solid fa-gear text-xl cursor-pointer ${
-          rightSidebar === "setting" ? "text-cta" : ""
-        }`}
-      ></i>
+      >
+        <BiSolidCog />
+      </button>
     </nav>
   );
 };

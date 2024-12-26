@@ -3,6 +3,7 @@ import ChannelMessageReplyImage from "./ChannelMessageReplyImage";
 import useMessage from "context/MessageContext";
 import useChannel from "context/ChannelContext";
 import MessageBanner from "components/MessageBanner";
+import { BiReply } from "react-icons/bi";
 
 export default function ChannelMessageInputReply() {
   const { messages, reply, setReply } = useMessage();
@@ -14,7 +15,7 @@ export default function ChannelMessageInputReply() {
   return (
     <>
       <MessageBanner
-        icon={<i className="fa fa-reply" aria-hidden="true"></i>}
+        icon={<BiReply className="text-2xl" />}
         image={
           replyMessage.message_type === "track" ? (
             <img

@@ -4,6 +4,7 @@ import useFetchImage from "hooks/useFetchImage";
 import useModal from "context/ModalContext";
 import ImageBlob from "components/ImageBlob";
 import ImagePlaceholder from "assets/placeholder-image.png";
+import { BiSolidDownload } from "react-icons/bi";
 
 const ChannelMessageImage = ({ image }) => {
   const { data, status, refetch } = useFetchImage(image.url);
@@ -23,7 +24,7 @@ const ChannelMessageImage = ({ image }) => {
         <div className="flex justify-center items-center w-full h-full">
           {status === "idle" ? (
             <div className="flex items-center justify-center w-14 h-14 text-primary border-2 border-primary p-3 rounded-full">
-              <i className="fa-solid fa-arrow-down text-2xl"></i>
+              <BiSolidDownload className="text-3xl" />
             </div>
           ) : (
             <Spinner className="w-14 h-14" />

@@ -7,6 +7,7 @@ import ChannelMessageInputAttachments from "./ChannelMessageInputAttachments";
 import ChannelMessageInputVideo from "./ChannelMessageInputVideo";
 import { getVideos } from "apis/youtube";
 import { useDebouncedCallback } from "use-debounce";
+import { BiPaperclip, BiPaperPlane, BiSolidPaperPlane } from "react-icons/bi";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");
@@ -135,19 +136,19 @@ const ChannelMessageInput = () => {
             </div>
             <button
               type="button"
-              className="text-lg"
+              className="text-lg self-stretch -rotate-45"
               onClick={() => fileInputRef.current.click()}
             >
-              <i className="fa fa-paperclip" aria-hidden="true"></i>
+              <BiPaperclip />
             </button>
           </div>
         </div>
         <Button
           type="cta"
           disabled={!(message || attachments.length || track)}
-          className="ml-2"
+          className="ml-2 text-xl self-stretch"
         >
-          <i className="fa-solid fa-paper-plane" />
+          <BiSolidPaperPlane />
         </Button>
       </form>
     </div>

@@ -4,6 +4,7 @@ import ChannelMessage from "./ChannelMessage";
 import useMessage from "context/MessageContext";
 import Button from "components/Button";
 import noMsg from "assets/no-message.png";
+import { BiUpArrowAlt } from "react-icons/bi";
 
 const ChannelConversation = () => {
   const { selectedChannel } = useChannel();
@@ -56,7 +57,7 @@ const ChannelConversation = () => {
           onClick={onClickLoadMore}
         >
           <span>More</span>
-          <i className="fa fa-arrow-up" />
+          <BiUpArrowAlt />
         </Button>
       )}
     </section>

@@ -4,6 +4,7 @@ import DropDown from "components/DropDown";
 import Button from "components/Button";
 import useMember from "context/MemberContext";
 import useChannel from "context/ChannelContext";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 const MemberSettings = ({ userId }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -87,9 +88,13 @@ const MemberSettings = ({ userId }) => {
 
   return (
     <div className=" ml-auto cursor-pointer relative" ref={setElement}>
-      <div onClick={() => setDropdown(!dropdown)}>
-        <i title="settings" className="fa-solid fa-ellipsis text-xl"></i>
-      </div>
+      <button
+        className="p-1 text-xl"
+        type="button"
+        onClick={() => setDropdown(!dropdown)}
+      >
+        <BiDotsHorizontalRounded />
+      </button>
       <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
         {renderedButtons}
       </DropDown>

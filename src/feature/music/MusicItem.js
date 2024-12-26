@@ -9,7 +9,7 @@ import useRightSidebar from "context/RightSidebarContext";
 
 const MusicItem = ({ track }) => {
   const isMobile = useMediaQuery();
-  const { updateTrack, selectedChannel } = useChannel();
+  const { updateTrack, selectedChannel, player } = useChannel();
   const { userId } = useAuth();
   const { members } = useMember();
   const { sendMessage, setReply } = useMessage();
