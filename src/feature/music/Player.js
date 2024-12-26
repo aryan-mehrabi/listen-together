@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useMember from "context/MemberContext";
@@ -16,12 +16,11 @@ const Player = () => {
     player,
     setVideoTitle,
     setPlayerState,
+    setChannelPresenceState,
   } = useChannel();
   const { members } = useMember();
   const { position, is_playing, start_at } = channels[selectedChannel];
   const track = tracks[selectedChannel];
-  const retryCount = useRef(0);
-  const intervalId = useRef();
 
   const userMembership = Object.values(members).find(
     (member) =>
@@ -56,6 +55,12 @@ const Player = () => {
     const playerTime = e.target.getCurrentTime();
     const duration = e.target.getDuration();
     const pauseStates = [PAUSED, ENDED];
+
+    if (e.data === window.YT.PlayerState.PLAYING) {
+      setChannelPresenceState(true);
+    } else {
+      setChannelPresenceState(false);
+    }
 
     if (document.hidden) {
       if (e.data === PLAYING && !is_playing) {

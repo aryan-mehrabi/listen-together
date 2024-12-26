@@ -24,9 +24,15 @@ module.exports = {
           "0%": { width: "0" },
           "50%": { width: "100%" },
         },
+        motioning: {
+          "0%": { transform: "translateY(50%)" },
+          "50%": { transform: "translateY(calc(50%-2px))" },
+          "100%": { transform: "translateY(50%)" },
+        },
       },
       animation: {
         progressbar: "progressbar 7.5s linear",
+        motioning: "motioning 1.2s infinite",
       },
       height: {
         screen: ["100vh /* fallback for Opera, IE and etc. */", "100dvh"],

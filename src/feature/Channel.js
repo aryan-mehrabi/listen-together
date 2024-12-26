@@ -11,7 +11,14 @@ import useMember from "context/MemberContext";
 import SearchMusic from "feature/music/SearchMusic";
 
 const Channel = () => {
-  const { selectedChannel, channels, player, fetchChannel } = useChannel();
+  const {
+    selectedChannel,
+    channels,
+    player,
+    fetchChannel,
+    subscribePresenceChannel,
+    channelPresence,
+  } = useChannel();
   const { fetchMessages, subscribeMessagesChannel } = useMessage();
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
@@ -31,6 +38,9 @@ const Channel = () => {
     let unsubscribeMembers;
     if (selectedChannel) {
       fetchChannel(selectedChannel);
+      if (!channelPresence.current) {
+        subscribePresenceChannel(selectedChannel);
+      }
       fetchMessages(selectedChannel);
 
       unsubscribeMessages = subscribeMessagesChannel(selectedChannel);
@@ -44,6 +54,8 @@ const Channel = () => {
     }
     return () => {
       player.current = null;
+      channelPresence.current.unsubscribe();
+      channelPresence.current = null;
       unsubscribeMembers();
       unsubscribeMessages();
     };
