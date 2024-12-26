@@ -6,6 +6,7 @@ import YouTube from "react-youtube";
 import useTrack from "context/TrackContext";
 
 const Player = () => {
+  const PLAY_DELAY = 1; // seconds
   const { userId } = useAuth();
   const { tracks } = useTrack();
   const {
@@ -40,7 +41,7 @@ const Player = () => {
       e.target.seekTo(position);
       e.target.pauseVideo();
     } else {
-      e.target.seekTo(position + getCurrentTime());
+      e.target.seekTo(position + getCurrentTime() + PLAY_DELAY);
       e.target.playVideo();
     }
   };
@@ -56,7 +57,7 @@ const Player = () => {
     const duration = e.target.getDuration();
     const pauseStates = [PAUSED, ENDED];
 
-    if (e.data === window.YT.PlayerState.PLAYING) {
+    if (e.data === PLAYING) {
       setChannelPresenceState(true);
     } else {
       setChannelPresenceState(false);
@@ -84,6 +85,14 @@ const Player = () => {
     if (!is_playing) {
       player.current?.pauseVideo();
     } else {
+      // if (
+      //   Math.abs(
+      //     position + getCurrentTime() - player.current?.getCurrentTime()
+      //   ) > 1
+      // ) {
+      //   console.log("hi");
+      //   player.current?.seekTo(position + getCurrentTime());
+      // }
       player.current?.playVideo();
     }
   }, [is_playing]);
