@@ -1,7 +1,26 @@
 const trackReducer = (state, { type, payload }) => {
   switch (type) {
+    case "SET_TRACK": {
+      return {
+        ...state,
+        [payload.channelId]: {
+          ...state[payload.channelId],
+          [payload.data.id]: payload.data,
+        },
+      };
+    }
     case "SET_TRACKS": {
-      return { ...state, [payload.channelId]: payload.data };
+      const tracks = payload.data.reduce((acc, track) => {
+        acc[track.id] = track;
+        return acc;
+      }, {});
+      return {
+        ...state,
+        [payload.channelId]: {
+          ...state[payload.channelId],
+          ...tracks,
+        },
+      };
     }
     default:
       return state;

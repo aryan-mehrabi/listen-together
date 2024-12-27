@@ -20,8 +20,11 @@ const Player = () => {
     setChannelPresenceState,
   } = useChannel();
   const { members } = useMember();
-  const { position, is_playing, start_at } = channels[selectedChannel];
-  const track = tracks[selectedChannel];
+  const { position, is_playing, start_at, track_id } =
+    channels[selectedChannel];
+  const track = tracks[selectedChannel]?.[track_id];
+
+  console.log(track, "track!!");
 
   const userMembership = Object.values(members).find(
     (member) =>

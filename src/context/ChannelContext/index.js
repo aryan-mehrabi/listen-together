@@ -81,9 +81,9 @@ export const ChannelProvider = ({ children }) => {
       .eq("id", selectedChannel);
   };
 
-  const updateTrack = async (trackId) => {
+  const updateTrack = async (trackId, { title, thumbnail } = {}) => {
     const playlist = playlists[selectedChannel];
-    const track = tracks[selectedChannel];
+    const track = state[selectedChannel].tracks;
     const { data } = await supabase
       .from("tracks")
       .insert({
@@ -91,6 +91,10 @@ export const ChannelProvider = ({ children }) => {
         user_id: userId,
         playlist_id: playlist.id,
         position: track.position + 1,
+        metadata: title && {
+          title,
+          thumbnail,
+        },
       })
       .select()
       .single();
@@ -127,7 +131,10 @@ export const ChannelProvider = ({ children }) => {
       .eq("id", channelId)
       .single();
     if (!error) {
-      dispatch({ type: "FETCH_CHANNEL", payload: data });
+      dispatch({
+        type: "FETCH_CHANNEL",
+        payload: { ...data, track_id: data.tracks.id },
+      });
       if (data.playlists) {
         setPlaylists(data.playlists);
       }

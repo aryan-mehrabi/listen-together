@@ -84,8 +84,7 @@ export const MessageProvider = ({ children }) => {
 
   const onUpdateChannel = useEventCallback(
     async (payload) => {
-      updateChannel(payload.new);
-      if (tracks[selectedChannel].id !== payload.new.track_id) {
+      if (!(payload.new.track_id in tracks[selectedChannel])) {
         const { data } = await supabase
           .from("tracks")
           .select("*")
@@ -93,6 +92,7 @@ export const MessageProvider = ({ children }) => {
           .single();
         setTracks(selectedChannel, data);
       }
+      updateChannel(payload.new);
     },
     [tracks, selectedChannel]
   );

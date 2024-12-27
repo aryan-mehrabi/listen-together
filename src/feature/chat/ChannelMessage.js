@@ -52,7 +52,12 @@ const ChannelMessage = ({ message }) => {
           <p className="mx-3">{content.title}</p>
           {role !== "member" && (
             <button
-              onClick={() => updateTrack(content.track_id)}
+              onClick={() =>
+                updateTrack(content.track_id, {
+                  title: content.title,
+                  thumbnail: content.thumbnail,
+                })
+              }
               className="ml-auto text-4xl mr-4 cursor-pointer p-2"
             >
               <BiPlay />
