@@ -15,13 +15,13 @@ export default function QueueList() {
   }, [selectedChannel, channel]);
 
   return (
-    <div className=" overflow-auto">
-      <h2>QueueList</h2>
-      <ul>
+    <>
+      <h2 className="text-2xl font-semibold p-5">QueueList</h2>
+      <ul className="overflow-y-auto">
         {channelTracks.map((track) => (
           <li
             key={track.id}
-            className="flex items-center gap-2 p-4 border-b-[1px] border-neutral-700"
+            className="flex items-center gap-2 p-4 border-b-[1px] border-neutral-700 first-of-type:border-t-[1px]"
           >
             <img
               src={track.metadata?.thumbnail}
@@ -32,6 +32,6 @@ export default function QueueList() {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
