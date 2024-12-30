@@ -1,6 +1,8 @@
+import supabase from "auth/supabase";
 import useChannel from "context/ChannelContext";
 import useTrack from "context/TrackContext";
 import { useEffect } from "react";
+import { BiTrash } from "react-icons/bi";
 
 export default function QueueList() {
   const { tracks, fetchTracks } = useTrack();
@@ -14,23 +16,43 @@ export default function QueueList() {
     }
   }, [selectedChannel, channel]);
 
+  const handleRemoveTrackFromQueue = async (track) => {
+    await supabase.rpc("delete_track_from_queue", {
+      _id: track.id,
+      _playlist_id: track.playlist_id,
+    });
+
+    fetchTracks(selectedChannel, channel.playlists.id);
+  };
+
   return (
     <>
       <h2 className="text-2xl font-semibold p-5">QueueList</h2>
       <ul className="overflow-y-auto">
-        {channelTracks.map((track) => (
-          <li
-            key={track.id}
-            className="flex items-center gap-2 p-4 border-b-[1px] border-neutral-700 first-of-type:border-t-[1px]"
-          >
-            <img
-              src={track.metadata?.thumbnail}
-              className="w-12"
-              alt="track thumbnail"
-            />
-            <p>{track.metadata?.title || "untitled"}</p>
-          </li>
-        ))}
+        {channelTracks
+          .sort((a, b) => a.position - b.position)
+          .map((track) => (
+            <li
+              key={track.id}
+              className={`${
+                track.id === channel.track_id ? "bg-neutral-700" : ""
+              } flex items-center gap-2 p-4 border-b-[1px] border-neutral-700 first-of-type:border-t-[1px]`}
+            >
+              <img
+                src={track.metadata?.thumbnail}
+                className="w-12"
+                alt="track thumbnail"
+              />
+              <p>{track.metadata?.title || "untitled"}</p>
+              <button
+                type="button"
+                className="ml-auto"
+                onClick={() => handleRemoveTrackFromQueue(track)}
+              >
+                <BiTrash />
+              </button>
+            </li>
+          ))}
       </ul>
     </>
   );

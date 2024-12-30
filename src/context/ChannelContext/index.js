@@ -84,24 +84,16 @@ export const ChannelProvider = ({ children }) => {
   const updateTrack = async (trackId, { title, thumbnail } = {}) => {
     const playlist = playlists[selectedChannel];
     const track = state[selectedChannel].tracks;
-    const { data } = await supabase
-      .from("tracks")
-      .insert({
-        track_id: trackId,
-        user_id: userId,
-        playlist_id: playlist.id,
-        position: track.position + 1,
-        metadata: title && {
-          title,
-          thumbnail,
-        },
-      })
-      .select()
-      .single();
-    await supabase
-      .from("channels")
-      .update({ track_id: data.id })
-      .eq("id", selectedChannel);
+    await supabase.rpc("play_track", {
+      _track_id: trackId,
+      _metadata: {
+        title,
+        thumbnail,
+      },
+      _playlist_id: playlist.id,
+      _position: track.position,
+      _channel_id: selectedChannel,
+    });
   };
 
   const setChannels = (channels) => {

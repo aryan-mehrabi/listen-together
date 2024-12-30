@@ -7,13 +7,17 @@ import useMessage from "context/MessageContext";
 import useMediaQuery from "hooks/useMediaQuery";
 import useRightSidebar from "context/RightSidebarContext";
 import { BiPaperPlane, BiPlay, BiSolidAddToQueue } from "react-icons/bi";
+import supabase from "auth/supabase";
+import usePlaylist from "context/PlaylistContex";
 
 const MusicItem = ({ track }) => {
   const isMobile = useMediaQuery();
   const { updateTrack, selectedChannel } = useChannel();
+  const { playlists } = usePlaylist();
   const { userId } = useAuth();
   const { members } = useMember();
   const { sendMessage, setReply } = useMessage();
+  const playlist = playlists[selectedChannel];
   const { role } =
     Object.values(members).find(
       (member) =>
@@ -44,7 +48,16 @@ const MusicItem = ({ track }) => {
     setReply(null);
   };
 
-  const handleQueueMusic = () => {};
+  const handleQueueMusic = async () => {
+    await supabase.rpc("queue_track", {
+      _track_id: track.id.videoId,
+      _metadata: {
+        title: track.snippet.title,
+        thumbnail: track.snippet.thumbnails.default.url,
+      },
+      _playlist_id: playlist.id,
+    });
+  };
 
   return (
     <li className="flex items-center border-b border-neutral-700 p-4 cursor-pointer">
