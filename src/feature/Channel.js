@@ -9,6 +9,7 @@ import Spinner from "components/Spinner";
 import useMessage from "context/MessageContext";
 import useMember from "context/MemberContext";
 import SearchMusic from "feature/music/SearchMusic";
+import useTrack from "context/TrackContext";
 
 const Channel = () => {
   const {
@@ -23,7 +24,23 @@ const Channel = () => {
   const { fetchChannelsMember, subscribeChannelsMember } = useMember();
   const { setRightSidebar, rightSidebar } = useRightSidebar();
   const isMobile = useMediaQuery();
+  const { fetchTracks, subscribeTracksChannel } = useTrack();
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const channel = channels[selectedChannel];
+    let unsubscribeTracks;
+    if (channel?.playlists?.id) {
+      fetchTracks(selectedChannel, channel.playlists.id);
+      unsubscribeTracks = subscribeTracksChannel(
+        channel.playlists.id,
+        selectedChannel
+      );
+    }
+    return () => {
+      unsubscribeTracks?.();
+    };
+  }, [selectedChannel, channels]);
 
   useEffect(() => {
     if (!isMobile) {

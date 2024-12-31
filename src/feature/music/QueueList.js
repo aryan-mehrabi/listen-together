@@ -1,7 +1,6 @@
 import supabase from "auth/supabase";
 import useChannel from "context/ChannelContext";
 import useTrack from "context/TrackContext";
-import { useEffect } from "react";
 import { BiTrash } from "react-icons/bi";
 
 export default function QueueList() {
@@ -9,12 +8,6 @@ export default function QueueList() {
   const { selectedChannel, channels } = useChannel();
   const channel = channels[selectedChannel];
   const channelTracks = Object.values(tracks[selectedChannel] || {});
-
-  useEffect(() => {
-    if (channel?.playlists?.id) {
-      fetchTracks(selectedChannel, channel.playlists.id);
-    }
-  }, [selectedChannel, channel]);
 
   const handleRemoveTrackFromQueue = async (track) => {
     await supabase.rpc("delete_track_from_queue", {

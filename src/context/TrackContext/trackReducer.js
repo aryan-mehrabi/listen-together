@@ -22,6 +22,13 @@ const trackReducer = (state, { type, payload }) => {
         },
       };
     }
+    case "DELETE_TRACK": {
+      const { [payload.trackId]: _, ...rest } = state[payload.channelId];
+      return {
+        ...state,
+        [payload.channelId]: rest,
+      };
+    }
     default:
       return state;
   }

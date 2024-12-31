@@ -24,11 +24,56 @@ export const TrackProvider = ({ children }) => {
     }
   };
 
+  const subscribeTracksChannel = (playlistId, channelId) => {
+    const tracksChannel = supabase
+      .channel("tracks-channel-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "tracks",
+          filter: `playlist_id=eq.${playlistId}`,
+        },
+        async (payload) => {
+          console.log("tracks channel payload", payload);
+          if (payload.eventType === "INSERT") {
+            setTracks(channelId, payload.new);
+          }
+          if (payload.eventType === "UPDATE") {
+            fetchTracks(channelId, playlistId);
+          }
+          if (payload.eventType === "DELETE") {
+            const { id } = payload.old;
+            dispatch({
+              type: "DELETE_TRACK",
+              payload: { trackId: id, channelId },
+            });
+          }
+        }
+      )
+      .subscribe();
+    return () => supabase.removeChannel(tracksChannel);
+  };
+
+  const playNextTrack = async (id, selectedChannel) => {
+    try {
+      await supabase.rpc("play_next_track", {
+        _channel_id: selectedChannel,
+        _id: id,
+      });
+    } catch (error) {
+      console.error("Error playing next track", error);
+    }
+  };
+
   // STORE
   const value = {
     tracks: state,
     setTracks,
     fetchTracks,
+    playNextTrack,
+    subscribeTracksChannel,
   };
   return (
     <TrackContext.Provider {...{ value }}>{children}</TrackContext.Provider>
