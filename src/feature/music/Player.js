@@ -8,7 +8,7 @@ import useTrack from "context/TrackContext";
 const Player = () => {
   const PLAY_DELAY = 1; // seconds
   const { userId } = useAuth();
-  const { tracks } = useTrack();
+  const { tracks, playNextTrack } = useTrack();
   const {
     channels,
     selectedChannel,
@@ -24,7 +24,7 @@ const Player = () => {
     channels[selectedChannel];
   const track = tracks[selectedChannel]?.[track_id];
 
-  console.log(track, "track!!");
+  const trackId = track?.track_id;
 
   const userMembership = Object.values(members).find(
     (member) =>
@@ -59,6 +59,16 @@ const Player = () => {
     const playerTime = e.target.getCurrentTime();
     const duration = e.target.getDuration();
     const pauseStates = [PAUSED, ENDED];
+
+    if (e.data === ENDED) {
+      const nextTrack = Object.values(tracks[selectedChannel]).find(
+        (tr) => tr.position === track.position + 1
+      );
+      if (nextTrack) {
+        playNextTrack(nextTrack.id, selectedChannel);
+      }
+      return;
+    }
 
     if (e.data === PLAYING) {
       setChannelPresenceState(true);
@@ -100,30 +110,32 @@ const Player = () => {
   }, [is_playing]);
 
   useEffect(() => {
-    player.current?.seekTo(position);
+    player.current?.seekTo?.(position);
   }, [position]);
 
   return (
-    <YouTube
-      videoId={track?.track_id}
-      iframeClassName={
-        ["admin", "creator"].includes(userMembership?.role)
-          ? ""
-          : "pointer-events-none"
-      }
-      opts={{
-        width: "100%",
-        height: "250px",
-        playerVars: {
-          autoplay: 1,
-          enablejsapi: 1,
-          disablekb: 1,
-          origin: process.env.REACT_APP_BASE_URL,
-        },
-      }}
-      onReady={onReady}
-      onStateChange={onStateChange}
-    />
+    trackId && (
+      <YouTube
+        videoId={trackId}
+        iframeClassName={
+          ["admin", "creator"].includes(userMembership?.role)
+            ? ""
+            : "pointer-events-none"
+        }
+        opts={{
+          width: "100%",
+          height: "250px",
+          playerVars: {
+            autoplay: 1,
+            enablejsapi: 1,
+            disablekb: 1,
+            origin: process.env.REACT_APP_BASE_URL,
+          },
+        }}
+        onReady={onReady}
+        onStateChange={onStateChange}
+      />
+    )
   );
 };
 

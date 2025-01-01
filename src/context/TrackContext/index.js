@@ -36,7 +36,6 @@ export const TrackProvider = ({ children }) => {
           filter: `playlist_id=eq.${playlistId}`,
         },
         async (payload) => {
-          console.log("tracks channel payload", payload);
           if (payload.eventType === "INSERT") {
             setTracks(channelId, payload.new);
           }

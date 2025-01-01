@@ -24,6 +24,11 @@ export default function QueueList() {
       <ul className="overflow-y-auto">
         {channelTracks
           .sort((a, b) => a.position - b.position)
+          .filter(
+            (track) =>
+              track.position >=
+              tracks[selectedChannel][channel.track_id].position
+          )
           .map((track) => (
             <li
               key={track.id}
