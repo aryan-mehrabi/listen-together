@@ -31,7 +31,7 @@ const Channel = () => {
     const channel = channels[selectedChannel];
     let unsubscribeTracks;
     if (channel?.playlists?.id) {
-      fetchTracks(selectedChannel, channel.playlists.id);
+      fetchTracks(selectedChannel, channel.playlists.id, channel.tracks.id);
       unsubscribeTracks = subscribeTracksChannel(
         channel.playlists.id,
         selectedChannel

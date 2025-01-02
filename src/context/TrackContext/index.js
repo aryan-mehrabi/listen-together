@@ -12,12 +12,16 @@ export const TrackProvider = ({ children }) => {
     dispatch({ type: "SET_TRACK", payload: { channelId, data } });
   };
 
-  const fetchTracks = async (channelId, playlistId) => {
+  const fetchTracks = async (channelId, playlistId, currentTrackId) => {
+    const position = currentTrackId
+      ? state[channelId]?.[currentTrackId]?.position || 0
+      : 0;
     try {
       const { data } = await supabase
         .from("tracks")
         .select("*")
-        .eq("playlist_id", playlistId);
+        .eq("playlist_id", playlistId)
+        .gte("position", position);
       dispatch({ type: "SET_TRACKS", payload: { channelId, data } });
     } catch (error) {
       console.error("Error fetching tracks", error);
