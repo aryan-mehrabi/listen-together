@@ -110,7 +110,14 @@ const Player = () => {
   }, [is_playing]);
 
   useEffect(() => {
-    player.current?.seekTo?.(position);
+    try {
+      if (!player.current || !player.current?.h || !player.current?.g) {
+        return;
+      }
+      player.current?.seekTo?.(position);
+    } catch (error) {
+      console.error(error);
+    }
   }, [position]);
 
   return (

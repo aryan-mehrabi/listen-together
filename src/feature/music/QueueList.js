@@ -20,7 +20,7 @@ export default function QueueList() {
 
   return (
     <>
-      <h2 className="text-2xl font-semibold p-5">QueueList</h2>
+      <h2 className="text-2xl font-semibold p-5">Queue</h2>
       <ul className="overflow-y-auto">
         {channelTracks
           .sort((a, b) => a.position - b.position)
