@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dnd-kit/sortable": "^10.0.0",
     "@popperjs/core": "^2.11.8",
     "@sentry/react": "^7.113.0",
     "@supabase/supabase-js": "^2.45.4",
