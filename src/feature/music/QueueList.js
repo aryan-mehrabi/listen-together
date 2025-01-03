@@ -1,7 +1,14 @@
 import supabase from "auth/supabase";
 import useChannel from "context/ChannelContext";
 import useTrack from "context/TrackContext";
-import { closestCenter, DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  closestCenter,
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -15,6 +22,14 @@ export default function QueueList() {
   const [activeId, setActiveId] = useState("");
   const channel = channels[selectedChannel];
   const channelTracks = Object.values(tracks[selectedChannel] || {});
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
 
   const handleDragStart = (e) => {
     setActiveId(e.active.id);
@@ -36,6 +51,7 @@ export default function QueueList() {
     <>
       <h2 className="text-2xl font-semibold p-5">Queue</h2>
       <DndContext
+        sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
@@ -51,7 +67,7 @@ export default function QueueList() {
             )
             .map((track) => track.id)}
         >
-          <ul className="overflow-y-auto">
+          <ul className="overflow-y-auto select-none">
             {channelTracks
               .sort((a, b) => a.position - b.position)
               .filter(
