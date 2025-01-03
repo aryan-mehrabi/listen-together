@@ -17,7 +17,7 @@ export default function QueueListItem({ track, channel, isOverlay }) {
     });
   };
 
-  const indicatorStyles = `after:w-full after:h-[2px] after:absolute after:right-0 after:bg-red-500`;
+  const indicatorStyles = `after:w-full after:h-[2px] after:absolute after:right-0 after:bg-cta`;
 
   return (
     <li
