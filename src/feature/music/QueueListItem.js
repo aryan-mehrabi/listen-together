@@ -4,8 +4,11 @@ import { BiTrash } from "react-icons/bi";
 import { overrideTailwindClasses } from "tailwind-override";
 
 export default function QueueListItem({ track, channel, isOverlay }) {
+  const isPlayingTrack = track.id === channel.track_id;
+
   const sortable = useSortable({
     id: track.id,
+    disabled: isPlayingTrack,
   });
 
   const isBottom = sortable.overIndex > sortable.activeIndex;
@@ -23,9 +26,9 @@ export default function QueueListItem({ track, channel, isOverlay }) {
     <li
       {...sortable.listeners}
       {...sortable.attributes}
-      ref={sortable.setNodeRef}
+      ref={!isPlayingTrack ? sortable.setNodeRef : undefined}
       className={overrideTailwindClasses(`${isOverlay ? "opacity-30" : ""} ${
-        track.id === channel.track_id ? "bg-neutral-700" : ""
+        isPlayingTrack ? "bg-neutral-700" : ""
       } flex items-center gap-2 p-4 border-b-[1px] border-neutral-700 first-of-type:border-t-[1px] relative
       ${
         sortable.isOver

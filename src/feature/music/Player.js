@@ -121,28 +121,30 @@ const Player = () => {
   }, [position]);
 
   return (
-    trackId && (
-      <YouTube
-        videoId={trackId}
-        iframeClassName={
-          ["admin", "creator"].includes(userMembership?.role)
-            ? ""
-            : "pointer-events-none"
-        }
-        opts={{
-          width: "100%",
-          height: "250px",
-          playerVars: {
-            autoplay: 1,
-            enablejsapi: 1,
-            disablekb: 1,
-            origin: process.env.REACT_APP_BASE_URL,
-          },
-        }}
-        onReady={onReady}
-        onStateChange={onStateChange}
-      />
-    )
+    <div className="min-h-[220px]">
+      {trackId && (
+        <YouTube
+          videoId={trackId}
+          iframeClassName={
+            ["admin", "creator"].includes(userMembership?.role)
+              ? ""
+              : "pointer-events-none"
+          }
+          opts={{
+            width: "100%",
+            height: "220px",
+            playerVars: {
+              autoplay: 1,
+              enablejsapi: 1,
+              disablekb: 1,
+              origin: process.env.REACT_APP_BASE_URL,
+            },
+          }}
+          onReady={onReady}
+          onStateChange={onStateChange}
+        />
+      )}
+    </div>
   );
 };
 
