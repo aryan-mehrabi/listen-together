@@ -67,7 +67,7 @@ const ChannelInfo = ({ role }) => {
             <>
               <p>{channel.name}</p>
               {role !== "member" && (
-                <button type="button" onClick={() => setRightSidebar("edit")}>
+                <button type="button" onClick={() => setIsEditMode(true)}>
                   <BiSolidPencil className="text-sm text-cta mt-1" />
                 </button>
               )}

@@ -1,4 +1,5 @@
 import { useSortable } from "@dnd-kit/sortable";
+import SoundWaveAnimated from "assets/SoundWaveAnimated";
 import supabase from "auth/supabase";
 import { BiPlay, BiTrash } from "react-icons/bi";
 import { overrideTailwindClasses } from "tailwind-override";
@@ -19,19 +20,22 @@ export default function QueueListItem({ track, channel, isOverlay }) {
   };
 
   const playTrack = async (id) => {
-    await supabase
-      .from("channels")
-      .update({
-        track_id: id,
-        position: 0,
-      })
-      .eq("id", channel.id);
-    await supabase
-      .from("tracks")
-      .update({
-        is_played: true,
-      })
-      .eq("id", id);
+    const promises = [
+      supabase
+        .from("channels")
+        .update({
+          track_id: id,
+          position: 0,
+        })
+        .eq("id", channel.id),
+      supabase
+        .from("tracks")
+        .update({
+          is_played: true,
+        })
+        .eq("id", id),
+    ];
+    await Promise.all(promises);
   };
 
   const isBottom = sortable.overIndex > sortable.activeIndex;
@@ -59,20 +63,24 @@ export default function QueueListItem({ track, channel, isOverlay }) {
         className="w-12"
         alt="track thumbnail"
       />
-      <p>{track.metadata?.title || "untitled"}</p>
-      {track.id !== channel.track_id && (
-        <div className="ml-auto flex gap-2 text-lg">
-          <button type="button" onClick={() => playTrack(track.id)}>
-            <BiPlay />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleRemoveTrackFromQueue(track)}
-          >
-            <BiTrash />
-          </button>
-        </div>
-      )}
+      <p className="line-clamp-2">{track.metadata?.title || "untitled"}</p>
+      <div className="ml-auto flex gap-2 text-lg">
+        {track.id !== channel.track_id ? (
+          <>
+            <button type="button" onClick={() => playTrack(track.id)}>
+              <BiPlay />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleRemoveTrackFromQueue(track)}
+            >
+              <BiTrash />
+            </button>
+          </>
+        ) : (
+          <SoundWaveAnimated />
+        )}
+      </div>
     </li>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
 import useMediaQuery from "hooks/useMediaQuery";
@@ -26,19 +26,22 @@ const Channel = () => {
   const isMobile = useMediaQuery();
   const { fetchTracks, subscribeTracksChannel } = useTrack();
   const [loading, setLoading] = useState(true);
+  const unsubscribeTracks = useRef(null);
 
   useEffect(() => {
     const channel = channels[selectedChannel];
-    let unsubscribeTracks;
-    if (channel?.playlists?.id) {
+    if (channel?.playlists?.id && !unsubscribeTracks.current) {
       fetchTracks(selectedChannel, channel.playlists.id, channel.tracks.id);
-      unsubscribeTracks = subscribeTracksChannel(
+      unsubscribeTracks.current = subscribeTracksChannel(
         channel.playlists.id,
         selectedChannel
       );
     }
     return () => {
-      unsubscribeTracks?.();
+      if (!selectedChannel) {
+        unsubscribeTracks.current?.();
+        unsubscribeTracks.current = null;
+      }
     };
   }, [selectedChannel, channels]);
 
