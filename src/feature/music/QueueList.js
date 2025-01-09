@@ -14,14 +14,34 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import QueueListItem from "./QueueListItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function QueueList() {
   const { tracks } = useTrack();
-  const { selectedChannel, channels } = useChannel();
+  const { selectedChannel, channels, player } = useChannel();
   const [activeId, setActiveId] = useState("");
   const channel = channels[selectedChannel];
   const channelTracks = Object.values(tracks[selectedChannel] || {});
+  const playingTrack = tracks[selectedChannel]?.[channel.track_id];
+
+  useEffect(() => {
+    const handleUpdateMetadata = async () => {
+      console.log(player.current?.getVideoData());
+      const data = player.current?.getVideoData();
+      if (!playingTrack?.metadata && data) {
+        await supabase
+          .from("tracks")
+          .update({
+            metadata: {
+              title: data.title,
+              thumbnail: `https://img.youtube.com/vi/${data.video_id}/default.jpg`,
+            },
+          })
+          .eq("id", playingTrack.id);
+      }
+    };
+    handleUpdateMetadata();
+  }, [playingTrack, player.current]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
