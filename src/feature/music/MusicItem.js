@@ -19,12 +19,13 @@ import useTrack from "context/TrackContext";
 
 const MusicItem = ({ track }) => {
   const isMobile = useMediaQuery();
-  const { updateTrack, selectedChannel } = useChannel();
+  const { updateTrack, selectedChannel, channels } = useChannel();
   const { playlists } = usePlaylist();
   const { userId } = useAuth();
   const { members } = useMember();
   const { sendMessage, setReply } = useMessage();
   const { tracks } = useTrack();
+  const channel = channels[selectedChannel];
   const channelTracks = Object.values(tracks[selectedChannel] || {});
   const [loading, setLoading] = useState(false);
   const playlist = playlists[selectedChannel];
@@ -35,7 +36,12 @@ const MusicItem = ({ track }) => {
     ) || {};
   const { setRightSidebar } = useRightSidebar();
 
-  const isInQueue = channelTracks.find((t) => t.track_id === track.id.videoId);
+  const currentPlayingTrack = tracks[selectedChannel]?.[channel.track_id];
+  const isInQueue = channelTracks.find(
+    (t) =>
+      t.track_id === track.id.videoId &&
+      t.position > currentPlayingTrack.position
+  );
 
   const handlePlayMusic = () => {
     updateTrack(track.id.videoId, {

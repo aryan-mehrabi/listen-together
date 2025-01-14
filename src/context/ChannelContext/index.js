@@ -83,7 +83,8 @@ export const ChannelProvider = ({ children }) => {
 
   const updateTrack = async (trackId, { title, thumbnail } = {}) => {
     const playlist = playlists[selectedChannel];
-    const track = state[selectedChannel].tracks;
+    const { track_id } = state[selectedChannel];
+    const track = tracks[selectedChannel][track_id];
     await supabase.rpc("play_track", {
       _track_id: trackId,
       _metadata: {
