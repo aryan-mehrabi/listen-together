@@ -59,11 +59,10 @@ export const TrackProvider = ({ children }) => {
     return () => supabase.removeChannel(tracksChannel);
   };
 
-  const playNextTrack = async (id, selectedChannel) => {
+  const playNextTrack = async (selectedChannel) => {
     try {
       await supabase.rpc("play_next_track", {
         _channel_id: selectedChannel,
-        _id: id,
       });
     } catch (error) {
       console.error("Error playing next track", error);

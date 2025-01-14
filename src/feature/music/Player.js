@@ -65,7 +65,7 @@ const Player = () => {
         (tr) => tr.position === track.position + 1
       );
       if (nextTrack) {
-        playNextTrack(nextTrack.id, selectedChannel);
+        playNextTrack(selectedChannel);
       }
       return;
     }

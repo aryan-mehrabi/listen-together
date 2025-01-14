@@ -31,7 +31,7 @@ export const MemberProvider = ({ children }) => {
     setStatus("loading");
 
     const { data, error } = await supabase.rpc("add_member", {
-      user_email: username,
+      _username: username,
       target_channel_id: selectedChannel,
     });
 
