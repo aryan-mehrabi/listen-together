@@ -37,7 +37,7 @@ const Landing = () => {
           <Button
             type="secondary"
             onClick={logIn}
-            className="font-semibold py-3 flex gap-3 items-center"
+            className="font-semibold py-3 flex gap-3 items-center justify-center"
             disabled={isLoading === "google"}
           >
             <BiLogoGoogle className="text-2xl" />
@@ -45,7 +45,7 @@ const Landing = () => {
           </Button>
           <Button
             type="secondary"
-            className="font-semibold py-3 flex gap-3 items-center"
+            className="font-semibold py-3 flex gap-3 items-center justify-center"
             onClick={logInAnonymous}
             disabled={isLoading === "anon"}
           >
