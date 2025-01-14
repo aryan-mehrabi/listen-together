@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import useChannel from "context/ChannelContext";
 import ChannelMessage from "./ChannelMessage";
 import useMessage from "context/MessageContext";
 import Button from "components/Button";
 import noMsg from "assets/no-message.png";
 import { BiUpArrowAlt } from "react-icons/bi";
+import Spinner from "components/Spinner";
 
 const ChannelConversation = () => {
+  const [loading, setLoading] = useState(false);
   const { selectedChannel } = useChannel();
   const { messages, fetchMessages, conversionContainerElement, hasNext } =
     useMessage();
   const channelMessages = messages[selectedChannel];
 
-  const onClickLoadMore = () => {
-    fetchMessages(selectedChannel, true);
+  const onClickLoadMore = async () => {
+    setLoading(true);
+    await fetchMessages(selectedChannel, true);
+    setLoading(false);
   };
 
   const renderMessages = () => {
@@ -57,7 +61,11 @@ const ChannelConversation = () => {
           onClick={onClickLoadMore}
         >
           <span>More</span>
-          <BiUpArrowAlt />
+          {loading ? (
+            <Spinner className="w-4 h-4" />
+          ) : (
+            <BiUpArrowAlt className="text-lg" />
+          )}
         </Button>
       )}
     </section>
