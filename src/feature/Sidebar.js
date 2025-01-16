@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import useAuth from "context/AuthContext";
 import useModal from "context/ModalContext";
 import useUser from "context/UserContext";

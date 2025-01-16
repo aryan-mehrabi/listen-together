@@ -16,7 +16,6 @@ import {
 } from "@dnd-kit/sortable";
 import QueueListItem from "./QueueListItem";
 import { useEffect, useState } from "react";
-import { getVideoThumbnail } from "helpers";
 
 export default function QueueList() {
   const { tracks } = useTrack();

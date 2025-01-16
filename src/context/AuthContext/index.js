@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import authReducer from "./authReducer";
 import supabase from "auth/supabase";
-import { randomHash } from "helpers";
 
 const initValue = { userId: null, error: "" };
 const AuthContext = createContext(initValue);
@@ -38,8 +37,7 @@ export const AuthProvider = ({ children }) => {
   };
   const logIn = async () => {
     setIsLoading("google");
-    const urlParams = new URLSearchParams(window.location.search);
-    const invite = urlParams.get("invite");
+
     try {
       await supabase.auth.signInWithOAuth({
         provider: "google",

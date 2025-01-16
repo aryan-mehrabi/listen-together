@@ -7,7 +7,7 @@ import ChannelMessageInputAttachments from "./ChannelMessageInputAttachments";
 import ChannelMessageInputVideo from "./ChannelMessageInputVideo";
 import { getVideos } from "apis/youtube";
 import { useDebouncedCallback } from "use-debounce";
-import { BiPaperclip, BiPaperPlane, BiSolidPaperPlane } from "react-icons/bi";
+import { BiPaperclip, BiSolidPaperPlane } from "react-icons/bi";
 
 const ChannelMessageInput = () => {
   const [message, setMessage] = useState("");

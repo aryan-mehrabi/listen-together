@@ -57,7 +57,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const searchUser = async (searchString) => {
-    const result = await supabase
+    await supabase
       .from("users")
       .select("*")
       .like("username", `%${searchString}%`);
