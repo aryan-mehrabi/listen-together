@@ -4,7 +4,7 @@ import useMessage from "context/MessageContext";
 import useChannel from "context/ChannelContext";
 import MessageBanner from "components/MessageBanner";
 import { BiReply } from "react-icons/bi";
-import { getVideoThumbnail } from "helpers";
+import { decodeHtml, getVideoThumbnail } from "helpers";
 
 export default function ChannelMessageInputReply() {
   const { messages, reply, setReply } = useMessage();
@@ -33,7 +33,9 @@ export default function ChannelMessageInputReply() {
           ) : null
         }
         title={`Reply to ${replyMessage.users.name}`}
-        subtitle={replyMessage.content.body || replyMessage.content.title}
+        subtitle={
+          replyMessage.content.body || decodeHtml(replyMessage.content.title)
+        }
         onClose={() => setReply(null)}
       />
     </>

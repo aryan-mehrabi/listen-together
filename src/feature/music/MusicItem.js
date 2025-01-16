@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useChannel from "context/ChannelContext";
-import { decode } from "he";
 import useAuth from "context/AuthContext";
 import useMember from "context/MemberContext";
 import useMessage from "context/MessageContext";
@@ -16,6 +15,7 @@ import supabase from "auth/supabase";
 import usePlaylist from "context/PlaylistContex";
 import Spinner from "components/Spinner";
 import useTrack from "context/TrackContext";
+import { decodeHtml } from "helpers";
 
 const MusicItem = ({ track }) => {
   const isMobile = useMediaQuery();
@@ -84,7 +84,7 @@ const MusicItem = ({ track }) => {
         alt="track thumbnail"
         loading="lazy"
       />
-      <p className="my-1 text-sm">{decode(track.snippet.title)}</p>
+      <p className="my-1 text-sm">{decodeHtml(track.snippet.title)}</p>
       <div className="ml-auto pl-1 flex items-center text-2xl sm:text-xl">
         {role === "member" ? (
           <button onClick={handleRequestMusic} className="p-1">

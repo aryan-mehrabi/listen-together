@@ -1,4 +1,4 @@
-import { getVideoThumbnail } from "helpers";
+import { decodeHtml, getVideoThumbnail } from "helpers";
 import ChannelMessageReplyImage from "./ChannelMessageReplyImage";
 import ImageBlob from "components/ImageBlob";
 
@@ -36,7 +36,7 @@ export default function ChannelMessageReply({
             {replied_message.message_type === "text"
               ? replied_message.content.body
               : replied_message.message_type === "track"
-              ? replied_message.content.title
+              ? decodeHtml(replied_message.content.title)
               : replied_message.message_type === "image"
               ? replied_message.content.body || "Photo"
               : null}

@@ -1,13 +1,13 @@
 import MessageBanner from "components/MessageBanner";
 import useMessage from "context/MessageContext";
-import { getVideoThumbnail } from "helpers";
+import { decodeHtml, getVideoThumbnail } from "helpers";
 
 const ChannelMessageInputVideo = ({ track }) => {
   const { setTrack } = useMessage();
 
   return (
     <MessageBanner
-      title={track.title}
+      title={decodeHtml(track.title)}
       image={
         <img
           alt="youtube video thumbnail"

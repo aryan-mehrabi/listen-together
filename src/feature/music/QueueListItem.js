@@ -3,7 +3,7 @@ import SoundWaveAnimated from "assets/SoundWaveAnimated";
 import supabase from "auth/supabase";
 import useAuth from "context/AuthContext";
 import useMember from "context/MemberContext";
-import { getVideoThumbnail } from "helpers";
+import { getVideoThumbnail, decodeHtml } from "helpers";
 import { BiPlay, BiTrash } from "react-icons/bi";
 import { overrideTailwindClasses } from "tailwind-override";
 
@@ -72,7 +72,9 @@ export default function QueueListItem({ track, channel, isOverlay }) {
         className="w-12"
         alt="track thumbnail"
       />
-      <p className="line-clamp-2">{track.metadata?.title || "untitled"}</p>
+      <p className="line-clamp-2">
+        {decodeHtml(track.metadata?.title) || "untitled"}
+      </p>
       <div className="ml-auto flex gap-2 text-2xl sm:text-xl">
         {track.id !== channel.track_id ? (
           role !== "member" && (

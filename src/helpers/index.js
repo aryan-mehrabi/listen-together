@@ -25,3 +25,9 @@ export const isMobileDevice = (userAgent) => {
 export const getVideoThumbnail = (trackId) => {
   return `https://img.youtube.com/vi/${trackId}/default.jpg`;
 };
+
+export const decodeHtml = (html) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  return doc.documentElement.textContent;
+};

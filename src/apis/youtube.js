@@ -1,5 +1,3 @@
-import axios from "axios";
-
 let apiIndex = 0;
 
 const apiKeys = [
@@ -11,41 +9,62 @@ const apiKeys = [
 
 export const searchVideos = async ({ queryKey, pageParam = "" }) => {
   try {
-    const result = await axios.get(
-      "https://www.googleapis.com/youtube/v3/search",
-      {
-        params: {
-          part: "snippet",
-          key: apiKeys[apiIndex],
-          q: queryKey[1],
-          maxResults: 15,
-          type: "video",
-          videoEmbeddable: "true",
-          pageToken: pageParam,
-          videoCategoryId: 10,
-        },
-      }
+    const url = new URL("https://www.googleapis.com/youtube/v3/search");
+    const params = {
+      part: "snippet",
+      key: apiKeys[apiIndex],
+      q: queryKey[1],
+      maxResults: 15,
+      type: "video",
+      videoEmbeddable: "true",
+      pageToken: pageParam,
+      videoCategoryId: 10,
+    };
+
+    Object.keys(params).forEach((key) =>
+      url.searchParams.append(key, params[key])
     );
-    return await result.data;
-  } catch (error) {
-    if (error.response.status === 403) {
-      apiIndex++;
+
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        apiIndex++;
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-    if (error) throw error;
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching videos:", error);
+    throw error;
   }
 };
 
 export const getVideos = async (videoId) => {
-  const result = await axios.get(
-    "https://www.googleapis.com/youtube/v3/videos",
-    {
-      params: {
-        key: apiKeys[apiKeys.length - 1],
-        part: "snippet,contentDetails",
-        id: videoId,
-      },
-    }
-  );
+  try {
+    const url = new URL("https://www.googleapis.com/youtube/v3/videos");
+    const params = {
+      key: apiKeys[apiKeys.length - 1],
+      part: "snippet,contentDetails",
+      id: videoId,
+    };
 
-  return result.data;
+    Object.keys(params).forEach((key) =>
+      url.searchParams.append(key, params[key])
+    );
+
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching video details:", error);
+    throw error;
+  }
 };
