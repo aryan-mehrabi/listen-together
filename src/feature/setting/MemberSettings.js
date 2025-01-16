@@ -61,7 +61,7 @@ const MemberSettings = ({ userId }) => {
       type="primary"
       key="3"
       onClick={handleRemoveMember}
-      className="w-full rounded-none"
+      className="w-full rounded-none text-red-500"
     >
       Remove from Channel
     </Button>
@@ -95,7 +95,11 @@ const MemberSettings = ({ userId }) => {
       >
         <BiDotsHorizontalRounded />
       </button>
-      <DropDown {...{ dropdown, setDropdown }} dropdownRef={element}>
+      <DropDown
+        className="z-10"
+        {...{ dropdown, setDropdown }}
+        dropdownRef={element}
+      >
         {renderedButtons}
       </DropDown>
     </div>

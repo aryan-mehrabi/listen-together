@@ -59,7 +59,7 @@ export default function ChannelMusicPlayerBanner() {
         className="flex gap-2 border-b border-neutral-700 py-2 px-4 cursor-pointer"
       >
         <button
-          className="text-xl p-0.5"
+          className="text-2xl p-0.5"
           type="button"
           onClick={handleClickPlay}
         >

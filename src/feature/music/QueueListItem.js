@@ -1,11 +1,19 @@
 import { useSortable } from "@dnd-kit/sortable";
 import SoundWaveAnimated from "assets/SoundWaveAnimated";
 import supabase from "auth/supabase";
+import useAuth from "context/AuthContext";
+import useMember from "context/MemberContext";
 import { getVideoThumbnail } from "helpers";
 import { BiPlay, BiTrash } from "react-icons/bi";
 import { overrideTailwindClasses } from "tailwind-override";
 
 export default function QueueListItem({ track, channel, isOverlay }) {
+  const { members } = useMember();
+  const { userId } = useAuth();
+  const { role } =
+    Object.values(members).find(
+      (member) => member.channel_id === channel.id && member.user_id === userId
+    ) || {};
   const isPlayingTrack = track.id === channel.track_id;
 
   const sortable = useSortable({
@@ -65,19 +73,21 @@ export default function QueueListItem({ track, channel, isOverlay }) {
         alt="track thumbnail"
       />
       <p className="line-clamp-2">{track.metadata?.title || "untitled"}</p>
-      <div className="ml-auto flex gap-2 text-lg">
+      <div className="ml-auto flex gap-2 text-2xl sm:text-xl">
         {track.id !== channel.track_id ? (
-          <>
-            <button type="button" onClick={() => playTrack(track.id)}>
-              <BiPlay />
-            </button>
-            <button
-              type="button"
-              onClick={() => handleRemoveTrackFromQueue(track)}
-            >
-              <BiTrash />
-            </button>
-          </>
+          role !== "member" && (
+            <>
+              <button type="button" onClick={() => playTrack(track.id)}>
+                <BiPlay />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRemoveTrackFromQueue(track)}
+              >
+                <BiTrash />
+              </button>
+            </>
+          )
         ) : (
           <SoundWaveAnimated />
         )}
