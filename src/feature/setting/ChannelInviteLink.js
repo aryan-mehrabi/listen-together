@@ -44,7 +44,7 @@ export default function ChannelInviteLink({ className }) {
           className="text-ellipsis overflow-hidden whitespace-nowrap w-full bg-neutral-700 rounded p-2 pr-14"
           value={createInviteUrl(channel?.channel_invites?.[0].url)}
         />
-        <div className="absolute flex gap-2 top-0 right-2 h-full">
+        <div className="absolute flex gap-2 top-0 right-2 h-full text-2xl sm:text-lg">
           <button ref={setRefElement} onClick={handleCopy} type="button">
             <BiSolidCopy />
           </button>
