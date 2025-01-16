@@ -7,6 +7,8 @@ const apiKeys = [
   process.env.REACT_APP_TWITCH_API_KEY,
 ];
 
+const videos = new Map();
+
 export const searchVideos = async ({ queryKey, pageParam = "" }) => {
   try {
     const url = new URL("https://www.googleapis.com/youtube/v3/search");
@@ -44,6 +46,10 @@ export const searchVideos = async ({ queryKey, pageParam = "" }) => {
 
 export const getVideos = async (videoId) => {
   try {
+    const res = videos.get(videoId);
+
+    if (res) return res;
+
     const url = new URL("https://www.googleapis.com/youtube/v3/videos");
     const params = {
       key: apiKeys[apiKeys.length - 1],
@@ -62,6 +68,9 @@ export const getVideos = async (videoId) => {
     }
 
     const data = await response.json();
+
+    videos.set(videoId, data);
+
     return data;
   } catch (error) {
     console.error("Error fetching video details:", error);

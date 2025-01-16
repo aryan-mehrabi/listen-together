@@ -90,7 +90,7 @@ const ChannelMessageInput = () => {
     } else {
       setTrack(null);
     }
-  }, 500);
+  }, 150);
 
   return (
     <div>
