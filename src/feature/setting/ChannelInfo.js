@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
@@ -26,6 +26,10 @@ const ChannelInfo = ({ role }) => {
     await updateChannelName(channelName);
     setIsEditMode(false);
   };
+
+  useEffect(() => {
+    setIsEditMode(false);
+  }, [selectedChannel]);
 
   // const deleteButton = (
   //   <Button type="danger" className="w-full">

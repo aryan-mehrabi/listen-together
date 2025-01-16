@@ -42,7 +42,7 @@ export default function ChannelInviteLink({ className }) {
         <input
           readOnly
           className="text-ellipsis overflow-hidden whitespace-nowrap w-full bg-neutral-700 rounded p-2 pr-14"
-          value={createInviteUrl(channel?.channel_invites[0].url)}
+          value={createInviteUrl(channel?.channel_invites?.[0].url)}
         />
         <div className="absolute flex gap-2 top-0 right-2 h-full">
           <button ref={setRefElement} onClick={handleCopy} type="button">
@@ -61,7 +61,7 @@ export default function ChannelInviteLink({ className }) {
           <Suspense>
             <RWebShare
               data={{
-                url: createInviteUrl(channel?.channel_invites[0].url),
+                url: createInviteUrl(channel?.channel_invites?.[0].url),
               }}
             >
               <button onClick={handleShare} type="button">
