@@ -48,7 +48,7 @@ export default function QueueListItem({ track, channel, isOverlay }) {
       ref={!isPlayingTrack ? sortable.setNodeRef : undefined}
       className={overrideTailwindClasses(`${isOverlay ? "opacity-40" : ""} ${
         isPlayingTrack ? "bg-neutral-700" : ""
-      } flex items-center gap-2 p-4 border-b-[1px] border-neutral-700 first-of-type:border-t-[1px] relative
+      } flex items-center gap-2 p-4 border-b-[1px] border-neutral-700 first-of-type:border-t-[1px] relative touch-none
       ${
         sortable.isOver
           ? isBottom

@@ -6,6 +6,7 @@ import {
   DndContext,
   DragOverlay,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -47,6 +48,13 @@ export default function QueueList() {
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 5,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 5,
+        delay: 250,
+        tolerance: 5,
       },
     })
   );
