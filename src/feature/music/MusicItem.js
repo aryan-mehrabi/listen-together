@@ -46,7 +46,6 @@ const MusicItem = ({ track }) => {
   const handlePlayMusic = () => {
     updateTrack(track.id.videoId, {
       title: track.snippet.title,
-      thumbnail: track.snippet.thumbnails.default.url,
     });
     setRightSidebar("player");
   };
@@ -55,7 +54,6 @@ const MusicItem = ({ track }) => {
     sendMessage(
       {
         title: track.snippet.title,
-        thumbnail: track.snippet.thumbnails.default.url,
         track_id: track.id.videoId,
       },
       "track"
@@ -72,7 +70,6 @@ const MusicItem = ({ track }) => {
       _track_id: track.id.videoId,
       _metadata: {
         title: track.snippet.title,
-        thumbnail: track.snippet.thumbnails.default.url,
       },
       _playlist_id: playlist.id,
     });

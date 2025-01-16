@@ -81,7 +81,7 @@ export const ChannelProvider = ({ children }) => {
       .eq("id", selectedChannel);
   };
 
-  const updateTrack = async (trackId, { title, thumbnail } = {}) => {
+  const updateTrack = async (trackId, { title } = {}) => {
     const playlist = playlists[selectedChannel];
     const { track_id } = state[selectedChannel];
     const track = tracks[selectedChannel][track_id];
@@ -89,7 +89,6 @@ export const ChannelProvider = ({ children }) => {
       _track_id: trackId,
       _metadata: {
         title,
-        thumbnail,
       },
       _playlist_id: playlist.id,
       _position: track.position,

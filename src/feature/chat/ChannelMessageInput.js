@@ -83,7 +83,6 @@ const ChannelMessageInput = () => {
         setTrack({
           title: res.items[0].snippet.title,
           track_id: videoId,
-          thumbnail: res.items[0].snippet.thumbnails.default.url,
         });
       } else {
         setTrack(null);

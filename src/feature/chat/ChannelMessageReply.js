@@ -1,3 +1,4 @@
+import { getVideoThumbnail } from "helpers";
 import ChannelMessageReplyImage from "./ChannelMessageReplyImage";
 import ImageBlob from "components/ImageBlob";
 
@@ -13,7 +14,7 @@ export default function ChannelMessageReply({
           <div className="w-10">
             <img
               className="w-full h-full object-cover"
-              src={replied_message.content.thumbnail}
+              src={getVideoThumbnail(replied_message.content.track_id)}
               alt=""
             />
           </div>

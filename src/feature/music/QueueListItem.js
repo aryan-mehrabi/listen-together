@@ -1,6 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import SoundWaveAnimated from "assets/SoundWaveAnimated";
 import supabase from "auth/supabase";
+import { getVideoThumbnail } from "helpers";
 import { BiPlay, BiTrash } from "react-icons/bi";
 import { overrideTailwindClasses } from "tailwind-override";
 
@@ -59,7 +60,7 @@ export default function QueueListItem({ track, channel, isOverlay }) {
       `)}
     >
       <img
-        src={track.metadata?.thumbnail}
+        src={getVideoThumbnail(track.track_id)}
         className="w-12"
         alt="track thumbnail"
       />

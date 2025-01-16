@@ -8,6 +8,7 @@ import ImageBlob from "components/ImageBlob";
 import ChannelMessageReply from "./ChannelMessageReply";
 import { Avatar } from "components/Avatar";
 import { BiPlay, BiSolidTime } from "react-icons/bi";
+import { getVideoThumbnail } from "helpers";
 
 const ChannelMessage = ({ message }) => {
   const { userId } = useAuth();
@@ -46,7 +47,7 @@ const ChannelMessage = ({ message }) => {
         <div className="flex items-center pt-2">
           <img
             className="w-14 md:w-20"
-            src={content.thumbnail}
+            src={getVideoThumbnail(content.track_id)}
             alt="track thumbnail"
           />
           <p className="mx-3">{content.title}</p>
@@ -55,7 +56,6 @@ const ChannelMessage = ({ message }) => {
               onClick={() =>
                 updateTrack(content.track_id, {
                   title: content.title,
-                  thumbnail: content.thumbnail,
                 })
               }
               className="ml-auto text-4xl mr-4 cursor-pointer p-2"

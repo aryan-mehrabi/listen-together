@@ -21,3 +21,7 @@ export const isMobileDevice = (userAgent) => {
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
   return mobileRegex.test(userAgent);
 };
+
+export const getVideoThumbnail = (trackId) => {
+  return `https://img.youtube.com/vi/${trackId}/default.jpg`;
+};

@@ -16,6 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import QueueListItem from "./QueueListItem";
 import { useEffect, useState } from "react";
+import { getVideoThumbnail } from "helpers";
 
 export default function QueueList() {
   const { tracks } = useTrack();
@@ -35,7 +36,6 @@ export default function QueueList() {
           .update({
             metadata: {
               title: data.title,
-              thumbnail: `https://img.youtube.com/vi/${data.video_id}/default.jpg`,
             },
           })
           .eq("id", playingTrack.id);

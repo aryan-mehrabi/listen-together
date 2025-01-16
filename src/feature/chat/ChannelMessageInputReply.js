@@ -4,6 +4,7 @@ import useMessage from "context/MessageContext";
 import useChannel from "context/ChannelContext";
 import MessageBanner from "components/MessageBanner";
 import { BiReply } from "react-icons/bi";
+import { getVideoThumbnail } from "helpers";
 
 export default function ChannelMessageInputReply() {
   const { messages, reply, setReply } = useMessage();
@@ -20,7 +21,7 @@ export default function ChannelMessageInputReply() {
           replyMessage.message_type === "track" ? (
             <img
               className="w-full h-full"
-              src={replyMessage.content.thumbnail}
+              src={getVideoThumbnail(replyMessage.content.track_id)}
               alt=""
             />
           ) : replyMessage.message_type === "image" ? (
