@@ -23,6 +23,7 @@ const SearchMusic = () => {
       refetchOnMount: false,
       staleTime: Infinity,
       getNextPageParam: (lastPage) => lastPage.nextPageToken,
+      retry: 5,
     }
   );
 
