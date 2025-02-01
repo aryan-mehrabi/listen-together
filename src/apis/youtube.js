@@ -1,11 +1,11 @@
 let apiIndex = 0;
 
 const apiKeys = [
+  process.env.REACT_APP_MUMATE_API_KEY,
   process.env.REACT_APP_YOUTUBE_API_KEY,
   process.env.REACT_APP_LISTEN_TOGETHER_YOUTUBE_API_KEY,
   process.env.REACT_APP_MY_PROJECT_API_KEY,
   process.env.REACT_APP_TWITCH_API_KEY,
-  process.env.REACT_APP_MUMATE_API_KEY,
 ];
 
 const videos = new Map();
