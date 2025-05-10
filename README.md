@@ -21,7 +21,7 @@
 ## 📚 Tech Stacks
 
 - [React.js](react.dev)
-- PostgeSQL managed by [Supabase](https://supabase.io/)
+- PostgreSQL managed by [Supabase](https://supabase.io/)
 - Styled using [Tailwind CSS](https://tailwindcss.com/)
 - Data Fetching, Infinite Scroll [React Query](https://tanstack.com/query/v3/)
 - Context API + Reducer hook
