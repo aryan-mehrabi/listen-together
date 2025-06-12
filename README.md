@@ -67,4 +67,4 @@ Also You can visit Supabase Dashboard at http://localhost:54323/
 
 ## License
 
-Licensed under the [MIT license](https://github.com/shadcn/taxonomy/blob/main/LICENSE.md).
+Licensed under the [MIT license](./LICENSE).
