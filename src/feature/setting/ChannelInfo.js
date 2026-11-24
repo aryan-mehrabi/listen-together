@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import useAuth from "context/AuthContext";
 import useChannel from "context/ChannelContext";
 import useRightSidebar from "context/RightSidebarContext";
+import useModal from "context/ModalContext";
 import Button from "components/Button";
 import useMember from "context/MemberContext";
 import Input from "components/Input";
 import { BiSolidPencil, BiX } from "react-icons/bi";
+import DeleteChannelModal from "./DeleteChannelModal";
 
 const ChannelInfo = ({ role }) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -14,8 +16,9 @@ const ChannelInfo = ({ role }) => {
     useChannel();
   const { removeMember } = useMember();
   const { setRightSidebar } = useRightSidebar();
+  const { setModal } = useModal();
   const channel = channels[selectedChannel];
-  const [channelName, setChannelName] = useState(channel.name);
+  const [channelName, setChannelName] = useState(channel?.name || "");
 
   const leaveChannel = async () => {
     await removeMember(userId);
@@ -29,13 +32,18 @@ const ChannelInfo = ({ role }) => {
 
   useEffect(() => {
     setIsEditMode(false);
-  }, [selectedChannel]);
+    setChannelName(channel?.name || "");
+  }, [selectedChannel, channel?.name]);
 
-  // const deleteButton = (
-  //   <Button type="danger" className="w-full">
-  //     Delete Channel
-  //   </Button>
-  // );
+  const deleteButton = (
+    <Button
+      type="danger"
+      onClick={() => setModal(<DeleteChannelModal channel={channel} />)}
+      className="w-full"
+    >
+      Delete Channel
+    </Button>
+  );
   const leaveButton = (
     <Button type="danger" onClick={leaveChannel} className="w-full">
       Leave Channel
@@ -69,7 +77,7 @@ const ChannelInfo = ({ role }) => {
             </div>
           ) : (
             <>
-              <p>{channel.name}</p>
+              <p>{channel?.name}</p>
               {role !== "member" && (
                 <button type="button" onClick={() => setIsEditMode(true)}>
                   <BiSolidPencil className="text-sm text-cta mt-1" />
@@ -78,7 +86,7 @@ const ChannelInfo = ({ role }) => {
             </>
           )}
         </div>
-        {role === "creator" ? null /* deleteButton */ : leaveButton}
+        {role === "creator" ? deleteButton : leaveButton}
       </div>
     </div>
   );

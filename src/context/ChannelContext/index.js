@@ -67,6 +67,40 @@ export const ChannelProvider = ({ children }) => {
     dispatch({ type: "DELETE_CHANNEL", payload: channelId });
   };
 
+  const deleteChannel = async (channelId) => {
+    setStatus("loading");
+    try {
+      try {
+        const { data: files } = await supabase.storage
+          .from("images")
+          .list(channelId.toString());
+        if (files && files.length > 0) {
+          const filePaths = files.map((file) => `${channelId}/${file.name}`);
+          await supabase.storage.from("images").remove(filePaths);
+        }
+      } catch (storageError) {
+        console.warn("Storage cleanup notice:", storageError);
+      }
+
+      const { error } = await supabase
+        .from("channels")
+        .delete()
+        .eq("id", channelId);
+
+      if (error) throw error;
+
+      dispatch({ type: "DELETE_CHANNEL", payload: channelId });
+      setSelectedChannel("");
+      setModal(null);
+      return { success: true };
+    } catch (err) {
+      console.error("Failed to delete channel:", err);
+      return { success: false, error: err };
+    } finally {
+      setStatus("idle");
+    }
+  };
+
   const playTrack = async ({ position, duration }) => {
     await supabase
       .from("channels")
@@ -168,6 +202,7 @@ export const ChannelProvider = ({ children }) => {
     setStatus,
     createChannel,
     removeChannel,
+    deleteChannel,
     playTrack,
     pauseTrack,
     updateTrack,
